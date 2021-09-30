@@ -1,7 +1,7 @@
 # Личный проект «Что посмотреть»
 
 * Студент: [Анастасия Кривего](https://up.htmlacademy.ru/react/8/user/1608929).
-* Наставник: `Неизвестно`.
+* Наставник: [Ирина Черкасова](https://htmlacademy.ru/profile/raccoonlemon).
 
 ---
 
