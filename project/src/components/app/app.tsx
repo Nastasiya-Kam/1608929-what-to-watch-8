@@ -1,8 +1,26 @@
 import MainScreen from '../main-screen/main-screen';
 
-function App(): JSX.Element {
+type AppFilmProps = {
+  id: number,
+  posterImage: string,
+  name: string,
+}
+
+type AppScreenProps = {
+  title: string,
+  genre: string,
+  releaseDate: Date,
+  films: AppFilmProps[],
+};
+
+function App({title, genre, releaseDate, films}: AppScreenProps): JSX.Element {
   return (
-    <MainScreen />
+    <MainScreen
+      title = {title}
+      genre = {genre}
+      releaseDate = {releaseDate}
+      films = {films}
+    />
   );
 }
 
