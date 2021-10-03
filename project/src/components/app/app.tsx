@@ -1,5 +1,27 @@
-function App(): JSX.Element {
-  return <p>Hello, world!</p>;
+import MainScreen from '../main-screen/main-screen';
+
+type AppFilmProps = {
+  id: number,
+  posterImage: string,
+  name: string,
+}
+
+type AppScreenProps = {
+  title: string,
+  genre: string,
+  releaseDate: number,
+  films: AppFilmProps[],
+};
+
+function App({title, genre, releaseDate, films}: AppScreenProps): JSX.Element {
+  return (
+    <MainScreen
+      title = {title}
+      genre = {genre}
+      releaseDate = {releaseDate}
+      films = {films}
+    />
+  );
 }
 
 export default App;
