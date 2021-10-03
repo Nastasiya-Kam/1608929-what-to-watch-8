@@ -1,4 +1,3 @@
-import React from 'react';
 import SmallFilmCard from '../small-film-card/small-film-card';
 
 type FilmProps = {
@@ -10,13 +9,13 @@ type FilmProps = {
 type MainScreenProps = {
   title: string,
   genre: string,
-  releaseDate: Date,
+  releaseDate: number,
   films: FilmProps[],
 };
 
 function MainScreen({title, genre, releaseDate, films}: MainScreenProps): JSX.Element {
   return (
-    <React.Fragment>
+    <>
       <section className="film-card">
         <div className="film-card__bg">
           <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
@@ -137,7 +136,7 @@ function MainScreen({title, genre, releaseDate, films}: MainScreenProps): JSX.El
           </div>
         </footer>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

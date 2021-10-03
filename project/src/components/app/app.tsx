@@ -9,7 +9,7 @@ type AppFilmProps = {
 type AppScreenProps = {
   title: string,
   genre: string,
-  releaseDate: Date,
+  releaseDate: number,
   films: AppFilmProps[],
 };
 
