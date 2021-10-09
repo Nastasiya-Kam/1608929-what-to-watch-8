@@ -1,4 +1,12 @@
-import MainScreen from '../main-screen/main-screen';
+import {Switch, Route, BrowserRouter} from 'react-router-dom';
+import {AppRoute} from '../../const';
+import MainScreen from '../_screen/main-screen/main-screen';
+import SignInScreen from '../_screen/sign-in-screen/sign-in-screen';
+import MyListScreen from '../_screen/my-list-screen/my-list-screen';
+// import FilmScreen from '../_screen/film-screen/film-screen';
+import AddReviewScreen from '../_screen/add-review-screen/add-review-screen';
+import PlayerScreen from '../_screen/player-screen/player-screen';
+import NotFoundScreen from '../_screen/not-found-screen/not-found-screen';
 
 type AppFilmProps = {
   id: number,
@@ -6,21 +14,68 @@ type AppFilmProps = {
   name: string,
 }
 
+type Film = {
+  title: string,
+  genre: string,
+  release: number,
+  posterImage: string,
+  description: string,
+  rating: number,
+  scoresCount: number,
+  director: string,
+  starrings: string[],
+};
+
 type AppScreenProps = {
   title: string,
   genre: string,
   releaseDate: number,
   films: AppFilmProps[],
+  mockFilm: Film,
 };
 
-function App({title, genre, releaseDate, films}: AppScreenProps): JSX.Element {
+function App({title, genre, releaseDate, films, mockFilm}: AppScreenProps): JSX.Element {
+
   return (
-    <MainScreen
-      title = {title}
-      genre = {genre}
-      releaseDate = {releaseDate}
-      films = {films}
-    />
+    <BrowserRouter>
+      <Switch>
+        <Route exact path={AppRoute.Root}>
+          <MainScreen
+            title = {title}
+            genre = {genre}
+            releaseDate = {releaseDate}
+            films = {films}
+          />
+        </Route>
+        <Route exact path={AppRoute.Login}>
+          <SignInScreen />
+        </Route>
+        <Route exact path={AppRoute.MyList}>
+          <MyListScreen
+            films = {films}
+          />
+        </Route>
+        <Route exact path={AppRoute.Film}>
+          {/* <FilmScreen
+            film = {mockFilm}
+            films = {films}
+          /> */}
+        </Route>
+        <Route exact path={AppRoute.AddReview}>
+          <AddReviewScreen
+            image = {mockFilm.posterImage}
+            posterImage = {mockFilm.posterImage}
+            name = {mockFilm.title}
+          />
+        </Route>
+        <Route exact path={AppRoute.Player}>
+          <PlayerScreen />
+        </Route>
+        <Route>
+          <NotFoundScreen />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 }
 
