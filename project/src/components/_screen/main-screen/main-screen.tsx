@@ -1,4 +1,4 @@
-import SmallFilmCard from '../small-film-card/small-film-card';
+import SmallFilmCard from '../../small-film-card/small-film-card';
 
 type FilmProps = {
   id: number,
@@ -6,14 +6,14 @@ type FilmProps = {
   name: string,
 }
 
-type MainScreenProps = {
+type Props = {
   title: string,
   genre: string,
   releaseDate: number,
   films: FilmProps[],
 };
 
-function MainScreen({title, genre, releaseDate, films}: MainScreenProps): JSX.Element {
+function MainScreen({title, genre, releaseDate, films}: Props): JSX.Element {
   return (
     <>
       <section className="film-card">
@@ -47,7 +47,7 @@ function MainScreen({title, genre, releaseDate, films}: MainScreenProps): JSX.El
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={`${title} poster`} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">

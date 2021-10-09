@@ -1,4 +1,4 @@
-import SmallFilmCard from '../small-film-card/small-film-card';
+import SmallFilmCard from '../../small-film-card/small-film-card';
 
 type FilmProps = {
   id: number,
@@ -6,11 +6,11 @@ type FilmProps = {
   name: string,
 }
 
-type MyListScreenProps = {
+type Props = {
   films: FilmProps[],
 };
 
-function MyListScreen ({films}: MyListScreenProps): JSX.Element {
+function MyListScreen ({films}: Props): JSX.Element {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">

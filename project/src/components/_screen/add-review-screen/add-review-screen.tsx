@@ -1,11 +1,10 @@
-type AddReviewScreenProps = {
+type Props = {
   image: string, //img/bg-the-grand-budapest-hotel.jpg
   posterImage: string, //img/the-grand-budapest-hotel-poster.jpg
-  // posterAlt: string, //The Grand Budapest Hotel poster
   name: string, //The Grand Budapest Hotel
 }
 
-function AddReviewScreen ({image, posterImage, name}: AddReviewScreenProps): JSX.Element {
+function AddReviewScreen ({image, posterImage, name}: Props): JSX.Element {
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
@@ -48,7 +47,7 @@ function AddReviewScreen ({image, posterImage, name}: AddReviewScreenProps): JSX
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327" />
+          <img src={posterImage} alt={`${name} poster`} width="218" height="327" />
         </div>
       </div>
 

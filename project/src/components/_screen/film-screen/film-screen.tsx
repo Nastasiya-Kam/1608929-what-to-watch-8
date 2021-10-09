@@ -1,4 +1,4 @@
-import SmallFilmCard from '../small-film-card/small-film-card';
+import SmallFilmCard from '../../small-film-card/small-film-card';
 
 type FilmProps = {
   id: number,
@@ -6,34 +6,21 @@ type FilmProps = {
   name: string,
 }
 
-type FilmScreenProps = {
+type Film = {
   title: string,
+  genre: string,
+  release: number,
   posterImage: string,
   description: string,
   rating: number,
   scoresCount: number,
   director: string,
-  starring: string[],
-  genre: string,
-  release: number,
-  films: FilmProps[],
+  starrings: string[],
 };
 
-// данные для index.tsx.
-// ?составная константа? Д3
-// const SettingFilm = {
-//   Title: 'The Grand Budapest Hotel',
-//   Genre: 'Drama',
-//   Release: 2014,
-//   PosterImage: 'img/the-grand-budapest-hotel-poster.jpg',
-//   Description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.',
-//   Rating: 8.9,
-//   ScoresCount: 240,
-//   Director: 'Wes Anderson',
-//   Starrings: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
-// };
+function FilmScreen (film: Film, films: FilmProps[]): JSX.Element {
+  const {title, genre, release, posterImage, description, rating, scoresCount, director, starrings} = film;
 
-function FilmScreen ({title, posterImage, description, rating, scoresCount, director, starring, genre, release, films}: FilmScreenProps): JSX.Element {
   return (
     <>
       <section className="film-card film-card--full">
@@ -95,7 +82,7 @@ function FilmScreen ({title, posterImage, description, rating, scoresCount, dire
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={posterImage} alt={`${title} poster`} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
@@ -128,7 +115,7 @@ function FilmScreen ({title, posterImage, description, rating, scoresCount, dire
 
                 <p className="film-card__director"><strong>Director: {director}</strong></p>
 
-                <p className="film-card__starring"><strong>Starring: {starring.join(', ')}</strong></p>
+                <p className="film-card__starring"><strong>Starring: {starrings.join(', ')}</strong></p>
               </div>
             </div>
           </div>
@@ -140,7 +127,7 @@ function FilmScreen ({title, posterImage, description, rating, scoresCount, dire
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            {films.slice(0,4).map((film) => <SmallFilmCard key= {film.id} posterImage = {film.posterImage} name = {film.name} />)}
+            {films.slice(0,4).map((element) => <SmallFilmCard key= {element.id} posterImage = {element.posterImage} name = {element.name} />)}
           </div>
         </section>
 
