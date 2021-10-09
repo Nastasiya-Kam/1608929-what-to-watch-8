@@ -1,5 +1,6 @@
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
+import PrivateRoute from '../private-route/private-route';
 import MainScreen from '../_screen/main-screen/main-screen';
 import SignInScreen from '../_screen/sign-in-screen/sign-in-screen';
 import MyListScreen from '../_screen/my-list-screen/my-list-screen';
@@ -42,7 +43,7 @@ function App({title, genre, releaseDate, posterImgage, previewImage, films, mock
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path={AppRoute.Root}>
+        <Route exact path = {AppRoute.Root}>
           <MainScreen
             title = {title}
             genre = {genre}
@@ -52,28 +53,36 @@ function App({title, genre, releaseDate, posterImgage, previewImage, films, mock
             films = {films}
           />
         </Route>
-        <Route exact path={AppRoute.Login}>
+        <Route exact path = {AppRoute.Login}>
           <SignInScreen />
         </Route>
-        <Route exact path={AppRoute.MyList}>
-          <MyListScreen
-            films = {films}
-          />
-        </Route>
-        <Route exact path={AppRoute.Film}>
+        <PrivateRoute
+          exact
+          path = {AppRoute.MyList}
+          render = {() => <MyListScreen films = {films} />}
+          authorizationStatus = {AuthorizationStatus.NoAuth}
+        >
+        </PrivateRoute>
+        <Route exact path = {AppRoute.Film}>
           {/* <FilmScreen
             film = {mockFilm}
             films = {films}
           /> */}
         </Route>
-        <Route exact path={AppRoute.AddReview}>
-          <AddReviewScreen
-            previewImage = {mockFilm.previewImage}
-            posterImage = {mockFilm.posterImage}
-            name = {mockFilm.title}
-          />
-        </Route>
-        <Route exact path={AppRoute.Player}>
+        <PrivateRoute
+          exact
+          path = {AppRoute.AddReview}
+          render = {() => (
+            <AddReviewScreen
+              previewImage = {mockFilm.previewImage}
+              posterImage = {mockFilm.posterImage}
+              name = {mockFilm.title}
+            />
+          )}
+          authorizationStatus = {AuthorizationStatus.NoAuth}
+        >
+        </PrivateRoute>
+        <Route exact path = {AppRoute.Player}>
           <PlayerScreen />
         </Route>
         <Route>
