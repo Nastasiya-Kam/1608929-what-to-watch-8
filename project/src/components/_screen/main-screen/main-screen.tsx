@@ -1,4 +1,5 @@
 import SmallFilmCard from '../../small-film-card/small-film-card';
+import Logo from '../../logo/logo';
 
 type FilmProps = {
   id: number,
@@ -15,6 +16,8 @@ type Props = {
   films: FilmProps[],
 };
 
+// todo Вынести блок Sign out в отдельный компонент аналогично Logo
+
 function MainScreen({title, genre, releaseDate, previewImage, posterImgage, films}: Props): JSX.Element {
   return (
     <>
@@ -26,13 +29,7 @@ function MainScreen({title, genre, releaseDate, previewImage, posterImgage, film
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
-          <div className="logo">
-            <a className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <Logo />
 
           <ul className="user-block">
             <li className="user-block__item">

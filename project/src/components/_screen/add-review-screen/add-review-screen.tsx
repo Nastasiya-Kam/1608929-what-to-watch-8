@@ -1,8 +1,12 @@
+import Logo from '../../logo/logo';
+
 type Props = {
   previewImage: string,
   posterImage: string,
   name: string,
 }
+
+// todo Вынести блок Sign out в отдельный компонент аналогично Logo
 
 function AddReviewScreen ({previewImage, posterImage, name}: Props): JSX.Element {
   return (
@@ -15,13 +19,7 @@ function AddReviewScreen ({previewImage, posterImage, name}: Props): JSX.Element
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header">
-          <div className="logo">
-            <a href="main.html" className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <Logo />
 
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
