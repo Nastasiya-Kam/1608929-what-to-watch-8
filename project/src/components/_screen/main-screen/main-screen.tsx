@@ -10,15 +10,17 @@ type Props = {
   title: string,
   genre: string,
   releaseDate: number,
+  previewImage: string,
+  posterImgage: string,
   films: FilmProps[],
 };
 
-function MainScreen({title, genre, releaseDate, films}: Props): JSX.Element {
+function MainScreen({title, genre, releaseDate, previewImage, posterImgage, films}: Props): JSX.Element {
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={previewImage} alt={title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -47,7 +49,7 @@ function MainScreen({title, genre, releaseDate, films}: Props): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={`${title} poster`} width="218" height="327" />
+              <img src={posterImgage} alt={`${title} poster`} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">

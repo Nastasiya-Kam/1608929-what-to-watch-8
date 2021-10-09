@@ -1,15 +1,15 @@
 type Props = {
-  image: string, //img/bg-the-grand-budapest-hotel.jpg
-  posterImage: string, //img/the-grand-budapest-hotel-poster.jpg
-  name: string, //The Grand Budapest Hotel
+  previewImage: string,
+  posterImage: string,
+  name: string,
 }
 
-function AddReviewScreen ({image, posterImage, name}: Props): JSX.Element {
+function AddReviewScreen ({previewImage, posterImage, name}: Props): JSX.Element {
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={image} alt={name} />
+          <img src={previewImage} alt={name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>

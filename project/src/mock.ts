@@ -1,9 +1,8 @@
-// данные для index.tsx.
-// ?составная константа? Д3
 const mockFilm = {
   title: 'The Grand Budapest Hotel',
   genre: 'Drama',
   release: 2014,
+  previewImage: 'img/bg-the-grand-budapest-hotel.jpg',
   posterImage: 'img/the-grand-budapest-hotel-poster.jpg',
   description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.',
   rating: 8.9,
@@ -12,10 +11,12 @@ const mockFilm = {
   starrings: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
 };
 
-const setting = {
+const mainFilm = {
   TITLE: 'The Grand Budapest Hotel',
   GENRE: 'Drama',
   RELEASE_DATE: 2014,
+  PREVIEW_IMAGE: 'img/bg-the-grand-budapest-hotel.jpg',
+  POSTER_IMAGE: 'img/the-grand-budapest-hotel-poster.jpg',
 };
 
 const films = [
@@ -121,4 +122,4 @@ const films = [
   },
 ];
 
-export {mockFilm, setting, films};
+export {mockFilm, mainFilm, films};

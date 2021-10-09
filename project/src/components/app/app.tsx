@@ -19,6 +19,7 @@ type Film = {
   genre: string,
   release: number,
   posterImage: string,
+  previewImage: string,
   description: string,
   rating: number,
   scoresCount: number,
@@ -30,11 +31,13 @@ type AppScreenProps = {
   title: string,
   genre: string,
   releaseDate: number,
+  posterImgage: string,
+  previewImage: string,
   films: AppFilmProps[],
   mockFilm: Film,
 };
 
-function App({title, genre, releaseDate, films, mockFilm}: AppScreenProps): JSX.Element {
+function App({title, genre, releaseDate, posterImgage, previewImage, films, mockFilm}: AppScreenProps): JSX.Element {
 
   return (
     <BrowserRouter>
@@ -44,6 +47,8 @@ function App({title, genre, releaseDate, films, mockFilm}: AppScreenProps): JSX.
             title = {title}
             genre = {genre}
             releaseDate = {releaseDate}
+            previewImage = {previewImage}
+            posterImgage = {posterImgage}
             films = {films}
           />
         </Route>
@@ -63,7 +68,7 @@ function App({title, genre, releaseDate, films, mockFilm}: AppScreenProps): JSX.
         </Route>
         <Route exact path={AppRoute.AddReview}>
           <AddReviewScreen
-            image = {mockFilm.posterImage}
+            previewImage = {mockFilm.previewImage}
             posterImage = {mockFilm.posterImage}
             name = {mockFilm.title}
           />

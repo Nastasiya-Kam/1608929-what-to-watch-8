@@ -11,6 +11,7 @@ type Film = {
   genre: string,
   release: number,
   posterImage: string,
+  previewImage: string,
   description: string,
   rating: number,
   scoresCount: number,
@@ -19,14 +20,14 @@ type Film = {
 };
 
 function FilmScreen (film: Film, films: FilmProps[]): JSX.Element {
-  const {title, genre, release, posterImage, description, rating, scoresCount, director, starrings} = film;
+  const {title, genre, release, posterImage, previewImage, description, rating, scoresCount, director, starrings} = film;
 
   return (
     <>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+            <img src={previewImage} alt={title} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
