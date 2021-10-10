@@ -1,14 +1,9 @@
 import SmallFilmCard from '../../small-film-card/small-film-card';
 import Logo from '../../logo/logo';
-
-type FilmProps = {
-  id: number,
-  posterImage: string,
-  name: string,
-}
+import {CardFilm} from '../../../types/films';
 
 type Props = {
-  films: FilmProps[],
+  films: CardFilm[],
 };
 
 // todo Вынести блок Sign out в отдельный компонент аналогично Logo

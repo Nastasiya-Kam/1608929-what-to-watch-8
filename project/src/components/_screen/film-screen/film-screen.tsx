@@ -1,28 +1,15 @@
 import SmallFilmCard from '../../small-film-card/small-film-card';
 import Logo from '../../logo/logo';
+import {Film} from '../../../types/films';
 
-type FilmProps = {
-  id: number,
-  posterImage: string,
-  name: string,
+type Props = {
+  film: Film,
+  films: Film[],
 }
-
-type Film = {
-  title: string,
-  genre: string,
-  release: number,
-  posterImage: string,
-  previewImage: string,
-  description: string,
-  rating: number,
-  scoresCount: number,
-  director: string,
-  starrings: string[],
-};
 
 // todo Вынести блок Sign out в отдельный компонент аналогично Logo
 
-function FilmScreen (film: Film, films: FilmProps[]): JSX.Element {
+function FilmScreen ({film, films}: Props): JSX.Element {
   const {title, genre, release, posterImage, previewImage, description, rating, scoresCount, director, starrings} = film;
 
   return (
@@ -125,7 +112,7 @@ function FilmScreen (film: Film, films: FilmProps[]): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            {films.slice(0,4).map((element) => <SmallFilmCard key= {element.id} posterImage = {element.posterImage} name = {element.name} />)}
+            {films.slice(0,4).map((element) => <SmallFilmCard key= {element.id} posterImage = {element.posterImage} name = {element.title} />)}
           </div>
         </section>
 
