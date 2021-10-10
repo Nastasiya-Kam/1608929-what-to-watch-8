@@ -1,26 +1,80 @@
-import MainScreen from '../main-screen/main-screen';
+import {Switch, Route, BrowserRouter} from 'react-router-dom';
+import {AppRoute, AuthorizationStatus} from '../../const';
+import PrivateRoute from '../private-route/private-route';
+import MainScreen from '../_screen/main-screen/main-screen';
+import SignInScreen from '../_screen/sign-in-screen/sign-in-screen';
+import MyListScreen from '../_screen/my-list-screen/my-list-screen';
+import FilmScreen from '../_screen/film-screen/film-screen';
+import AddReviewScreen from '../_screen/add-review-screen/add-review-screen';
+import PlayerScreen from '../_screen/player-screen/player-screen';
+import NotFoundScreen from '../_screen/not-found-screen/not-found-screen';
+import {films} from '../../mock';
+import {CardFilm, PromoFilm} from '../../types/films';
 
-type AppFilmProps = {
-  id: number,
-  posterImage: string,
-  name: string,
-}
+const someFilm = films[0];
 
-type AppScreenProps = {
-  title: string,
-  genre: string,
-  releaseDate: number,
-  films: AppFilmProps[],
+const promoFilm : PromoFilm = {
+  title: someFilm.title,
+  genre: someFilm.genre,
+  releaseDate: someFilm.release,
+  posterImage: someFilm.posterImage,
+  previewImage: someFilm.previewImage,
 };
 
-function App({title, genre, releaseDate, films}: AppScreenProps): JSX.Element {
+const cardFilms : CardFilm[] = films.map((film) => ({
+  id: film.id,
+  name: film.title,
+  posterImage: film.posterImage,
+}));
+
+function App(): JSX.Element {
+
   return (
-    <MainScreen
-      title = {title}
-      genre = {genre}
-      releaseDate = {releaseDate}
-      films = {films}
-    />
+    <BrowserRouter>
+      <Switch>
+        <Route exact path = {AppRoute.Root}>
+          <MainScreen
+            promoFilm = {promoFilm}
+            films = {cardFilms}
+          />
+        </Route>
+        <Route exact path = {AppRoute.Login}>
+          <SignInScreen />
+        </Route>
+        <PrivateRoute
+          exact
+          path = {AppRoute.MyList}
+          render = {() => <MyListScreen films = {cardFilms} />}
+          authorizationStatus = {AuthorizationStatus.NoAuth}
+        >
+        </PrivateRoute>
+        <Route exact path = {AppRoute.Film}>
+          <FilmScreen
+            film = {films[0]}
+            films = {films}
+          />
+        </Route>
+        <PrivateRoute
+          exact
+          path = {AppRoute.AddReview}
+          render = {() => (
+            <AddReviewScreen
+              previewImage = {promoFilm.previewImage}
+              posterImage = {promoFilm.posterImage}
+              name = {promoFilm.title}
+            />
+          )}
+          authorizationStatus = {AuthorizationStatus.NoAuth}
+        >
+        </PrivateRoute>
+        <Route exact path = {AppRoute.Player}>
+          <PlayerScreen />
+        </Route>
+        <Route>
+          <NotFoundScreen />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 }
 

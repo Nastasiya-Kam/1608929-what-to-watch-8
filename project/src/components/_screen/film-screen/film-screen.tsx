@@ -1,57 +1,29 @@
-import SmallFilmCard from '../small-film-card/small-film-card';
+import SmallFilmCard from '../../small-film-card/small-film-card';
+import Logo from '../../logo/logo';
+import {Film} from '../../../types/films';
 
-type FilmProps = {
-  id: number,
-  posterImage: string,
-  name: string,
+type Props = {
+  film: Film,
+  films: Film[],
 }
 
-type FilmScreenProps = {
-  title: string,
-  posterImage: string,
-  description: string,
-  rating: number,
-  scoresCount: number,
-  director: string,
-  starring: string[],
-  genre: string,
-  release: number,
-  films: FilmProps[],
-};
+// todo Вынести блок Sign out в отдельный компонент аналогично Logo
 
-// данные для index.tsx.
-// ?составная константа? Д3
-// const SettingFilm = {
-//   Title: 'The Grand Budapest Hotel',
-//   Genre: 'Drama',
-//   Release: 2014,
-//   PosterImage: 'img/the-grand-budapest-hotel-poster.jpg',
-//   Description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.',
-//   Rating: 8.9,
-//   ScoresCount: 240,
-//   Director: 'Wes Anderson',
-//   Starrings: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
-// };
+function FilmScreen ({film, films}: Props): JSX.Element {
+  const {title, genre, release, posterImage, previewImage, description, rating, scoresCount, director, starrings} = film;
 
-function FilmScreen ({title, posterImage, description, rating, scoresCount, director, starring, genre, release, films}: FilmScreenProps): JSX.Element {
   return (
     <>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+            <img src={previewImage} alt={title} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
 
           <header className="page-header film-card__head">
-            <div className="logo">
-              <a href="main.html" className="logo__link">
-                <span className="logo__letter logo__letter--1">W</span>
-                <span className="logo__letter logo__letter--2">T</span>
-                <span className="logo__letter logo__letter--3">W</span>
-              </a>
-            </div>
+            <Logo />
 
             <ul className="user-block">
               <li className="user-block__item">
@@ -95,7 +67,7 @@ function FilmScreen ({title, posterImage, description, rating, scoresCount, dire
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={posterImage} alt={`${title} poster`} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
@@ -128,7 +100,7 @@ function FilmScreen ({title, posterImage, description, rating, scoresCount, dire
 
                 <p className="film-card__director"><strong>Director: {director}</strong></p>
 
-                <p className="film-card__starring"><strong>Starring: {starring.join(', ')}</strong></p>
+                <p className="film-card__starring"><strong>Starring: {starrings.join(', ')}</strong></p>
               </div>
             </div>
           </div>
@@ -140,7 +112,7 @@ function FilmScreen ({title, posterImage, description, rating, scoresCount, dire
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            {films.slice(0,4).map((film) => <SmallFilmCard key= {film.id} posterImage = {film.posterImage} name = {film.name} />)}
+            {films.slice(0,4).map((element) => <SmallFilmCard key= {element.id} posterImage = {element.posterImage} name = {element.title} />)}
           </div>
         </section>
 

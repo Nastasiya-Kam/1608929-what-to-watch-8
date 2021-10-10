@@ -1,36 +1,28 @@
-import SmallFilmCard from '../small-film-card/small-film-card';
+import SmallFilmCard from '../../small-film-card/small-film-card';
+import Logo from '../../logo/logo';
+import {CardFilm, PromoFilm} from '../../../types/films';
 
-type FilmProps = {
-  id: number,
-  posterImage: string,
-  name: string,
+type Props = {
+  promoFilm: PromoFilm,
+  films: CardFilm[],
 }
 
-type MainScreenProps = {
-  title: string,
-  genre: string,
-  releaseDate: number,
-  films: FilmProps[],
-};
+// todo Вынести блок Sign out в отдельный компонент аналогично Logo
 
-function MainScreen({title, genre, releaseDate, films}: MainScreenProps): JSX.Element {
+function MainScreen({promoFilm, films}: Props): JSX.Element {
+  const {title, genre, releaseDate, previewImage, posterImage} = promoFilm;
+
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={previewImage} alt={title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
-          <div className="logo">
-            <a className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <Logo />
 
           <ul className="user-block">
             <li className="user-block__item">
@@ -47,7 +39,7 @@ function MainScreen({title, genre, releaseDate, films}: MainScreenProps): JSX.El
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={posterImage} alt={`${title} poster`} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
