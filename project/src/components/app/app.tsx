@@ -8,7 +8,7 @@ import FilmScreen from '../_screen/film-screen/film-screen';
 import AddReviewScreen from '../_screen/add-review-screen/add-review-screen';
 import PlayerScreen from '../_screen/player-screen/player-screen';
 import NotFoundScreen from '../_screen/not-found-screen/not-found-screen';
-import {films} from '../../mock';
+import {films} from '../../mocks/films';
 import {CardFilm, PromoFilm} from '../../types/films';
 
 const someFilm = films[0];

@@ -1,13 +1,12 @@
 import SmallFilmCard from '../../small-film-card/small-film-card';
 import Logo from '../../logo/logo';
 import {CardFilm, PromoFilm} from '../../../types/films';
+import SignOut from '../../sign-out/sign-out';
 
 type Props = {
   promoFilm: PromoFilm,
   films: CardFilm[],
 }
-
-// todo Вынести блок Sign out в отдельный компонент аналогично Logo
 
 function MainScreen({promoFilm, films}: Props): JSX.Element {
   const {title, genre, releaseDate, previewImage, posterImage} = promoFilm;
@@ -23,17 +22,7 @@ function MainScreen({promoFilm, films}: Props): JSX.Element {
 
         <header className="page-header film-card__head">
           <Logo />
-
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
-            </li>
-          </ul>
+          <SignOut />
         </header>
 
         <div className="film-card__wrap">

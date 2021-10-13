@@ -5,7 +5,7 @@ const playerTogglerStyle = {
 function PlayerScreen(): JSX.Element {
   return (
     <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+      <video src="https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4" className="player__video" poster="img/player-poster.jpg"></video>
 
       <button type="button" className="player__exit">Exit</button>
 

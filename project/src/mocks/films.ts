@@ -1,4 +1,4 @@
-import {Film} from './types/films';
+import {Film} from '../types/films';
 
 const films : Film[] = [
   {
