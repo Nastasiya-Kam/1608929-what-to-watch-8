@@ -10,7 +10,7 @@ type Props = {
 }
 
 function FilmScreen ({film, films}: Props): JSX.Element {
-  const {title, genre, release, posterImage, previewImage, description, rating, scoresCount, director, starrings} = film;
+  const {title, genre, release, posterImage, previewImage, description, rating, scoresCount, director, starring} = film;
 
   return (
     <>
@@ -90,7 +90,7 @@ function FilmScreen ({film, films}: Props): JSX.Element {
 
                 <p className="film-card__director"><strong>Director: {director}</strong></p>
 
-                <p className="film-card__starring"><strong>Starring: {starrings.join(', ')}</strong></p>
+                <p className="film-card__starring"><strong>Starring: {starring.join(', ')}</strong></p>
               </div>
             </div>
           </div>

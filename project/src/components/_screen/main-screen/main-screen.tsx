@@ -1,6 +1,7 @@
 import Logo from '../../logo/logo';
 import {CardFilm, PromoFilm} from '../../../types/films';
 import SignOut from '../../sign-out/sign-out';
+import FilmList from '../../film-list/film-list';
 import Footer from '../../footer/footer';
 
 type Props = {
@@ -94,9 +95,7 @@ function MainScreen({promoFilm, films}: Props): JSX.Element {
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            {films.map((film) => <SmallFilmCard key={film.id} posterImage = {film.posterImage} name = {film.name}/>)}
-          </div>
+          <FilmList films = {films} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>

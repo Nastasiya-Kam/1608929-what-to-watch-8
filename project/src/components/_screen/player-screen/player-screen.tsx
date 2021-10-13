@@ -1,11 +1,13 @@
+import {PlayerFilm} from '../../../types/films';
+
 const playerTogglerStyle = {
   left: '30%',
 };
 
-function PlayerScreen(): JSX.Element {
+function PlayerScreen({videoLink, playerPoster}: PlayerFilm): JSX.Element {
   return (
     <div className="player">
-      <video src="https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4" className="player__video" poster="img/player-poster.jpg"></video>
+      <video src={videoLink} className="player__video" poster={playerPoster}></video>
 
       <button type="button" className="player__exit">Exit</button>
 

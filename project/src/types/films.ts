@@ -19,11 +19,17 @@ type Film = {
   release: number,
   posterImage: string,
   previewImage: string,
+  videoLink: string,
   description: string,
   rating: number,
   scoresCount: number,
   director: string,
-  starrings: string[],
+  starring: string[],
 };
 
-export type {CardFilm, PromoFilm, Film};
+type PlayerFilm = {
+  videoLink: string,
+  playerPoster: string,
+}
+
+export type {CardFilm, PromoFilm, Film, PlayerFilm};

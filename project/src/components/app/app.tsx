@@ -9,7 +9,7 @@ import AddReviewScreen from '../_screen/add-review-screen/add-review-screen';
 import PlayerScreen from '../_screen/player-screen/player-screen';
 import NotFoundScreen from '../_screen/not-found-screen/not-found-screen';
 import {films} from '../../mocks/films';
-import {CardFilm, PromoFilm} from '../../types/films';
+import {CardFilm, PromoFilm, PlayerFilm} from '../../types/films';
 
 const someFilm = films[0];
 
@@ -26,6 +26,11 @@ const cardFilms : CardFilm[] = films.map((film) => ({
   name: film.title,
   posterImage: film.posterImage,
 }));
+
+const playerFilm : PlayerFilm = {
+  videoLink: films[0].videoLink,
+  playerPoster: films[0].previewImage,
+};
 
 function App(): JSX.Element {
 
@@ -68,7 +73,10 @@ function App(): JSX.Element {
         >
         </PrivateRoute>
         <Route exact path = {AppRoute.Player}>
-          <PlayerScreen />
+          <PlayerScreen
+            videoLink = {playerFilm.videoLink}
+            playerPoster = {playerFilm.playerPoster}
+          />
         </Route>
         <Route>
           <NotFoundScreen />
