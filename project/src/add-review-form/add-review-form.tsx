@@ -1,6 +1,22 @@
-function AddReviewForm (): JSX.Element {
+import {useState, FormEvent} from 'react';
+
+type Props = {
+  film: number,
+  onReview: (film: number, userReview: string) => void
+}
+
+function AddReviewForm ({film, onReview}: Props): JSX.Element {
+  const [userReview, setUserReview] = useState('');
+
   return (
-    <form action="#" className="add-review__form">
+    <form action="#"
+      className="add-review__form"
+      onSubmit={(evt: FormEvent<HTMLFormElement>) => {
+        evt.preventDefault();
+        onReview(film, userReview);
+        setUserReview(userReview);
+      }}
+    >
       <div className="rating">
         <div className="rating__stars">
           <input className="rating__input" id="star-10" type="radio" name="rating" value="10" />

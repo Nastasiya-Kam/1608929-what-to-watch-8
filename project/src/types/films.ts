@@ -5,6 +5,7 @@ type CardFilm = {
 }
 
 type PromoFilm = {
+  id: number,
   title: string,
   genre: string,
   releaseDate: number,

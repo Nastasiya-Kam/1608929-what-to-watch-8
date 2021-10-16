@@ -14,6 +14,7 @@ import {CardFilm, PromoFilm, PlayerFilm} from '../../types/films';
 const someFilm = films[0];
 
 const promoFilm : PromoFilm = {
+  id: someFilm.id,
   title: someFilm.title,
   genre: someFilm.genre,
   releaseDate: someFilm.release,
@@ -64,6 +65,7 @@ function App(): JSX.Element {
           path = {AppRoute.AddReview}
           render = {() => (
             <AddReviewScreen
+              id = {promoFilm.id}
               previewImage = {promoFilm.previewImage}
               posterImage = {promoFilm.posterImage}
               name = {promoFilm.title}

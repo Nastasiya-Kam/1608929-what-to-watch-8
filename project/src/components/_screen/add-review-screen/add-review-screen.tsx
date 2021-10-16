@@ -3,12 +3,13 @@ import Logo from '../../logo/logo';
 import SignOut from '../../sign-out/sign-out';
 
 type Props = {
+  id: number,
   previewImage: string,
   posterImage: string,
   name: string,
 }
 
-function AddReviewScreen ({previewImage, posterImage, name}: Props): JSX.Element {
+function AddReviewScreen ({id, previewImage, posterImage, name}: Props): JSX.Element {
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
@@ -41,7 +42,12 @@ function AddReviewScreen ({previewImage, posterImage, name}: Props): JSX.Element
       </div>
 
       <div className="add-review">
-        <AddReviewForm />
+        <AddReviewForm
+          film = {id}
+          onReview = {() => {
+            throw new Error('Function \'onReview\' isn\'t implemented.');
+          }}
+        />
       </div>
 
     </section>
