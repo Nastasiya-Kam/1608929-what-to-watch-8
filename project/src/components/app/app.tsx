@@ -50,7 +50,7 @@ function App(): JSX.Element {
           exact
           path = {AppRoute.MyList}
           render = {() => <MyListScreen films = {cardFilms} />}
-          authorizationStatus = {AuthorizationStatus.NoAuth}
+          authorizationStatus = {AuthorizationStatus.Auth}
         >
         </PrivateRoute>
         <Route exact path = {AppRoute.Film}>
@@ -69,7 +69,7 @@ function App(): JSX.Element {
               name = {promoFilm.title}
             />
           )}
-          authorizationStatus = {AuthorizationStatus.NoAuth}
+          authorizationStatus = {AuthorizationStatus.Auth}
         >
         </PrivateRoute>
         <Route exact path = {AppRoute.Player}>

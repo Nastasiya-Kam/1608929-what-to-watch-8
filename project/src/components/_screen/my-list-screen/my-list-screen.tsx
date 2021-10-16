@@ -1,4 +1,4 @@
-import SmallFilmCard from '../../small-film-card/small-film-card';
+// import SmallFilmCard from '../../small-film-card/small-film-card';
 import Logo from '../../logo/logo';
 import {CardFilm} from '../../../types/films';
 import SignOut from '../../sign-out/sign-out';
@@ -23,7 +23,13 @@ function MyListScreen ({films}: Props): JSX.Element {
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
         <div className="catalog__films-list">
-          {films.slice(0, 9).map((film) => <SmallFilmCard key = {film.id} posterImage = {film.posterImage} name = {film.name}/>)}
+          {/* {films.slice(0, 9).map((film) => (
+            <SmallFilmCard
+              key = {film.id}
+              id = {film.id}
+              image = {film.posterImage}
+              name = {film.name}
+            />))} */}
         </div>
       </section>
 

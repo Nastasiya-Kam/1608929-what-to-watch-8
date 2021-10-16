@@ -1,4 +1,4 @@
-import SmallFilmCard from '../../small-film-card/small-film-card';
+// import SmallFilmCard from '../../small-film-card/small-film-card';
 import Logo from '../../logo/logo';
 import {Film} from '../../../types/films';
 import SignOut from '../../sign-out/sign-out';
@@ -102,7 +102,13 @@ function FilmScreen ({film, films}: Props): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            {films.slice(0,4).map((element) => <SmallFilmCard key= {element.id} posterImage = {element.posterImage} name = {element.title} />)}
+            {/* {films.slice(0,4).map((element) => (
+              <SmallFilmCard
+                key= {element.id}
+                id = {element.id}
+                image = {element.posterImage}
+                name = {element.title}
+              />))} */}
           </div>
         </section>
 
