@@ -3,6 +3,8 @@ import Logo from '../../logo/logo';
 import {Film} from '../../../types/films';
 import SignOut from '../../sign-out/sign-out';
 import Footer from '../../footer/footer';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../../const';
 
 type Props = {
   film: Film,
@@ -48,7 +50,7 @@ function FilmScreen ({film, films}: Props): JSX.Element {
                   </svg>
                   <span>My list</span>
                 </button>
-                <a href="add-review.html" className="btn film-card__button">Add review</a>
+                <Link to={AppRoute.AddReview} className="btn film-card__button">Add review</Link>
               </div>
             </div>
           </div>
