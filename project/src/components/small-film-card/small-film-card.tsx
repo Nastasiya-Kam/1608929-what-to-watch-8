@@ -1,18 +1,20 @@
 import {AppRoute} from '../../const';
 import {Link} from 'react-router-dom';
+import {FilmId} from '../../types/films';
 
 type Film = {
-  id: number,
+  id: FilmId,
   image: string,
   name: string,
-  setActiveCardId: (a: number) => void;
+  setActiveCardId: (a: FilmId | null) => void;
 }
 
 function SmallFilmCard({id, image, name, setActiveCardId}: Film): JSX.Element {
 
   return (
     <article className="small-film-card catalog__films-card"
-      onMouseOver = {() => setActiveCardId(id)}
+      onMouseEnter = {() => setActiveCardId(id)}
+      onMouseLeave = {() => setActiveCardId(null)}
     >
       <div className="small-film-card__image">
         <img src={image} alt={name} width="280" height="175" />
