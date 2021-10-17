@@ -1,62 +1,77 @@
-import {useState, FormEvent} from 'react';
+import {useState, FormEvent, ChangeEvent, Fragment} from 'react';
+import {FilmId} from '../types/films';
 
-type Props = {
-  film: number,
-  onReview: (film: number, userReview: string) => void
+type UserReview = {
+  text: string,
+  rating: number,
 }
 
-function AddReviewForm ({film, onReview}: Props): JSX.Element {
-  const [userReview, setUserReview] = useState('');
+type Props = {
+  filmId: FilmId,
+  onReviewSubmit: (filmId: number, userReview: UserReview) => void
+}
+
+const STARS = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+
+function AddReviewForm ({filmId, onReviewSubmit}: Props): JSX.Element {
+  const [userComment, setUserComment] = useState('');
+  const [userRating, setUserRating] = useState(0);
 
   return (
     <form action="#"
       className="add-review__form"
       onSubmit={(evt: FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
-        onReview(film, userReview);
-        setUserReview(userReview);
+        const review = {
+          text: userComment,
+          rating: userRating,
+        };
+
+        //todo текст от 50 до 400 символов
+        //todo кнопка не активна, пока не поставил оценку и не ввёл текст
+        //todo блокировка формы при отправке данных
+        //todo разблокировка в случае успеха или при возникновении ошибки
+        //todo при успехе переход на карточку фильма
+        onReviewSubmit(filmId, review);
       }}
     >
       <div className="rating">
         <div className="rating__stars">
-          <input className="rating__input" id="star-10" type="radio" name="rating" value="10" />
-          <label className="rating__label" htmlFor="star-10">Rating 10</label>
+          {STARS.map((star) => (
+            <Fragment key = {star}>
+              <input
+                className="rating__input"
+                id={`star-${star}`}
+                type="radio"
+                name="rating"
+                value={star}
+                checked={star === userRating}
+                onChange={({target}: ChangeEvent<HTMLInputElement>) => {
+                  const value = target.value;
 
-          <input className="rating__input" id="star-9" type="radio" name="rating" value="9" />
-          <label className="rating__label" htmlFor="star-9">Rating 9</label>
-
-          <input className="rating__input" id="star-8" type="radio" name="rating" value="8" checked />
-          <label className="rating__label" htmlFor="star-8">Rating 8</label>
-
-          <input className="rating__input" id="star-7" type="radio" name="rating" value="7" />
-          <label className="rating__label" htmlFor="star-7">Rating 7</label>
-
-          <input className="rating__input" id="star-6" type="radio" name="rating" value="6" />
-          <label className="rating__label" htmlFor="star-6">Rating 6</label>
-
-          <input className="rating__input" id="star-5" type="radio" name="rating" value="5" />
-          <label className="rating__label" htmlFor="star-5">Rating 5</label>
-
-          <input className="rating__input" id="star-4" type="radio" name="rating" value="4" />
-          <label className="rating__label" htmlFor="star-4">Rating 4</label>
-
-          <input className="rating__input" id="star-3" type="radio" name="rating" value="3" />
-          <label className="rating__label" htmlFor="star-3">Rating 3</label>
-
-          <input className="rating__input" id="star-2" type="radio" name="rating" value="2" />
-          <label className="rating__label" htmlFor="star-2">Rating 2</label>
-
-          <input className="rating__input" id="star-1" type="radio" name="rating" value="1" />
-          <label className="rating__label" htmlFor="star-1">Rating 1</label>
+                  setUserRating(parseInt(value, 10));
+                }}
+              />
+              <label className="rating__label" htmlFor={`star-${star}`}>Rating {star}</label>
+            </Fragment>
+          ))}
         </div>
       </div>
 
       <div className="add-review__text">
-        <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text"></textarea>
+        <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text"
+          onChange={({target}: ChangeEvent<HTMLTextAreaElement>) => {
+            const value = target.value;
+
+            setUserComment(value);
+          }}
+        >
+        </textarea>
         <div className="add-review__submit">
           <button className="add-review__btn" type="submit">Post</button>
         </div>
-
+        <p>Введённый комментарий: {userComment}</p>
+        <p>Введённый рейтинг: {userRating}</p>
       </div>
     </form>
   );

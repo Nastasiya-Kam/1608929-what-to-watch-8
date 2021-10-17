@@ -1,14 +1,14 @@
-// import SmallFilmCard from '../../small-film-card/small-film-card';
 import Logo from '../../logo/logo';
-import {Film} from '../../../types/films';
-import SignOut from '../../sign-out/sign-out';
 import Footer from '../../footer/footer';
-import {Link} from 'react-router-dom';
+import SignOut from '../../sign-out/sign-out';
+import FilmList from '../../film-list/film-list';
+import {Film, CardFilm} from '../../../types/films';
 import {AppRoute} from '../../../const';
+import {Link} from 'react-router-dom';
 
 type Props = {
   film: Film,
-  films: Film[],
+  films: CardFilm[],
 }
 
 function FilmScreen ({film, films}: Props): JSX.Element {
@@ -103,15 +103,7 @@ function FilmScreen ({film, films}: Props): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__films-list">
-            {/* {films.slice(0,4).map((element) => (
-              <SmallFilmCard
-                key= {element.id}
-                id = {element.id}
-                image = {element.posterImage}
-                name = {element.title}
-              />))} */}
-          </div>
+          <FilmList films = {films}/>
         </section>
 
         <Footer />

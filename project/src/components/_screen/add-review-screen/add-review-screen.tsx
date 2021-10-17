@@ -43,8 +43,8 @@ function AddReviewScreen ({id, previewImage, posterImage, name}: Props): JSX.Ele
 
       <div className="add-review">
         <AddReviewForm
-          film = {id}
-          onReview = {() => {
+          filmId = {id}
+          onReviewSubmit = {() => {
             throw new Error('Function \'onReview\' isn\'t implemented.');
           }}
         />

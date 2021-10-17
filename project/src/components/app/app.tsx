@@ -57,7 +57,7 @@ function App(): JSX.Element {
         <Route exact path = {AppRoute.Film}>
           <FilmScreen
             film = {films[0]}
-            films = {films}
+            films = {cardFilms.slice(0, 4)}
           />
         </Route>
         <PrivateRoute
