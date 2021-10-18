@@ -1,16 +1,18 @@
-import SmallFilmCard from '../../small-film-card/small-film-card';
 import Logo from '../../logo/logo';
-import {Film} from '../../../types/films';
+import Footer from '../../footer/footer';
+import SignOut from '../../sign-out/sign-out';
+import FilmList from '../../film-list/film-list';
+import {Film, CardFilm} from '../../../types/films';
+import {AppRoute} from '../../../const';
+import {Link} from 'react-router-dom';
 
 type Props = {
   film: Film,
-  films: Film[],
+  films: CardFilm[],
 }
 
-// todo Вынести блок Sign out в отдельный компонент аналогично Logo
-
 function FilmScreen ({film, films}: Props): JSX.Element {
-  const {title, genre, release, posterImage, previewImage, description, rating, scoresCount, director, starrings} = film;
+  const {title, genre, release, posterImage, previewImage, description, rating, scoresCount, director, starring} = film;
 
   return (
     <>
@@ -24,17 +26,7 @@ function FilmScreen ({film, films}: Props): JSX.Element {
 
           <header className="page-header film-card__head">
             <Logo />
-
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link">Sign out</a>
-              </li>
-            </ul>
+            <SignOut />
           </header>
 
           <div className="film-card__wrap">
@@ -58,7 +50,7 @@ function FilmScreen ({film, films}: Props): JSX.Element {
                   </svg>
                   <span>My list</span>
                 </button>
-                <a href="add-review.html" className="btn film-card__button">Add review</a>
+                <Link to={AppRoute.AddReview} className="btn film-card__button">Add review</Link>
               </div>
             </div>
           </div>
@@ -100,7 +92,7 @@ function FilmScreen ({film, films}: Props): JSX.Element {
 
                 <p className="film-card__director"><strong>Director: {director}</strong></p>
 
-                <p className="film-card__starring"><strong>Starring: {starrings.join(', ')}</strong></p>
+                <p className="film-card__starring"><strong>Starring: {starring.join(', ')}</strong></p>
               </div>
             </div>
           </div>
@@ -111,24 +103,10 @@ function FilmScreen ({film, films}: Props): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__films-list">
-            {films.slice(0,4).map((element) => <SmallFilmCard key= {element.id} posterImage = {element.posterImage} name = {element.title} />)}
-          </div>
+          <FilmList films = {films}/>
         </section>
 
-        <footer className="page-footer">
-          <div className="logo">
-            <a href="main.html" className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );

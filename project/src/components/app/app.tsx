@@ -8,12 +8,13 @@ import FilmScreen from '../_screen/film-screen/film-screen';
 import AddReviewScreen from '../_screen/add-review-screen/add-review-screen';
 import PlayerScreen from '../_screen/player-screen/player-screen';
 import NotFoundScreen from '../_screen/not-found-screen/not-found-screen';
-import {films} from '../../mock';
-import {CardFilm, PromoFilm} from '../../types/films';
+import {films} from '../../mocks/films';
+import {CardFilm, PromoFilm, PlayerFilm} from '../../types/films';
 
 const someFilm = films[0];
 
 const promoFilm : PromoFilm = {
+  id: someFilm.id,
   title: someFilm.title,
   genre: someFilm.genre,
   releaseDate: someFilm.release,
@@ -26,6 +27,11 @@ const cardFilms : CardFilm[] = films.map((film) => ({
   name: film.title,
   posterImage: film.posterImage,
 }));
+
+const playerFilm : PlayerFilm = {
+  videoLink: films[0].videoLink,
+  playerPoster: films[0].previewImage,
+};
 
 function App(): JSX.Element {
 
@@ -45,13 +51,13 @@ function App(): JSX.Element {
           exact
           path = {AppRoute.MyList}
           render = {() => <MyListScreen films = {cardFilms} />}
-          authorizationStatus = {AuthorizationStatus.NoAuth}
+          authorizationStatus = {AuthorizationStatus.Auth}
         >
         </PrivateRoute>
         <Route exact path = {AppRoute.Film}>
           <FilmScreen
             film = {films[0]}
-            films = {films}
+            films = {cardFilms.slice(0, 4)}
           />
         </Route>
         <PrivateRoute
@@ -59,16 +65,20 @@ function App(): JSX.Element {
           path = {AppRoute.AddReview}
           render = {() => (
             <AddReviewScreen
+              id = {promoFilm.id}
               previewImage = {promoFilm.previewImage}
               posterImage = {promoFilm.posterImage}
               name = {promoFilm.title}
             />
           )}
-          authorizationStatus = {AuthorizationStatus.NoAuth}
+          authorizationStatus = {AuthorizationStatus.Auth}
         >
         </PrivateRoute>
         <Route exact path = {AppRoute.Player}>
-          <PlayerScreen />
+          <PlayerScreen
+            videoLink = {playerFilm.videoLink}
+            playerPoster = {playerFilm.playerPoster}
+          />
         </Route>
         <Route>
           <NotFoundScreen />

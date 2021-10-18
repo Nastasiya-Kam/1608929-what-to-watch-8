@@ -1,13 +1,13 @@
-import SmallFilmCard from '../../small-film-card/small-film-card';
 import Logo from '../../logo/logo';
 import {CardFilm, PromoFilm} from '../../../types/films';
+import SignOut from '../../sign-out/sign-out';
+import FilmList from '../../film-list/film-list';
+import Footer from '../../footer/footer';
 
 type Props = {
   promoFilm: PromoFilm,
   films: CardFilm[],
 }
-
-// todo Вынести блок Sign out в отдельный компонент аналогично Logo
 
 function MainScreen({promoFilm, films}: Props): JSX.Element {
   const {title, genre, releaseDate, previewImage, posterImage} = promoFilm;
@@ -23,17 +23,7 @@ function MainScreen({promoFilm, films}: Props): JSX.Element {
 
         <header className="page-header film-card__head">
           <Logo />
-
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
-            </li>
-          </ul>
+          <SignOut />
         </header>
 
         <div className="film-card__wrap">
@@ -105,28 +95,14 @@ function MainScreen({promoFilm, films}: Props): JSX.Element {
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            {films.map((film) => <SmallFilmCard key={film.id} posterImage = {film.posterImage} name = {film.name}/>)}
-          </div>
+          <FilmList films = {films} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
           </div>
         </section>
 
-        <footer className="page-footer">
-          <div className="logo">
-            <a className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );
