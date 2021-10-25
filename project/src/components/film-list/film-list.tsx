@@ -24,6 +24,7 @@ function FilmList({films}: Props): JSX.Element {
               videoLink = {film.videoLink}
               name = {film.name}
               setActiveCardId = {setActiveFilmId}
+              isActive = {activeFilmId === film.id}
             />);
         })}
       </div>

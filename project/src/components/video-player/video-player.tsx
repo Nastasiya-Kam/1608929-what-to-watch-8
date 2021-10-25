@@ -1,15 +1,9 @@
-// Все необходимые данные компонент должен принимать через props.
-// Предусмотрите возможность воспроизведения видео без звука.
-
 type Props = {
   poster: string,
   videoLink: string,
-  isPlaying: boolean,
 }
 
-function VideoPlayer({poster, videoLink, isPlaying}: Props): JSX.Element {
-  // eslint-disable-next-line
-  console.log(poster, isPlaying);
+function VideoPlayer({poster, videoLink}: Props): JSX.Element {
 
   return (
     <video
@@ -18,7 +12,7 @@ function VideoPlayer({poster, videoLink, isPlaying}: Props): JSX.Element {
       width = "280"
       height = "175"
       muted
-      autoPlay = {isPlaying}
+      autoPlay
     >
     </video>
   );

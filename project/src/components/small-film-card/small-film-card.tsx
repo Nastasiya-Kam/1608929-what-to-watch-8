@@ -1,7 +1,6 @@
 import {AppRoute} from '../../const';
 import {Link} from 'react-router-dom';
 import {FilmId} from '../../types/films';
-import {useEffect, useRef, useState} from 'react';
 import VideoPlayer from '../video-player/video-player';
 
 type Film = {
@@ -10,64 +9,36 @@ type Film = {
   videoLink: string,
   name: string,
   setActiveCardId: (a: FilmId | null) => void;
+  isActive: boolean,
 }
 
-function SmallFilmCard({id, image, videoLink, name, setActiveCardId}: Film): JSX.Element {
-  // const [isLoading, setIsLoading] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  // useEffect(() => {
-  //   if (videoRef.current !== null) {
-  //     videoRef.current.onloadeddata = () => setIsLoading(false);
-  //   }
-
-  //   return () => {
-  //     if (videoRef.current !== null) {
-  //       videoRef.current.onloadeddata = null;
-  //       videoRef.current = null;
-  //     }
-  //   };
-  // }, [id]);
-
-  useEffect(() => {
-    if (videoRef.current === null) {
-      return;
-    }
-
-    if (isPlaying) {
-      videoRef.current.play();
-      return;
-    }
-
-    return () => {
-      if (videoRef.current !== null) {
-        videoRef.current.pause();
-        videoRef.current = null;
-      }
-    };
-  }, [isPlaying]);
+function SmallFilmCard({id, image, videoLink, name, setActiveCardId, isActive}: Film): JSX.Element {
+  let timerId: any = null;
 
   return (
     <article className="small-film-card catalog__films-card"
       onMouseEnter = {() => {
-        setActiveCardId(id);
-        setIsPlaying(true);
-        // eslint-disable-next-line
-        // console.log(isPlaying);
+        timerId = setTimeout(
+          () => {
+            setActiveCardId(id);
+          },
+          1000,
+        );
       }}
       onMouseLeave = {() => {
         setActiveCardId(null);
-        setIsPlaying(false);
-        // eslint-disable-next-line
-        // console.log(isPlaying);
+        clearTimeout(timerId);
       }}
     >
       <div className="small-film-card__image">
-        <VideoPlayer videoLink={videoLink} poster={image} isPlaying = {isPlaying} />
+        {
+          (isActive)
+            ? <VideoPlayer videoLink={videoLink} poster={image} />
+            : <img src={image} alt={name} width="280" height="175" />
+        }
       </div>
       <h3 className="small-film-card__title">
+        <p>{id}{isActive ? 'yes' : 'no'}</p>
         <Link className="small-film-card__link" to={`${AppRoute.Film}${id}`}>{name}</Link>
       </h3>
     </article>
