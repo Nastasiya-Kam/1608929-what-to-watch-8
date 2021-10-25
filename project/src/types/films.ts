@@ -2,6 +2,7 @@ type CardFilm = {
   id: FilmId,
   posterImage: string,
   name: string,
+  videoLink: string,
 }
 
 type PromoFilm = {
