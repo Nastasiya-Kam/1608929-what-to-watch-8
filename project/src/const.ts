@@ -13,4 +13,27 @@ const enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export {AppRoute, AuthorizationStatus};
+const GenresList = [
+  'All genres',
+  'Comedies',
+  'Crime',
+  'Documentary',
+  'Dramas',
+  'Horror',
+  'Kids & Family',
+  'Romance',
+  'Sci-Fi',
+  'Thrillers',
+];
+
+const ScreenTypes = ['Overview', 'Details', 'Reviews'];
+
+const enum ScreenType {
+  Details = 'Details',
+  Overview = 'Overview',
+  Reviews = 'Reviews',
+}
+
+const MINUTES_IN_HOURS = 60;
+
+export {AppRoute, AuthorizationStatus, GenresList, ScreenTypes, ScreenType, MINUTES_IN_HOURS};

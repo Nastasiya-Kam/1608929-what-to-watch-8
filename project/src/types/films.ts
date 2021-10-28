@@ -27,6 +27,7 @@ type Film = {
   scoresCount: number,
   director: string,
   starring: string[],
+  runTime: number,
 };
 
 type PlayerFilm = {

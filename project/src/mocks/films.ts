@@ -14,6 +14,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 2,
@@ -28,6 +29,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 3,
@@ -42,6 +44,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 134,
   },
   {
     id: 4,
@@ -56,6 +59,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 5,
@@ -70,6 +74,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 6,
@@ -84,6 +89,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 7,
@@ -98,6 +104,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 8,
@@ -112,6 +119,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 9,
@@ -126,6 +134,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 10,
@@ -140,6 +149,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 11,
@@ -154,6 +164,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 12,
@@ -168,6 +179,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 13,
@@ -182,6 +194,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 14,
@@ -196,6 +209,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 15,
@@ -210,6 +224,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 16,
@@ -224,6 +239,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 17,
@@ -238,6 +254,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 18,
@@ -252,6 +269,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 19,
@@ -266,6 +284,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
   {
     id: 20,
@@ -280,6 +299,7 @@ const films : Film[] = [
     scoresCount: 240,
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    runTime: 90,
   },
 ];
 
