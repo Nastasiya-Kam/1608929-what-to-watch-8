@@ -13,27 +13,19 @@ type Film = {
 }
 
 function SmallFilmCard({id, image, videoLink, name, setActiveCardId, isActive}: Film): JSX.Element {
-  let timerId: any = null;
-
   return (
     <article className="small-film-card catalog__films-card"
       onMouseEnter = {() => {
-        timerId = setTimeout(
-          () => {
-            setActiveCardId(id);
-          },
-          1000,
-        );
+        setActiveCardId(id);
       }}
       onMouseLeave = {() => {
         setActiveCardId(null);
-        clearTimeout(timerId);
       }}
     >
       <div className="small-film-card__image">
         {
           (isActive)
-            ? <VideoPlayer videoLink={videoLink} poster={image} />
+            ? <VideoPlayer videoLink={videoLink} poster={image} isActive = {isActive} />
             : <img src={image} alt={name} width="280" height="175" />
         }
       </div>
