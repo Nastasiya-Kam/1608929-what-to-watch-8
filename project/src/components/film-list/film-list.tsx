@@ -7,7 +7,7 @@ type Props = {
 }
 
 function FilmList({films}: Props): JSX.Element {
-  const [activeFilmId, setActiveFilmId] = useState<FilmId | null>(0);
+  const [activeFilmId, setActiveFilmId] = useState<FilmId | null>();
 
   return (
     <>
@@ -21,8 +21,10 @@ function FilmList({films}: Props): JSX.Element {
               key = {id}
               id = {film.id}
               image = {film.posterImage}
+              videoLink = {film.videoLink}
               name = {film.name}
               setActiveCardId = {setActiveFilmId}
+              isActive = {activeFilmId === film.id}
             />);
         })}
       </div>

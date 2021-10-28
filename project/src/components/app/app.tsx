@@ -26,6 +26,7 @@ const cardFilms : CardFilm[] = films.map((film) => ({
   id: film.id,
   name: film.title,
   posterImage: film.posterImage,
+  videoLink: film.videoLink,
 }));
 
 const playerFilm : PlayerFilm = {
