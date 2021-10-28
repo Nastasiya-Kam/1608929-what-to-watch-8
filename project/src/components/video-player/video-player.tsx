@@ -1,14 +1,11 @@
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useRef} from 'react';
 
 type Props = {
   poster: string,
   videoLink: string,
-  isActive: boolean,
 }
 
-function VideoPlayer({poster, videoLink, isActive}: Props): JSX.Element {
-  const [activeFilmId, setActiveCardId] = useState(false);
-
+function VideoPlayer({poster, videoLink}: Props): JSX.Element {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
@@ -25,17 +22,10 @@ function VideoPlayer({poster, videoLink, isActive}: Props): JSX.Element {
     return () => {
       clearTimeout(timerId);
     };
-  }, [activeFilmId]);
+  });
 
   return (
     <video
-      onMouseEnter = {() => {
-        setActiveCardId(true);
-      }}
-      onMouseLeave = {() => {
-        setActiveCardId(false);
-      }}
-
       ref = {videoRef}
       poster = {poster}
       src = {videoLink}

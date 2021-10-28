@@ -25,7 +25,7 @@ function SmallFilmCard({id, image, videoLink, name, setActiveCardId, isActive}: 
       <div className="small-film-card__image">
         {
           (isActive)
-            ? <VideoPlayer videoLink={videoLink} poster={image} isActive = {isActive} />
+            ? <VideoPlayer videoLink={videoLink} poster={image} />
             : <img src={image} alt={name} width="280" height="175" />
         }
       </div>
