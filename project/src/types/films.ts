@@ -3,6 +3,7 @@ type CardFilm = {
   posterImage: string,
   name: string,
   videoLink: string,
+  genre: string,
 }
 
 type PromoFilm = {

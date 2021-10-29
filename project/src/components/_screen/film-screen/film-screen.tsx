@@ -17,6 +17,8 @@ function FilmScreen ({film, films}: Props): JSX.Element {
   const {title, genre, release, posterImage, previewImage} = film;
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
 
+  const currentGenreFilms = films.filter((element) => element.genre === genre).slice(0, 4);
+
   return (
     <>
       <section className="film-card film-card--full">
@@ -106,7 +108,7 @@ function FilmScreen ({film, films}: Props): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmList films = {films}/>
+          <FilmList films = {currentGenreFilms}/>
         </section>
 
         <Footer />
