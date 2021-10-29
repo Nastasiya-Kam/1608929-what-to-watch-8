@@ -36,4 +36,27 @@ const enum ScreenType {
 
 const MINUTES_IN_HOURS = 60;
 
-export {AppRoute, AuthorizationStatus, GenresList, ScreenTypes, ScreenType, MINUTES_IN_HOURS};
+const Grade = {
+  BAD: {
+    value: 3,
+    name: 'Bad',
+  },
+  NORMAL: {
+    value: 5,
+    name: 'Normal',
+  },
+  GOOD: {
+    value: 8,
+    name: 'Good',
+  },
+  VERY_GOOD: {
+    value: 10,
+    name: 'Very good',
+  },
+  AWESOME: {
+    value: 10,
+    name: 'Awesome',
+  },
+};
+
+export {AppRoute, AuthorizationStatus, GenresList, ScreenTypes, ScreenType, MINUTES_IN_HOURS, Grade};

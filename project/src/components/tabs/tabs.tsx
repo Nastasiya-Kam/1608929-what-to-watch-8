@@ -1,11 +1,32 @@
-import {ScreenType, MINUTES_IN_HOURS} from '../../const';
+import {ScreenType, MINUTES_IN_HOURS, Grade} from '../../const';
 import {Film} from '../../types/films';
-
 
 type Props = {
   currentScreen: string,
   film: Film,
 }
+
+const getGrade = (rating: number) => {
+  if (rating < Grade.BAD.value) {
+    return Grade.BAD.name;
+  }
+
+  if (rating < Grade.NORMAL.value && rating >= Grade.BAD.value) {
+    return Grade.NORMAL.name;
+  }
+
+  if (rating < Grade.GOOD.value && rating >= Grade.NORMAL.value) {
+    return Grade.GOOD.name;
+  }
+
+  if (rating < Grade.VERY_GOOD.value && rating >= Grade.GOOD.value) {
+    return Grade.VERY_GOOD.name;
+  }
+
+  if (rating === Grade.AWESOME.value) {
+    return Grade.AWESOME.name;
+  }
+};
 
 function Tabs({currentScreen, film}: Props): JSX.Element {
   const {genre, release, description, rating, scoresCount, director, starring, runTime} = film;
@@ -147,8 +168,7 @@ function Tabs({currentScreen, film}: Props): JSX.Element {
           <div className="film-rating">
             <div className="film-rating__score">{rating}</div>
             <p className="film-rating__meta">
-              {/* // TODO Very good создать объект соответствий */}
-              <span className="film-rating__level">Very good</span>
+              <span className="film-rating__level">{getGrade(rating)}</span>
               <span className="film-rating__count">{scoresCount} ratings</span>
             </p>
           </div>
