@@ -27,6 +27,7 @@ const cardFilms : CardFilm[] = films.map((film) => ({
   name: film.title,
   posterImage: film.posterImage,
   videoLink: film.videoLink,
+  genre: film.genre,
 }));
 
 const playerFilm : PlayerFilm = {
@@ -58,7 +59,7 @@ function App(): JSX.Element {
         <Route exact path = {AppRoute.Film}>
           <FilmScreen
             film = {films[0]}
-            films = {cardFilms.slice(0, 4)}
+            films = {cardFilms}
           />
         </Route>
         <PrivateRoute

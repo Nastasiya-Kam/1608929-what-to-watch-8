@@ -13,4 +13,53 @@ const enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export {AppRoute, AuthorizationStatus};
+const GenresList = [
+  'All genres',
+  'Comedies',
+  'Crime',
+  'Documentary',
+  'Dramas',
+  'Horror',
+  'Kids & Family',
+  'Romance',
+  'Sci-Fi',
+  'Thrillers',
+];
+
+const ScreenTypes = ['Overview', 'Details', 'Reviews'];
+
+const enum ScreenType {
+  Details = 'Details',
+  Overview = 'Overview',
+  Reviews = 'Reviews',
+}
+
+const MINUTES_IN_HOURS = 60;
+
+const Grade = {
+  BAD: {
+    value: 3,
+    name: 'Bad',
+  },
+  NORMAL: {
+    value: 5,
+    name: 'Normal',
+  },
+  GOOD: {
+    value: 8,
+    name: 'Good',
+  },
+  VERY_GOOD: {
+    value: 10,
+    name: 'Very good',
+  },
+  AWESOME: {
+    value: 10,
+    name: 'Awesome',
+  },
+};
+
+const COUNT_FILMS_SIMILAR = 4;
+const COMMENTS_DIVIDER = 2;
+
+export {AppRoute, AuthorizationStatus, GenresList, ScreenTypes, ScreenType, MINUTES_IN_HOURS, Grade, COUNT_FILMS_SIMILAR, COMMENTS_DIVIDER};

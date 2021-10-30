@@ -3,6 +3,7 @@ type CardFilm = {
   posterImage: string,
   name: string,
   videoLink: string,
+  genre: string,
 }
 
 type PromoFilm = {
@@ -27,6 +28,7 @@ type Film = {
   scoresCount: number,
   director: string,
   starring: string[],
+  runTime: number,
 };
 
 type PlayerFilm = {

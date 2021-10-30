@@ -3,8 +3,10 @@ import Footer from '../../footer/footer';
 import SignOut from '../../sign-out/sign-out';
 import FilmList from '../../film-list/film-list';
 import {Film, CardFilm} from '../../../types/films';
-import {AppRoute} from '../../../const';
+import {AppRoute, ScreenTypes, ScreenType, COUNT_FILMS_SIMILAR} from '../../../const';
 import {Link} from 'react-router-dom';
+import Tabs from '../../tabs/tabs';
+import {useState} from 'react';
 
 type Props = {
   film: Film,
@@ -12,7 +14,10 @@ type Props = {
 }
 
 function FilmScreen ({film, films}: Props): JSX.Element {
-  const {title, genre, release, posterImage, previewImage, description, rating, scoresCount, director, starring} = film;
+  const {title, genre, release, posterImage, previewImage} = film;
+  const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
+
+  const currentGenreFilms = films.filter((element) => element.genre === genre).slice(0, COUNT_FILMS_SIMILAR);
 
   return (
     <>
@@ -65,35 +70,35 @@ function FilmScreen ({film, films}: Props): JSX.Element {
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
                 <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="#" className="film-nav__link">Overview</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Details</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Reviews</a>
-                  </li>
+                  {ScreenTypes.map((type, index) => {
+                    const keyType = `type-${index}`;
+
+                    return (
+                      <li
+                        key={keyType}
+                        className={`film-nav__item${(type === currentScreen) ? ' film-nav__item--active' : ''}`}
+                      >
+                        <a
+                          href="#"
+                          onClick={(evt) => {
+                            evt.preventDefault();
+                            setCurrentScreen(type);
+                          }}
+                          className="film-nav__link"
+                        >
+                          {type}
+                        </a>
+                      </li>
+                    );
+                  })}
                 </ul>
               </nav>
 
-              <div className="film-rating">
-                <div className="film-rating__score">{rating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">{scoresCount} ratings</span>
-                </p>
-              </div>
+              <Tabs
+                currentScreen = {currentScreen}
+                film = {film}
+              />
 
-              <div className="film-card__text">
-                <p>{description}</p>
-
-                <p>Gustave prides himself on providing first-className service to the hotel&apos;s guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave&apos;s lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.</p>
-
-                <p className="film-card__director"><strong>Director: {director}</strong></p>
-
-                <p className="film-card__starring"><strong>Starring: {starring.join(', ')}</strong></p>
-              </div>
             </div>
           </div>
         </div>
@@ -103,7 +108,7 @@ function FilmScreen ({film, films}: Props): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmList films = {films}/>
+          <FilmList films = {currentGenreFilms}/>
         </section>
 
         <Footer />

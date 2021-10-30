@@ -13,7 +13,7 @@ type Props = {
 
 const STARS = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
-function AddReviewForm ({filmId, onReviewSubmit}: Props): JSX.Element {
+function AddReviewForm({filmId, onReviewSubmit}: Props): JSX.Element {
   const [userComment, setUserComment] = useState('');
   const [userRating, setUserRating] = useState(0);
 
@@ -27,7 +27,7 @@ function AddReviewForm ({filmId, onReviewSubmit}: Props): JSX.Element {
           rating: userRating,
         };
 
-        //todo текст от 50 до 400 символов
+        //TODO текст от 50 до 400 символов
         //todo кнопка не активна, пока не поставил оценку и не ввёл текст
         //todo блокировка формы при отправке данных
         //todo разблокировка в случае успеха или при возникновении ошибки
