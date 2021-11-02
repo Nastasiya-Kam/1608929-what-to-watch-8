@@ -59,7 +59,7 @@ const Grade = {
   },
 };
 
-const COUNT_FILMS_SIMILAR = 4;
-const COMMENTS_DIVIDER = 2;
+const SIMILAR_FILMS_COUNT = 4;
+const COMMENTS_COLUMNS_COUNT = 2;
 
-export {AppRoute, AuthorizationStatus, GenresList, ScreenTypes, ScreenType, MINUTES_IN_HOURS, Grade, COUNT_FILMS_SIMILAR, COMMENTS_DIVIDER};
+export {AppRoute, AuthorizationStatus, GenresList, ScreenTypes, ScreenType, MINUTES_IN_HOURS, Grade, SIMILAR_FILMS_COUNT, COMMENTS_COLUMNS_COUNT};

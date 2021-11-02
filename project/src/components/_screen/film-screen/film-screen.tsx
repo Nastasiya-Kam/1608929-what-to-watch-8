@@ -3,7 +3,7 @@ import Footer from '../../footer/footer';
 import SignOut from '../../sign-out/sign-out';
 import FilmList from '../../film-list/film-list';
 import {Film, CardFilm} from '../../../types/films';
-import {AppRoute, ScreenTypes, ScreenType, COUNT_FILMS_SIMILAR} from '../../../const';
+import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
 import {Link} from 'react-router-dom';
 import Tabs from '../../tabs/tabs';
 import {useState} from 'react';
@@ -17,7 +17,7 @@ function FilmScreen ({film, films}: Props): JSX.Element {
   const {title, genre, release, posterImage, previewImage} = film;
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
 
-  const currentGenreFilms = films.filter((element) => element.genre === genre).slice(0, COUNT_FILMS_SIMILAR);
+  const currentGenreFilms = films.filter((element) => element.genre === genre).slice(0, SIMILAR_FILMS_COUNT);
 
   return (
     <>
