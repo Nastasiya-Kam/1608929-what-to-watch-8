@@ -1,5 +1,5 @@
 import {ActionType, ChangeGenreAction, GetGenreFilmsAction} from '../types/action';
-import { Film } from '../types/films';
+import {Film} from '../types/films';
 
 const changeGenre = (): ChangeGenreAction => ({
   type: ActionType.ChangeGenre,

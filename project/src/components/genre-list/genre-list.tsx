@@ -30,4 +30,4 @@ function GenreList({genres, currentGenre, setCurrentGenre}: Props): JSX.Element 
   );
 }
 
-export {GenreList};
+export default GenreList;

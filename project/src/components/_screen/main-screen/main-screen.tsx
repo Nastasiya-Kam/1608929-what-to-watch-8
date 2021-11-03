@@ -5,7 +5,7 @@ import FilmList from '../../film-list/film-list';
 import Footer from '../../footer/footer';
 import {GENRE_FILMS_COUNT, DEFAULT_GENRE} from '../../../const'; //
 import {useState} from 'react';
-import { GenreList } from '../../genre-list/genre-list';
+import GenreList from '../../genre-list/genre-list';
 
 type Props = {
   promoFilm: PromoFilm,
