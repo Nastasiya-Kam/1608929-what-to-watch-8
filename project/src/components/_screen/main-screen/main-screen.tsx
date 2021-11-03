@@ -3,13 +3,14 @@ import {CardFilm, PromoFilm} from '../../../types/films';
 import SignOut from '../../sign-out/sign-out';
 import FilmList from '../../film-list/film-list';
 import Footer from '../../footer/footer';
-import {GENRE_FILMS_COUNT, DEFAULT_GENRE} from '../../../const';
+import {GENRE_FILMS_COUNT} from '../../../const';
 import GenreList from '../../genre-list/genre-list';
 import {Dispatch} from 'redux';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../../types/state';
 import {Actions} from '../../../types/action';
 import {changeGenre} from '../../../store/action';
+import {getGenres, getGenresFilm} from '../../../utils';
 
 type Props = {
   promoFilm: PromoFilm,
@@ -34,12 +35,8 @@ type ConnectedComponentProps = PropsFromRedux & Props;
 function MainScreen({promoFilm, films, currentGenre, onGenreChange}: ConnectedComponentProps): JSX.Element {
   const {title, genre, releaseDate, previewImage, posterImage} = promoFilm;
 
-  const genres: string[] = [DEFAULT_GENRE, ...new Set(films.map((film) => film.genre.split(' ').map((letter) => letter[0].toUpperCase() + letter.substring(1)).join('')))];
-  let genreFilms = films;
-
-  if (currentGenre !== DEFAULT_GENRE) {
-    genreFilms = films.filter((film) => film.genre === currentGenre);
-  }
+  const genres = getGenres(films);
+  const genreFilms = getGenresFilm(films, currentGenre);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import AddReviewForm from '../../../add-review-form/add-review-form';
+import AddReviewForm from '../../add-review-form/add-review-form';
 import Logo from '../../logo/logo';
 import SignOut from '../../sign-out/sign-out';
 

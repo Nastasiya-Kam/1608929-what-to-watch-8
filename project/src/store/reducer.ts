@@ -11,7 +11,7 @@ const initialState = {
 const reducer = (state: State = initialState, action: Actions): State => {
   switch (action.type) {
     case ActionType.ChangeGenre:
-      return {...state, currentGenre: state.currentGenre};
+      return {...state, currentGenre: action.payload};
     case ActionType.GetGenreFilms:
       return {...state, films: action.payload};
     case ActionType.ResetGenre:

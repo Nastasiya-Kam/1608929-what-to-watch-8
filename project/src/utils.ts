@@ -1,4 +1,5 @@
-import {Grade} from './const';
+import {DEFAULT_GENRE, Grade} from './const';
+import {CardFilm} from './types/films';
 
 const getGrade = (rating: number) => {
   if (rating < Grade.BAD.value) {
@@ -22,4 +23,15 @@ const getGrade = (rating: number) => {
   }
 };
 
-export {getGrade};
+const getGenres = (films: CardFilm[]) => [DEFAULT_GENRE, ...new Set(films.map((film) => film.genre.split(' ').map((letter) => letter[0].toUpperCase() + letter.substring(1)).join('')))];
+
+const getGenresFilm = (films: CardFilm[], currentGenre: string) => {
+  if (currentGenre !== DEFAULT_GENRE) {
+    return films.filter((film) => film.genre === currentGenre);
+  }
+
+  return films;
+
+};
+
+export {getGrade, getGenres, getGenresFilm};

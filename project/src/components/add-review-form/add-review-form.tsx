@@ -1,5 +1,5 @@
 import {useState, FormEvent, ChangeEvent, Fragment} from 'react';
-import {FilmId} from '../types/films';
+import {FilmId} from '../../types/films';
 
 type UserReview = {
   text: string,
