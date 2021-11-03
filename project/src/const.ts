@@ -13,38 +13,6 @@ const enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-const GenresList = [
-  'All genres',
-  'Comedies',
-  'Crime',
-  'Documentary',
-  'Dramas',
-  'Horror',
-  'Kids & Family',
-  'Romance',
-  'Sci-Fi',
-  'Thrillers',
-];
-
-const GenreType = {
-  Comedies: {
-    name: 'comedy',
-    group: 'Comedies',
-  },
-  Horror: {
-    name: 'horror',
-    group: 'Horror',
-  },
-  Dramas: {
-    name: 'drama',
-    group: 'Dramas',
-  },
-  Crime: {
-    name: 'crime',
-    group: 'Crime',
-  },
-};
-
 const ScreenTypes = ['Overview', 'Details', 'Reviews'];
 
 const enum ScreenType {
@@ -86,8 +54,6 @@ const DEFAULT_GENRE = 'All genres';
 export {
   AppRoute,
   AuthorizationStatus,
-  GenresList,
-  GenreType,
   ScreenTypes,
   ScreenType,
   MINUTES_IN_HOURS,

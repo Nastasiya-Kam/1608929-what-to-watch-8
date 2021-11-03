@@ -20,7 +20,7 @@ const films : Film[] = [
     id: 2,
     title: 'Bohemian Rhapsody',
     posterImage: 'img/bohemian-rhapsody.jpg',
-    genre: 'Comedy',
+    genre: 'comedy',
     release: 2014,
     previewImage: 'img/bg-the-grand-budapest-hotel.jpg',
     videoLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',

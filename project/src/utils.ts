@@ -1,4 +1,4 @@
-import {GenreType, Grade} from './const';
+import {Grade} from './const';
 
 const getGrade = (rating: number) => {
   if (rating < Grade.BAD.value) {
@@ -22,24 +22,4 @@ const getGrade = (rating: number) => {
   }
 };
 
-const getGenre = (genre: string) => {
-  const lowerCaseGenre = genre.toLowerCase();
-
-  if (lowerCaseGenre === GenreType.Comedies.name) {
-    return GenreType.Comedies.group;
-  }
-
-  if (lowerCaseGenre === GenreType.Horror.name) {
-    return GenreType.Horror.group;
-  }
-
-  if (lowerCaseGenre === GenreType.Dramas.name) {
-    return GenreType.Dramas.group;
-  }
-
-  if (lowerCaseGenre === GenreType.Crime.name) {
-    return GenreType.Crime.group;
-  }
-};
-
-export {getGrade, getGenre};
+export {getGrade};

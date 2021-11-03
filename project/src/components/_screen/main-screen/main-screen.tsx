@@ -3,9 +3,8 @@ import {CardFilm, PromoFilm} from '../../../types/films';
 import SignOut from '../../sign-out/sign-out';
 import FilmList from '../../film-list/film-list';
 import Footer from '../../footer/footer';
-import {GenresList, GENRE_FILMS_COUNT, DEFAULT_GENRE} from '../../../const';
+import {GENRE_FILMS_COUNT, DEFAULT_GENRE} from '../../../const'; //
 import {useState} from 'react';
-import {getGenre} from '../../../utils';
 
 type Props = {
   promoFilm: PromoFilm,
@@ -16,10 +15,11 @@ function MainScreen({promoFilm, films}: Props): JSX.Element {
   const {title, genre, releaseDate, previewImage, posterImage} = promoFilm;
   const [currentGenre, setCurrentGenre] = useState<string>(DEFAULT_GENRE);
 
+  const genres = [DEFAULT_GENRE, ...new Set(films.map((film) => film.genre.split(' ').map((letter) => letter[0].toUpperCase() + letter.substring(1)).join('')))];
   let genreFilms = films;
 
   if (currentGenre !== DEFAULT_GENRE) {
-    genreFilms = films.filter((film) => getGenre(film.genre) === currentGenre);
+    genreFilms = films.filter((film) => film.genre === currentGenre);
   }
 
   return (
@@ -73,7 +73,7 @@ function MainScreen({promoFilm, films}: Props): JSX.Element {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <ul className="catalog__genres-list">
-            {GenresList.map((element, index) => {
+            {genres.map((element, index) => {
               const keyGenre = `genre-${index}`;
               return (
                 <li
