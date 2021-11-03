@@ -2,7 +2,7 @@ import Logo from '../../logo/logo';
 import Footer from '../../footer/footer';
 import SignOut from '../../sign-out/sign-out';
 import FilmList from '../../film-list/film-list';
-import {Film, CardFilm} from '../../../types/films';
+import {Film} from '../../../types/films';
 import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
 import {Link} from 'react-router-dom';
 import Tabs from '../../tabs/tabs';
@@ -10,7 +10,7 @@ import {useState} from 'react';
 
 type Props = {
   film: Film,
-  films: CardFilm[],
+  films: Film[],
 }
 
 function FilmScreen ({film, films}: Props): JSX.Element {

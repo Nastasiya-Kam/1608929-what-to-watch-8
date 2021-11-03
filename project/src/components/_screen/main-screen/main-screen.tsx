@@ -1,5 +1,5 @@
 import Logo from '../../logo/logo';
-import {CardFilm, PromoFilm} from '../../../types/films';
+import {Film, PromoFilm} from '../../../types/films';
 import SignOut from '../../sign-out/sign-out';
 import FilmList from '../../film-list/film-list';
 import Footer from '../../footer/footer';
@@ -14,12 +14,19 @@ import {getGenres, getGenresFilm} from '../../../utils';
 
 type Props = {
   promoFilm: PromoFilm,
-  films: CardFilm[],
+  films: Film[],
 }
 
-const mapStateToProps = ({currentGenre}: State) => ({
-  currentGenre,
-});
+const mapStateToProps = ({currentGenre, films}: State) => {
+  const filmsByGenre = getGenresFilm(films, currentGenre);
+  const genres = getGenres(films);
+
+  return {
+    genres,
+    films: filmsByGenre,
+    currentGenre,
+  };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onGenreChange(element: string) {
@@ -32,11 +39,8 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & Props;
 
-function MainScreen({promoFilm, films, currentGenre, onGenreChange}: ConnectedComponentProps): JSX.Element {
+function MainScreen({promoFilm, films, genres, currentGenre, onGenreChange}: ConnectedComponentProps): JSX.Element {
   const {title, genre, releaseDate, previewImage, posterImage} = promoFilm;
-
-  const genres = getGenres(films);
-  const genreFilms = getGenresFilm(films, currentGenre);
 
   return (
     <>
@@ -88,10 +92,7 @@ function MainScreen({promoFilm, films, currentGenre, onGenreChange}: ConnectedCo
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
           <GenreList genres = {genres} currentGenre = {currentGenre} onGenreChange = {onGenreChange} />
-          <FilmList films = {genreFilms.slice(0, GENRE_FILMS_COUNT)} />
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          <FilmList films = {films.slice(0, GENRE_FILMS_COUNT)} />
         </section>
 
         <Footer />

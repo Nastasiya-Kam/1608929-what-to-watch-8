@@ -9,7 +9,7 @@ import AddReviewScreen from '../_screen/add-review-screen/add-review-screen';
 import PlayerScreen from '../_screen/player-screen/player-screen';
 import NotFoundScreen from '../_screen/not-found-screen/not-found-screen';
 import {films} from '../../mocks/films';
-import {CardFilm, PromoFilm, PlayerFilm} from '../../types/films';
+import {PromoFilm, PlayerFilm} from '../../types/films';
 
 const someFilm = films[0];
 
@@ -21,14 +21,6 @@ const promoFilm : PromoFilm = {
   posterImage: someFilm.posterImage,
   previewImage: someFilm.previewImage,
 };
-
-const cardFilms : CardFilm[] = films.map((film) => ({
-  id: film.id,
-  name: film.title,
-  posterImage: film.posterImage,
-  videoLink: film.videoLink,
-  genre: film.genre,
-}));
 
 const playerFilm : PlayerFilm = {
   videoLink: films[0].videoLink,
@@ -43,7 +35,6 @@ function App(): JSX.Element {
         <Route exact path = {AppRoute.Root}>
           <MainScreen
             promoFilm = {promoFilm}
-            films = {cardFilms}
           />
         </Route>
         <Route exact path = {AppRoute.Login}>
@@ -52,14 +43,14 @@ function App(): JSX.Element {
         <PrivateRoute
           exact
           path = {AppRoute.MyList}
-          render = {() => <MyListScreen films = {cardFilms} />}
+          render = {() => <MyListScreen films = {films} />}
           authorizationStatus = {AuthorizationStatus.Auth}
         >
         </PrivateRoute>
         <Route exact path = {AppRoute.Film}>
           <FilmScreen
             film = {films[0]}
-            films = {cardFilms}
+            films = {films}
           />
         </Route>
         <PrivateRoute
