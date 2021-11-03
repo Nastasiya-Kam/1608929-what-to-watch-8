@@ -14,7 +14,7 @@ type Props = {
 }
 
 function FilmScreen ({film, films}: Props): JSX.Element {
-  const {title, genre, release, posterImage, previewImage} = film;
+  const {id, title, genre, release, posterImage, previewImage} = film;
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
 
   const currentGenreFilms = films.filter((element) => element.genre === genre).slice(0, SIMILAR_FILMS_COUNT);
@@ -49,13 +49,14 @@ function FilmScreen ({film, films}: Props): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </button>
+                {/* // TODO  to={AppRoute.AddReview.replace(':id', String(id))} */}
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link to={AppRoute.AddReview} className="btn film-card__button">Add review</Link>
+                <Link to={AppRoute.AddReview.replace(':id', String(id))} className="btn film-card__button">Add review</Link>
               </div>
             </div>
           </div>
