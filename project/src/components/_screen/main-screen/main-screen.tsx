@@ -3,18 +3,36 @@ import {CardFilm, PromoFilm} from '../../../types/films';
 import SignOut from '../../sign-out/sign-out';
 import FilmList from '../../film-list/film-list';
 import Footer from '../../footer/footer';
-import {GENRE_FILMS_COUNT, DEFAULT_GENRE} from '../../../const'; //
-import {useState} from 'react';
+import {GENRE_FILMS_COUNT, DEFAULT_GENRE} from '../../../const';
 import GenreList from '../../genre-list/genre-list';
+import {Dispatch} from 'redux';
+import {connect, ConnectedProps} from 'react-redux';
+import {State} from '../../../types/state';
+import {Actions} from '../../../types/action';
+import {changeGenre} from '../../../store/action';
 
 type Props = {
   promoFilm: PromoFilm,
   films: CardFilm[],
 }
 
-function MainScreen({promoFilm, films}: Props): JSX.Element {
+const mapStateToProps = ({currentGenre}: State) => ({
+  currentGenre,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onGenreChange(element: string) {
+    dispatch(changeGenre(element));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & Props;
+
+function MainScreen({promoFilm, films, currentGenre, onGenreChange}: ConnectedComponentProps): JSX.Element {
   const {title, genre, releaseDate, previewImage, posterImage} = promoFilm;
-  const [currentGenre, setCurrentGenre] = useState<string>(DEFAULT_GENRE);
 
   const genres: string[] = [DEFAULT_GENRE, ...new Set(films.map((film) => film.genre.split(' ').map((letter) => letter[0].toUpperCase() + letter.substring(1)).join('')))];
   let genreFilms = films;
@@ -72,7 +90,7 @@ function MainScreen({promoFilm, films}: Props): JSX.Element {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <GenreList genres = {genres} currentGenre = {currentGenre} setCurrentGenre = {setCurrentGenre} />
+          <GenreList genres = {genres} currentGenre = {currentGenre} onGenreChange = {onGenreChange} />
           <FilmList films = {genreFilms.slice(0, GENRE_FILMS_COUNT)} />
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
@@ -85,4 +103,5 @@ function MainScreen({promoFilm, films}: Props): JSX.Element {
   );
 }
 
-export default MainScreen;
+export {MainScreen};
+export default connector(MainScreen);

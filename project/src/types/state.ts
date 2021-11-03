@@ -1,7 +1,7 @@
 import {Film} from './films';
 
 type State = {
-  genre: string,
+  currentGenre: string,
   films: Film[],
 };
 

@@ -3,10 +3,12 @@ import {Film} from '../types/films';
 enum ActionType {
   ChangeGenre = 'changeGenre',
   GetGenreFilms = 'getGenreFilms',
+  ResetGenre = 'resetGenre',
 }
 
 type ChangeGenreAction = {
   type: ActionType.ChangeGenre;
+  payload: string;
 };
 
 type GetGenreFilmsAction = {
@@ -14,7 +16,11 @@ type GetGenreFilmsAction = {
   payload: Film[];
 };
 
-type Actions = ChangeGenreAction | GetGenreFilmsAction;
+type ResetGenreAction = {
+  type: ActionType.ResetGenre;
+}
+
+type Actions = ChangeGenreAction | GetGenreFilmsAction | ResetGenreAction;
 
 export {ActionType};
-export type {ChangeGenreAction, GetGenreFilmsAction, Actions};
+export type {ChangeGenreAction, GetGenreFilmsAction, ResetGenreAction, Actions};

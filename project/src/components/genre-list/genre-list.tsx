@@ -1,10 +1,10 @@
 type Props = {
   genres: string[],
   currentGenre: string,
-  setCurrentGenre: (a: string) => void,
+  onGenreChange: (a: string) => void,
 }
 
-function GenreList({genres, currentGenre, setCurrentGenre}: Props): JSX.Element {
+function GenreList({genres, currentGenre, onGenreChange}: Props): JSX.Element {
   return (
     <ul className="catalog__genres-list">
       {genres.map((element, index) => {
@@ -19,7 +19,7 @@ function GenreList({genres, currentGenre, setCurrentGenre}: Props): JSX.Element 
               className="catalog__genres-link"
               onClick={(evt) => {
                 evt.preventDefault();
-                setCurrentGenre(element);
+                onGenreChange(element);
               }}
             >
               {element}
