@@ -3,6 +3,9 @@ import {CardFilm, PromoFilm} from '../../../types/films';
 import SignOut from '../../sign-out/sign-out';
 import FilmList from '../../film-list/film-list';
 import Footer from '../../footer/footer';
+import {GenresList, GENRE_FILMS_COUNT, DEFAULT_GENRE} from '../../../const';
+import {useState} from 'react';
+import {getGenre} from '../../../utils';
 
 type Props = {
   promoFilm: PromoFilm,
@@ -11,6 +14,13 @@ type Props = {
 
 function MainScreen({promoFilm, films}: Props): JSX.Element {
   const {title, genre, releaseDate, previewImage, posterImage} = promoFilm;
+  const [currentGenre, setCurrentGenre] = useState<string>(DEFAULT_GENRE);
+
+  let genreFilms = films;
+
+  if (currentGenre !== DEFAULT_GENRE) {
+    genreFilms = films.filter((film) => getGenre(film.genre) === currentGenre);
+  }
 
   return (
     <>
@@ -63,39 +73,28 @@ function MainScreen({promoFilm, films}: Props): JSX.Element {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#" className="catalog__genres-link">All genres</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Thrillers</a>
-            </li>
+            {GenresList.map((element, index) => {
+              const keyGenre = `genre-${index}`;
+              return (
+                <li
+                  key={keyGenre}
+                  className={`catalog__genres-item${(element === currentGenre) ? ' catalog__genres-item--active' : ''}`}
+                >
+                  <a
+                    href="#"
+                    className="catalog__genres-link"
+                    onClick={(evt) => {
+                      evt.preventDefault();
+                      setCurrentGenre(element);
+                    }}
+                  >
+                    {element}
+                  </a>
+                </li>);
+            })}
           </ul>
 
-          <FilmList films = {films} />
+          <FilmList films = {genreFilms.slice(0, GENRE_FILMS_COUNT)} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
