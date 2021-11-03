@@ -5,6 +5,7 @@ import FilmList from '../../film-list/film-list';
 import Footer from '../../footer/footer';
 import {GENRE_FILMS_COUNT, DEFAULT_GENRE} from '../../../const'; //
 import {useState} from 'react';
+import { GenreList } from '../../genre-list/genre-list';
 
 type Props = {
   promoFilm: PromoFilm,
@@ -15,7 +16,7 @@ function MainScreen({promoFilm, films}: Props): JSX.Element {
   const {title, genre, releaseDate, previewImage, posterImage} = promoFilm;
   const [currentGenre, setCurrentGenre] = useState<string>(DEFAULT_GENRE);
 
-  const genres = [DEFAULT_GENRE, ...new Set(films.map((film) => film.genre.split(' ').map((letter) => letter[0].toUpperCase() + letter.substring(1)).join('')))];
+  const genres: string[] = [DEFAULT_GENRE, ...new Set(films.map((film) => film.genre.split(' ').map((letter) => letter[0].toUpperCase() + letter.substring(1)).join('')))];
   let genreFilms = films;
 
   if (currentGenre !== DEFAULT_GENRE) {
@@ -71,31 +72,8 @@ function MainScreen({promoFilm, films}: Props): JSX.Element {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-          <ul className="catalog__genres-list">
-            {genres.map((element, index) => {
-              const keyGenre = `genre-${index}`;
-              return (
-                <li
-                  key={keyGenre}
-                  className={`catalog__genres-item${(element === currentGenre) ? ' catalog__genres-item--active' : ''}`}
-                >
-                  <a
-                    href="#"
-                    className="catalog__genres-link"
-                    onClick={(evt) => {
-                      evt.preventDefault();
-                      setCurrentGenre(element);
-                    }}
-                  >
-                    {element}
-                  </a>
-                </li>);
-            })}
-          </ul>
-
+          <GenreList genres = {genres} currentGenre = {currentGenre} setCurrentGenre = {setCurrentGenre} />
           <FilmList films = {genreFilms.slice(0, GENRE_FILMS_COUNT)} />
-
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
           </div>
