@@ -1,9 +1,9 @@
-import {CardFilm, FilmId} from '../../types/films';
+import {Film, FilmId} from '../../types/films';
 import SmallFilmCard from '../small-film-card/small-film-card';
 import {useState} from 'react';
 
 type Props = {
-  films: CardFilm[],
+  films: Film[],
 }
 
 function FilmList({films}: Props): JSX.Element {
@@ -22,7 +22,7 @@ function FilmList({films}: Props): JSX.Element {
               id = {film.id}
               image = {film.posterImage}
               videoLink = {film.videoLink}
-              name = {film.name}
+              name = {film.title}
               setActiveCardId = {setActiveFilmId}
               isActive = {activeFilmId === film.id}
             />);

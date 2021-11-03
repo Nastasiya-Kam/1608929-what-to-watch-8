@@ -2,22 +2,22 @@ import Logo from '../../logo/logo';
 import Footer from '../../footer/footer';
 import SignOut from '../../sign-out/sign-out';
 import FilmList from '../../film-list/film-list';
-import {Film, CardFilm} from '../../../types/films';
-import {AppRoute, ScreenTypes, ScreenType, COUNT_FILMS_SIMILAR} from '../../../const';
+import {Film} from '../../../types/films';
+import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
 import {Link} from 'react-router-dom';
 import Tabs from '../../tabs/tabs';
 import {useState} from 'react';
 
 type Props = {
   film: Film,
-  films: CardFilm[],
+  films: Film[],
 }
 
 function FilmScreen ({film, films}: Props): JSX.Element {
-  const {title, genre, release, posterImage, previewImage} = film;
+  const {id, title, genre, release, posterImage, previewImage} = film;
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
 
-  const currentGenreFilms = films.filter((element) => element.genre === genre).slice(0, COUNT_FILMS_SIMILAR);
+  const currentGenreFilms = films.filter((element) => element.genre === genre).slice(0, SIMILAR_FILMS_COUNT);
 
   return (
     <>
@@ -49,13 +49,14 @@ function FilmScreen ({film, films}: Props): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </button>
+                {/* // TODO  to={AppRoute.AddReview.replace(':id', String(id))} */}
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link to={AppRoute.AddReview} className="btn film-card__button">Add review</Link>
+                <Link to={AppRoute.AddReview.replace(':id', String(id))} className="btn film-card__button">Add review</Link>
               </div>
             </div>
           </div>

@@ -1,15 +1,45 @@
 import Logo from '../../logo/logo';
-import {CardFilm, PromoFilm} from '../../../types/films';
+import {Film, PromoFilm} from '../../../types/films';
 import SignOut from '../../sign-out/sign-out';
 import FilmList from '../../film-list/film-list';
 import Footer from '../../footer/footer';
+import {GENRE_FILMS_COUNT} from '../../../const';
+import GenreList from '../../genre-list/genre-list';
+import {Dispatch} from 'redux';
+import {connect, ConnectedProps} from 'react-redux';
+import {State} from '../../../types/state';
+import {Actions} from '../../../types/action';
+import {changeGenre} from '../../../store/action';
+import {getGenres, getGenresFilm} from '../../../utils';
 
 type Props = {
   promoFilm: PromoFilm,
-  films: CardFilm[],
+  films: Film[],
 }
 
-function MainScreen({promoFilm, films}: Props): JSX.Element {
+const mapStateToProps = ({currentGenre, films}: State) => {
+  const filmsByGenre = getGenresFilm(films, currentGenre);
+  const genres = getGenres(films);
+
+  return {
+    genres,
+    films: filmsByGenre,
+    currentGenre,
+  };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onGenreChange(element: string) {
+    dispatch(changeGenre(element));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & Props;
+
+function MainScreen({promoFilm, films, genres, currentGenre, onGenreChange}: ConnectedComponentProps): JSX.Element {
   const {title, genre, releaseDate, previewImage, posterImage} = promoFilm;
 
   return (
@@ -61,45 +91,8 @@ function MainScreen({promoFilm, films}: Props): JSX.Element {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-          <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#" className="catalog__genres-link">All genres</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Thrillers</a>
-            </li>
-          </ul>
-
-          <FilmList films = {films} />
-
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          <GenreList genres = {genres} currentGenre = {currentGenre} onGenreChange = {onGenreChange} />
+          <FilmList films = {films.slice(0, GENRE_FILMS_COUNT)} />
         </section>
 
         <Footer />
@@ -108,4 +101,5 @@ function MainScreen({promoFilm, films}: Props): JSX.Element {
   );
 }
 
-export default MainScreen;
+export {MainScreen};
+export default connector(MainScreen);

@@ -1,4 +1,4 @@
-import {ScreenType, MINUTES_IN_HOURS, COMMENTS_DIVIDER} from '../../const';
+import {ScreenType, MINUTES_IN_HOURS, COMMENTS_COLUMNS_COUNT} from '../../const';
 import {getGrade} from '../../utils';
 import {comments} from '../../mocks/comments';
 import {Film} from '../../types/films';
@@ -13,7 +13,7 @@ function Tabs({currentScreen, film}: Props): JSX.Element {
   const {genre, release, description, rating, scoresCount, director, starring, runTime} = film;
 
   const commentsLength = comments.length;
-  const middleCommentsLength = commentsLength / COMMENTS_DIVIDER;
+  const middleCommentsLength = commentsLength / COMMENTS_COLUMNS_COUNT;
 
   switch (currentScreen) {
     case ScreenType.Details:

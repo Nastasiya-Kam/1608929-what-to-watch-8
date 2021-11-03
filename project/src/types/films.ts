@@ -1,11 +1,3 @@
-type CardFilm = {
-  id: FilmId,
-  posterImage: string,
-  name: string,
-  videoLink: string,
-  genre: string,
-}
-
 type PromoFilm = {
   id: FilmId,
   title: string,
@@ -38,4 +30,4 @@ type PlayerFilm = {
 
 type FilmId = number;
 
-export type {CardFilm, PromoFilm, Film, PlayerFilm, FilmId};
+export type {PromoFilm, Film, PlayerFilm, FilmId};

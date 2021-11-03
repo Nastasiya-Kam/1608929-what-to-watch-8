@@ -31,7 +31,7 @@ function SmallFilmCard({id, image, videoLink, name, setActiveCardId, isActive}: 
       </div>
       <h3 className="small-film-card__title">
         <p>{id}{isActive ? 'yes' : 'no'}</p>
-        <Link className="small-film-card__link" to={`${AppRoute.Film}${id}`}>{name}</Link>
+        <Link className="small-film-card__link" to={AppRoute.Film.replace(':id', String(id))}>{name}</Link>
       </h3>
     </article>
   );

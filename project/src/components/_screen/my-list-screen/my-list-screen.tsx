@@ -1,11 +1,11 @@
 import Logo from '../../logo/logo';
-import {CardFilm} from '../../../types/films';
+import {Film} from '../../../types/films';
 import SignOut from '../../sign-out/sign-out';
 import Footer from '../../footer/footer';
 import FilmList from '../../film-list/film-list';
 
 type Props = {
-  films: CardFilm[],
+  films: Film[],
 };
 
 function MyListScreen ({films}: Props): JSX.Element {

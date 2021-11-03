@@ -13,19 +13,6 @@ const enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-const GenresList = [
-  'All genres',
-  'Comedies',
-  'Crime',
-  'Documentary',
-  'Dramas',
-  'Horror',
-  'Kids & Family',
-  'Romance',
-  'Sci-Fi',
-  'Thrillers',
-];
-
 const ScreenTypes = ['Overview', 'Details', 'Reviews'];
 
 const enum ScreenType {
@@ -59,7 +46,20 @@ const Grade = {
   },
 };
 
-const COUNT_FILMS_SIMILAR = 4;
-const COMMENTS_DIVIDER = 2;
+const SIMILAR_FILMS_COUNT = 4;
+const GENRE_FILMS_COUNT = 8;
+const COMMENTS_COLUMNS_COUNT = 2;
+const DEFAULT_GENRE = 'All genres';
 
-export {AppRoute, AuthorizationStatus, GenresList, ScreenTypes, ScreenType, MINUTES_IN_HOURS, Grade, COUNT_FILMS_SIMILAR, COMMENTS_DIVIDER};
+export {
+  AppRoute,
+  AuthorizationStatus,
+  ScreenTypes,
+  ScreenType,
+  MINUTES_IN_HOURS,
+  Grade,
+  SIMILAR_FILMS_COUNT,
+  GENRE_FILMS_COUNT,
+  COMMENTS_COLUMNS_COUNT,
+  DEFAULT_GENRE
+};
