@@ -10,12 +10,11 @@ import {useState} from 'react';
 import {getSimilarGenreFilms} from '../../../utils';
 
 type Props = {
-  film: Film,
   films: Film[],
 }
 
-function FilmScreen ({film, films}: Props): JSX.Element {
-  const {id, title, genre, release, posterImage, previewImage} = film;
+function FilmScreen ({films}: Props): JSX.Element {
+  const {id, title, genre, release, posterImage, previewImage} = films[0];
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
 
   return (
@@ -96,7 +95,7 @@ function FilmScreen ({film, films}: Props): JSX.Element {
 
               <Tabs
                 currentScreen = {currentScreen}
-                film = {film}
+                film = {films[0]}
               />
 
             </div>
