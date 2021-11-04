@@ -25,13 +25,14 @@ const getGrade = (rating: number) => {
 
 const getGenres = (films: Film[]) => [DEFAULT_GENRE, ...new Set(films.map((film) => film.genre.split(' ').map((letter) => letter[0].toUpperCase() + letter.substring(1)).join('')))];
 
-const getGenresFilm = (films: Film[], currentGenre: string) => {
+const getCurrentGenreFilms = (films: Film[], currentGenre: string) => {
   if (currentGenre !== DEFAULT_GENRE) {
     return films.filter((film) => film.genre === currentGenre);
   }
 
   return films;
-
 };
 
-export {getGrade, getGenres, getGenresFilm};
+const getSimilarGenreFilms = (films: Film[], genre: string) => films.filter((element) => element.genre === genre);
+
+export {getGrade, getGenres, getCurrentGenreFilms, getSimilarGenreFilms};

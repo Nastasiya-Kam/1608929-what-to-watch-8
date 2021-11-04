@@ -4,16 +4,17 @@ import {useState} from 'react';
 
 type Props = {
   films: Film[],
+  renderedFilmCount: number,
 }
 
-function FilmList({films}: Props): JSX.Element {
+function FilmList({films, renderedFilmCount}: Props): JSX.Element {
   const [activeFilmId, setActiveFilmId] = useState<FilmId | null>();
 
   return (
     <>
       <p>Current Film Id - {activeFilmId}</p>
       <div className="catalog__films-list">
-        {films.map((film) => {
+        {films.slice(0, renderedFilmCount).map((film) => {
           const id = `id-${film.id}`;
 
           return (

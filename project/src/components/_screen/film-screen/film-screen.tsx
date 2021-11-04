@@ -7,6 +7,7 @@ import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../c
 import {Link} from 'react-router-dom';
 import Tabs from '../../tabs/tabs';
 import {useState} from 'react';
+import {getSimilarGenreFilms} from '../../../utils';
 
 type Props = {
   film: Film,
@@ -16,8 +17,6 @@ type Props = {
 function FilmScreen ({film, films}: Props): JSX.Element {
   const {id, title, genre, release, posterImage, previewImage} = film;
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
-
-  const currentGenreFilms = films.filter((element) => element.genre === genre).slice(0, SIMILAR_FILMS_COUNT);
 
   return (
     <>
@@ -109,7 +108,7 @@ function FilmScreen ({film, films}: Props): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmList films = {currentGenreFilms}/>
+          <FilmList films = {getSimilarGenreFilms(films, genre)} renderedFilmCount = {SIMILAR_FILMS_COUNT} />
         </section>
 
         <Footer />
