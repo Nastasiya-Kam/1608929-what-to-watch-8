@@ -1,7 +1,7 @@
 import {DEFAULT_GENRE, Grade} from './const';
 import {Film} from './types/films';
 
-const getGrade = (rating: number) => {
+const getGrade = (rating: number): string | undefined => {
   if (rating < Grade.BAD.value) {
     return Grade.BAD.name;
   }
@@ -23,9 +23,9 @@ const getGrade = (rating: number) => {
   }
 };
 
-const getGenres = (films: Film[]) => [DEFAULT_GENRE, ...new Set(films.map((film) => film.genre.split(' ').map((letter) => letter[0].toUpperCase() + letter.substring(1)).join('')))];
+const getGenres = (films: Film[]): string[] => [DEFAULT_GENRE, ...new Set(films.map((film) => film.genre.split(' ').map((letter) => letter[0].toUpperCase() + letter.substring(1)).join('')))];
 
-const getCurrentGenreFilms = (films: Film[], currentGenre: string) => {
+const getCurrentGenreFilms = (films: Film[], currentGenre: string): Film[] => {
   if (currentGenre !== DEFAULT_GENRE) {
     return films.filter((film) => film.genre === currentGenre);
   }
@@ -33,12 +33,8 @@ const getCurrentGenreFilms = (films: Film[], currentGenre: string) => {
   return films;
 };
 
-const getSimilarGenreFilms = (films: Film[], genre: string, currentId: number) => films.filter((element) => {
-  if (currentId !== element.id) {
-    return element.genre === genre;
-  }
-});
+const getSimilarGenreFilms = (films: Film[], genre: string, currentId: number): Film[] => films.filter((element) => (currentId !== element.id) && element.genre === genre);
 
-const getFavoriteFilms = (films: Film[]) => films.filter((film) => film.isFavorite);
+const getFavoriteFilms = (films: Film[]): Film[] => films.filter((film) => film.isFavorite);
 
 export {getGrade, getGenres, getCurrentGenreFilms, getSimilarGenreFilms, getFavoriteFilms};
