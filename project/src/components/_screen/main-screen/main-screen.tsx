@@ -96,9 +96,7 @@ function MainScreen({promoFilm, films, genres, currentGenre, onGenreChange}: Con
           <h2 className="catalog__title visually-hidden">Catalog</h2>
           <GenreList genres = {genres} currentGenre = {currentGenre} onGenreChange = {onGenreChange} setRenderedFilmCount = {setRenderedFilmCount} />
           <FilmList films = {films} renderedFilmCount = {renderedFilmCount} />
-          {(films.length > renderedFilmCount)
-            ? <ShowMore renderedFilmCount={renderedFilmCount} setRenderedFilmCount={setRenderedFilmCount} />
-            : ''}
+          {(films.length > renderedFilmCount) && <ShowMore renderedFilmCount={renderedFilmCount} onClick={setRenderedFilmCount} />}
         </section>
 
         <Footer />

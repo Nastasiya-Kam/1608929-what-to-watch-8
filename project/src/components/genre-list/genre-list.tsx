@@ -15,7 +15,7 @@ function GenreList({genres, currentGenre, onGenreChange, setRenderedFilmCount}: 
         return (
           <li
             key={keyGenre}
-            className={`catalog__genres-item${(element === currentGenre) ? ' catalog__genres-item--active' : ''}`}
+            className={`catalog__genres-item ${(element === currentGenre) && 'catalog__genres-item--active'}`}
           >
             <a
               href="#"

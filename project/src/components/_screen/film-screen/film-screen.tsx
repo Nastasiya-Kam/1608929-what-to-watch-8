@@ -75,7 +75,7 @@ function FilmScreen ({films}: Props): JSX.Element {
                     return (
                       <li
                         key={keyType}
-                        className={`film-nav__item${(type === currentScreen) ? ' film-nav__item--active' : ''}`}
+                        className={`film-nav__item ${(type === currentScreen) && 'film-nav__item--active'}`}
                       >
                         <a
                           href="#"
