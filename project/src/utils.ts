@@ -33,6 +33,10 @@ const getCurrentGenreFilms = (films: Film[], currentGenre: string) => {
   return films;
 };
 
-const getSimilarGenreFilms = (films: Film[], genre: string) => films.filter((element) => element.genre === genre);
+const getSimilarGenreFilms = (films: Film[], genre: string, currentId: number) => films.filter((element) => {
+  if (currentId !== element.id) {
+    return element.genre === genre;
+  }
+});
 
 export {getGrade, getGenres, getCurrentGenreFilms, getSimilarGenreFilms};

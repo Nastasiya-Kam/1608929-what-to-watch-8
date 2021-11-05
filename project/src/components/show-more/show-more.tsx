@@ -2,16 +2,16 @@ import {GENRE_FILMS_COUNT} from '../../const';
 
 type Props = {
   renderedFilmCount: number,
-  setRenderedFilmCount: (a: number) => void;
+  onClick: (a: number) => void;
 }
 
-function ShowMore({renderedFilmCount, setRenderedFilmCount}: Props): JSX.Element {
+function ShowMore({renderedFilmCount, onClick}: Props): JSX.Element {
   return (
     <div className="catalog__more">
       <button
         className="catalog__button"
         type="button"
-        onClick={() => setRenderedFilmCount(renderedFilmCount + GENRE_FILMS_COUNT)}
+        onClick={() => onClick(renderedFilmCount + GENRE_FILMS_COUNT)}
       >
         Show more
       </button>

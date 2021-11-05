@@ -107,7 +107,7 @@ function FilmScreen ({films}: Props): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmList films = {getSimilarGenreFilms(films, genre)} renderedFilmCount = {SIMILAR_FILMS_COUNT} />
+          <FilmList films = {getSimilarGenreFilms(films, genre, films[0].id)} renderedFilmCount = {SIMILAR_FILMS_COUNT} />
         </section>
 
         <Footer />
