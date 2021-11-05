@@ -18,9 +18,7 @@ const getGrade = (rating: number): string | undefined => {
     return Grade.VERY_GOOD.name;
   }
 
-  if (rating === Grade.AWESOME.value) {
-    return Grade.AWESOME.name;
-  }
+  return Grade.AWESOME.name;
 };
 
 const getGenres = (films: Film[]): string[] => [DEFAULT_GENRE, ...new Set(films.map((film) => film.genre.split(' ').map((letter) => letter[0].toUpperCase() + letter.substring(1)).join('')))];

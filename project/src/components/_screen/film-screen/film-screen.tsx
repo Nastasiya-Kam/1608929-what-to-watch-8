@@ -3,35 +3,42 @@ import Footer from '../../footer/footer';
 import SignOut from '../../sign-out/sign-out';
 import FilmList from '../../film-list/film-list';
 import Tabs from '../../tabs/tabs';
-import {Film} from '../../../types/films';
+import {FilmId} from '../../../types/films';
 import {State} from '../../../types/state';
-import {Actions} from '../../../types/action';
 import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
 import {getSimilarGenreFilms} from '../../../utils';
 import {Link} from 'react-router-dom';
 import {useState} from 'react';
-import {Dispatch} from 'redux';
 import {connect, ConnectedProps} from 'react-redux';
-import {setCurrentFilm} from '../../../store/action';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 
-const mapStateToProps = ({currentFilm, films}: State) => ({
-  currentFilm,
-  films,
-});
+type Props = {
+  id: FilmId,
+}
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onCurrentFilmChange(currentFilm: Film) {
-    dispatch(setCurrentFilm(currentFilm));
-  },
-});
+const mapStateToProps = ({films}: State, ownProps: Props) => {
+  const {id} = ownProps;
+  const currentFilm = films.find((item) => item.id === id);
+  const similarFilms = currentFilm ? getSimilarGenreFilms(films, currentFilm.genre, currentFilm.id) : [];
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+  return ({
+    currentFilm,
+    films: similarFilms,
+  });
+};
+
+const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function FilmScreen ({films, currentFilm}: PropsFromRedux): JSX.Element {
-  const {id, title, genre, release, posterImage, previewImage} = currentFilm;
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
+
+  if (!currentFilm) {
+    return <NotFoundScreen />;
+  }
+
+  const {id, title, genre, release, posterImage, previewImage} = currentFilm;
 
   return (
     <>
@@ -122,7 +129,7 @@ function FilmScreen ({films, currentFilm}: PropsFromRedux): JSX.Element {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmList films = {getSimilarGenreFilms(films, genre, currentFilm.id)} renderedFilmCount = {SIMILAR_FILMS_COUNT} />
+          <FilmList films = {films} renderedFilmCount = {SIMILAR_FILMS_COUNT} />
         </section>
 
         <Footer />

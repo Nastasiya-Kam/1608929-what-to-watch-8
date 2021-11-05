@@ -45,8 +45,14 @@ function App(): JSX.Element {
           authorizationStatus = {AuthorizationStatus.Auth}
         >
         </PrivateRoute>
-        <Route exact path = {AppRoute.Film}>
-          <FilmScreen />
+        <Route
+          exact
+          path = {AppRoute.Film}
+          render = {(routerProps) => {
+            const id = parseInt(routerProps?.match?.params?.id as string, 10);
+            return <FilmScreen id = {id} />;
+          }}
+        >
         </Route>
         <PrivateRoute
           exact
