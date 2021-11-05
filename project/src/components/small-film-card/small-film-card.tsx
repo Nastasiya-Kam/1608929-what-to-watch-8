@@ -49,7 +49,6 @@ function SmallFilmCard({film, setActiveCardId, isActive, onCurrentFilmChange}: C
         }
       </div>
       <h3 className="small-film-card__title">
-        <p>{id}{isActive ? 'yes' : 'no'}</p>
         <Link
           className="small-film-card__link"
           to={AppRoute.Film.replace(':id', String(id))}
