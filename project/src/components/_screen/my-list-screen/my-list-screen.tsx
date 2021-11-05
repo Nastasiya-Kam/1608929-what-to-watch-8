@@ -1,14 +1,29 @@
 import Logo from '../../logo/logo';
-import {Film} from '../../../types/films';
 import SignOut from '../../sign-out/sign-out';
 import Footer from '../../footer/footer';
 import FilmList from '../../film-list/film-list';
+import {Film} from '../../../types/films';
+import {State} from '../../../types/state';
+import {Actions} from '../../../types/action';
+import {Dispatch} from 'redux';
+import {connect, ConnectedProps} from 'react-redux';
+import {setCurrentFilm} from '../../../store/action';
 
-type Props = {
-  films: Film[],
-};
+const mapStateToProps = ({films}: State) => ({
+  films,
+});
 
-function MyListScreen ({films}: Props): JSX.Element {
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onCurrentFilmChange(currentFilm: Film) {
+    dispatch(setCurrentFilm(currentFilm));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function MyListScreen ({films}: PropsFromRedux): JSX.Element {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -30,4 +45,5 @@ function MyListScreen ({films}: Props): JSX.Element {
   );
 }
 
-export default MyListScreen;
+export {MyListScreen};
+export default connector(MyListScreen);

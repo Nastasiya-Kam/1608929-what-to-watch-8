@@ -1,18 +1,37 @@
 import {AppRoute} from '../../const';
 import {Link} from 'react-router-dom';
-import {FilmId} from '../../types/films';
+import {FilmId, Film} from '../../types/films';
+import {State} from '../../types/state';
+import {Actions} from '../../types/action';
 import VideoPlayer from '../video-player/video-player';
+import {setCurrentFilm} from '../../store/action';
+import {Dispatch} from 'redux';
+import {connect, ConnectedProps} from 'react-redux';
 
-type Film = {
-  id: FilmId,
-  image: string,
-  videoLink: string,
-  name: string,
+type Props = {
+  film: Film,
   setActiveCardId: (a: FilmId | null) => void;
   isActive: boolean,
 }
 
-function SmallFilmCard({id, image, videoLink, name, setActiveCardId, isActive}: Film): JSX.Element {
+const mapStateToProps = ({currentFilm}: State) => ({
+  currentFilm,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onCurrentFilmChange(currentFilm: Film) {
+    dispatch(setCurrentFilm(currentFilm));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & Props;
+
+function SmallFilmCard({film, setActiveCardId, isActive, onCurrentFilmChange}: ConnectedComponentProps): JSX.Element {
+  const {id, title, posterImage, videoLink} = film;
+
   return (
     <article className="small-film-card catalog__films-card"
       onMouseEnter = {() => {
@@ -25,16 +44,25 @@ function SmallFilmCard({id, image, videoLink, name, setActiveCardId, isActive}: 
       <div className="small-film-card__image">
         {
           (isActive)
-            ? <VideoPlayer videoLink={videoLink} poster={image} />
-            : <img src={image} alt={name} width="280" height="175" />
+            ? <VideoPlayer videoLink={videoLink} poster={posterImage} />
+            : <img src={posterImage} alt={title} width="280" height="175" />
         }
       </div>
       <h3 className="small-film-card__title">
         <p>{id}{isActive ? 'yes' : 'no'}</p>
-        <Link className="small-film-card__link" to={AppRoute.Film.replace(':id', String(id))}>{name}</Link>
+        <Link
+          className="small-film-card__link"
+          to={AppRoute.Film.replace(':id', String(id))}
+          onClick={() => {
+            onCurrentFilmChange(film);
+          }}
+        >
+          {title}
+        </Link>
       </h3>
     </article>
   );
 }
 
-export default SmallFilmCard;
+export {SmallFilmCard};
+export default connector(SmallFilmCard);

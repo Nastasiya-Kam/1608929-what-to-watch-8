@@ -20,10 +20,7 @@ function FilmList({films, renderedFilmCount}: Props): JSX.Element {
           return (
             <SmallFilmCard
               key = {id}
-              id = {film.id}
-              image = {film.posterImage}
-              videoLink = {film.videoLink}
-              name = {film.title}
+              film = {film}
               setActiveCardId = {setActiveFilmId}
               isActive = {activeFilmId === film.id}
             />);

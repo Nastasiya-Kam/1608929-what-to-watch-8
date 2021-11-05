@@ -7,25 +7,19 @@ import GenreList from '../../genre-list/genre-list';
 import {useState} from 'react';
 import {Dispatch} from 'redux';
 import {connect, ConnectedProps} from 'react-redux';
-import {Film, PromoFilm} from '../../../types/films';
 import {State} from '../../../types/state';
 import {Actions} from '../../../types/action';
 import {changeGenre} from '../../../store/action';
 import {getGenres, getCurrentGenreFilms} from '../../../utils';
 import {GENRE_FILMS_COUNT} from '../../../const';
 
-type Props = {
-  promoFilm: PromoFilm,
-  films: Film[],
-}
-
-const mapStateToProps = ({currentGenre, films}: State) => {
+const mapStateToProps = ({films, currentFilm, currentGenre}: State) => {
   const filmsByGenre = getCurrentGenreFilms(films, currentGenre);
   const genres = getGenres(films);
 
   return {
-    genres,
     films: filmsByGenre,
+    genres,
     currentGenre,
   };
 };
@@ -39,10 +33,9 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & Props;
 
-function MainScreen({promoFilm, films, genres, currentGenre, onGenreChange}: ConnectedComponentProps): JSX.Element {
-  const {title, genre, releaseDate, previewImage, posterImage} = promoFilm;
+function MainScreen({films, genres, currentGenre, onGenreChange}: PropsFromRedux): JSX.Element {
+  const {title, genre, release, previewImage, posterImage} = films[0];
   const [renderedFilmCount, setRenderedFilmCount] = useState(GENRE_FILMS_COUNT);
 
   return (
@@ -69,7 +62,7 @@ function MainScreen({promoFilm, films, genres, currentGenre, onGenreChange}: Con
               <h2 className="film-card__title">{title}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{releaseDate}</span>
+                <span className="film-card__year">{release}</span>
               </p>
 
               <div className="film-card__buttons">

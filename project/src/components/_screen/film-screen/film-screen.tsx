@@ -2,19 +2,35 @@ import Logo from '../../logo/logo';
 import Footer from '../../footer/footer';
 import SignOut from '../../sign-out/sign-out';
 import FilmList from '../../film-list/film-list';
-import {Film} from '../../../types/films';
-import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
-import {Link} from 'react-router-dom';
 import Tabs from '../../tabs/tabs';
-import {useState} from 'react';
+import {Film} from '../../../types/films';
+import {State} from '../../../types/state';
+import {Actions} from '../../../types/action';
+import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
 import {getSimilarGenreFilms} from '../../../utils';
+import {Link} from 'react-router-dom';
+import {useState} from 'react';
+import {Dispatch} from 'redux';
+import {connect, ConnectedProps} from 'react-redux';
+import {setCurrentFilm} from '../../../store/action';
 
-type Props = {
-  films: Film[],
-}
+const mapStateToProps = ({currentFilm, films}: State) => ({
+  currentFilm,
+  films,
+});
 
-function FilmScreen ({films}: Props): JSX.Element {
-  const {id, title, genre, release, posterImage, previewImage} = films[0];
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onCurrentFilmChange(currentFilm: Film) {
+    dispatch(setCurrentFilm(currentFilm));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function FilmScreen ({films, currentFilm}: PropsFromRedux): JSX.Element {
+  const {id, title, genre, release, posterImage, previewImage} = currentFilm;
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
 
   return (
@@ -95,7 +111,7 @@ function FilmScreen ({films}: Props): JSX.Element {
 
               <Tabs
                 currentScreen = {currentScreen}
-                film = {films[0]}
+                film = {currentFilm}
               />
 
             </div>
@@ -106,8 +122,7 @@ function FilmScreen ({films}: Props): JSX.Element {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-
-          <FilmList films = {getSimilarGenreFilms(films, genre, films[0].id)} renderedFilmCount = {SIMILAR_FILMS_COUNT} />
+          <FilmList films = {getSimilarGenreFilms(films, genre, currentFilm.id)} renderedFilmCount = {SIMILAR_FILMS_COUNT} />
         </section>
 
         <Footer />
@@ -116,4 +131,5 @@ function FilmScreen ({films}: Props): JSX.Element {
   );
 }
 
-export default FilmScreen;
+export {FilmScreen};
+export default connector(FilmScreen);
