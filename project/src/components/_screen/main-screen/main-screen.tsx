@@ -1,29 +1,30 @@
 import Logo from '../../logo/logo';
-import {Film, PromoFilm} from '../../../types/films';
 import SignOut from '../../sign-out/sign-out';
 import FilmList from '../../film-list/film-list';
 import Footer from '../../footer/footer';
-import {GENRE_FILMS_COUNT} from '../../../const';
+import ShowMore from '../../show-more/show-more';
 import GenreList from '../../genre-list/genre-list';
+import {useState} from 'react';
 import {Dispatch} from 'redux';
 import {connect, ConnectedProps} from 'react-redux';
+import {Film} from '../../../types/films';
 import {State} from '../../../types/state';
 import {Actions} from '../../../types/action';
 import {changeGenre} from '../../../store/action';
-import {getGenres, getGenresFilm} from '../../../utils';
+import {getGenres, getCurrentGenreFilms} from '../../../utils';
+import {GENRE_FILMS_COUNT} from '../../../const';
 
 type Props = {
-  promoFilm: PromoFilm,
-  films: Film[],
+  promoFilm: Film,
 }
 
-const mapStateToProps = ({currentGenre, films}: State) => {
-  const filmsByGenre = getGenresFilm(films, currentGenre);
+const mapStateToProps = ({films, currentGenre}: State) => {
+  const filmsByGenre = getCurrentGenreFilms(films, currentGenre);
   const genres = getGenres(films);
 
   return {
-    genres,
     films: filmsByGenre,
+    genres,
     currentGenre,
   };
 };
@@ -40,7 +41,8 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & Props;
 
 function MainScreen({promoFilm, films, genres, currentGenre, onGenreChange}: ConnectedComponentProps): JSX.Element {
-  const {title, genre, releaseDate, previewImage, posterImage} = promoFilm;
+  const {title, genre, release, previewImage, posterImage} = promoFilm;
+  const [renderedFilmCount, setRenderedFilmCount] = useState(GENRE_FILMS_COUNT);
 
   return (
     <>
@@ -66,7 +68,7 @@ function MainScreen({promoFilm, films, genres, currentGenre, onGenreChange}: Con
               <h2 className="film-card__title">{title}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{releaseDate}</span>
+                <span className="film-card__year">{release}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -91,8 +93,9 @@ function MainScreen({promoFilm, films, genres, currentGenre, onGenreChange}: Con
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <GenreList genres = {genres} currentGenre = {currentGenre} onGenreChange = {onGenreChange} />
-          <FilmList films = {films.slice(0, GENRE_FILMS_COUNT)} />
+          <GenreList genres = {genres} currentGenre = {currentGenre} onGenreChange = {onGenreChange} setRenderedFilmCount = {setRenderedFilmCount} />
+          <FilmList films = {films} renderedFilmCount = {renderedFilmCount} />
+          {(films.length > renderedFilmCount) && <ShowMore renderedFilmCount={renderedFilmCount} onClick={setRenderedFilmCount} />}
         </section>
 
         <Footer />

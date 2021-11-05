@@ -2,22 +2,43 @@ import Logo from '../../logo/logo';
 import Footer from '../../footer/footer';
 import SignOut from '../../sign-out/sign-out';
 import FilmList from '../../film-list/film-list';
-import {Film} from '../../../types/films';
-import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
-import {Link} from 'react-router-dom';
 import Tabs from '../../tabs/tabs';
+import {FilmId} from '../../../types/films';
+import {State} from '../../../types/state';
+import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
+import {getSimilarGenreFilms} from '../../../utils';
+import {Link} from 'react-router-dom';
 import {useState} from 'react';
+import {connect, ConnectedProps} from 'react-redux';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 type Props = {
-  film: Film,
-  films: Film[],
+  id: FilmId,
 }
 
-function FilmScreen ({film, films}: Props): JSX.Element {
-  const {id, title, genre, release, posterImage, previewImage} = film;
+const mapStateToProps = ({films}: State, ownProps: Props) => {
+  const {id} = ownProps;
+  const currentFilm = films.find((item) => item.id === id);
+  const similarFilms = currentFilm ? getSimilarGenreFilms(films, currentFilm.genre, currentFilm.id) : [];
+
+  return ({
+    currentFilm,
+    films: similarFilms,
+  });
+};
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function FilmScreen ({films, currentFilm}: PropsFromRedux): JSX.Element {
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
 
-  const currentGenreFilms = films.filter((element) => element.genre === genre).slice(0, SIMILAR_FILMS_COUNT);
+  if (!currentFilm) {
+    return <NotFoundScreen />;
+  }
+
+  const {id, title, genre, release, posterImage, previewImage} = currentFilm;
 
   return (
     <>
@@ -77,7 +98,7 @@ function FilmScreen ({film, films}: Props): JSX.Element {
                     return (
                       <li
                         key={keyType}
-                        className={`film-nav__item${(type === currentScreen) ? ' film-nav__item--active' : ''}`}
+                        className={`film-nav__item ${(type === currentScreen) && 'film-nav__item--active'}`}
                       >
                         <a
                           href="#"
@@ -97,7 +118,7 @@ function FilmScreen ({film, films}: Props): JSX.Element {
 
               <Tabs
                 currentScreen = {currentScreen}
-                film = {film}
+                film = {currentFilm}
               />
 
             </div>
@@ -108,8 +129,7 @@ function FilmScreen ({film, films}: Props): JSX.Element {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-
-          <FilmList films = {currentGenreFilms}/>
+          <FilmList films = {films} renderedFilmCount = {SIMILAR_FILMS_COUNT} />
         </section>
 
         <Footer />
@@ -118,4 +138,5 @@ function FilmScreen ({film, films}: Props): JSX.Element {
   );
 }
 
-export default FilmScreen;
+export {FilmScreen};
+export default connector(FilmScreen);

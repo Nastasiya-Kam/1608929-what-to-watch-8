@@ -33,9 +33,7 @@ function App(): JSX.Element {
     <BrowserRouter>
       <Switch>
         <Route exact path = {AppRoute.Root}>
-          <MainScreen
-            promoFilm = {promoFilm}
-          />
+          <MainScreen promoFilm = {someFilm} />
         </Route>
         <Route exact path = {AppRoute.Login}>
           <SignInScreen />
@@ -43,15 +41,18 @@ function App(): JSX.Element {
         <PrivateRoute
           exact
           path = {AppRoute.MyList}
-          render = {() => <MyListScreen films = {films} />}
+          render = {() => <MyListScreen />}
           authorizationStatus = {AuthorizationStatus.Auth}
         >
         </PrivateRoute>
-        <Route exact path = {AppRoute.Film}>
-          <FilmScreen
-            film = {films[0]}
-            films = {films}
-          />
+        <Route
+          exact
+          path = {AppRoute.Film}
+          render = {(routerProps) => {
+            const id = parseInt(routerProps?.match?.params?.id as string, 10);
+            return <FilmScreen id = {id} />;
+          }}
+        >
         </Route>
         <PrivateRoute
           exact

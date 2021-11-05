@@ -6,6 +6,7 @@ import {State} from '../types/state';
 const initialState = {
   currentGenre: DEFAULT_GENRE,
   films: films,
+  currentFilm: films[1],
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -14,6 +15,8 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...state, currentGenre: action.payload};
     case ActionType.GetGenreFilms:
       return {...state, films: action.payload};
+    case ActionType.SetCurrentFilm:
+      return {...state, currentFilm: action.payload};
     case ActionType.ResetGenre:
       return {...initialState};
     default:

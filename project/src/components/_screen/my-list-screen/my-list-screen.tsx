@@ -1,33 +1,41 @@
 import Logo from '../../logo/logo';
-import {Film} from '../../../types/films';
 import SignOut from '../../sign-out/sign-out';
 import Footer from '../../footer/footer';
 import FilmList from '../../film-list/film-list';
+import {State} from '../../../types/state';
+import {connect, ConnectedProps} from 'react-redux';
+import {getFavoriteFilms} from '../../../utils';
 
-type Props = {
-  films: Film[],
+const mapStateToProps = ({films}: State) => {
+  const favoriteFilms = getFavoriteFilms(films);
+  const renderedFilmCount = films.length;
+
+  return ({
+    films: favoriteFilms,
+    renderedFilmCount,
+  });
 };
 
-function MyListScreen ({films}: Props): JSX.Element {
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function MyListScreen ({films, renderedFilmCount}: PropsFromRedux): JSX.Element {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
         <Logo />
-
         <h1 className="page-title user-page__title">My list</h1>
-
         <SignOut />
       </header>
-
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-        <FilmList films = {films}/>
+        <FilmList films = {films} renderedFilmCount = {renderedFilmCount} />
       </section>
-
       <Footer />
     </div>
   );
 }
 
-export default MyListScreen;
+export {MyListScreen};
+export default connector(MyListScreen);
