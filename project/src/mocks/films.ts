@@ -15,6 +15,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: true,
   },
   {
     id: 2,
@@ -30,6 +31,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Saoirse Ronan'],
     runTime: 90,
+    isFavorite: true,
   },
   {
     id: 3,
@@ -45,6 +47,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Saoirse Ronan'],
     runTime: 134,
+    isFavorite: true,
   },
   {
     id: 4,
@@ -60,6 +63,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton'],
     runTime: 90,
+    isFavorite: false,
   },
   {
     id: 5,
@@ -75,6 +79,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Willem Dafoe', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: false,
   },
   {
     id: 6,
@@ -90,6 +95,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: true,
   },
   {
     id: 7,
@@ -105,6 +111,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: false,
   },
   {
     id: 8,
@@ -120,6 +127,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Willem Dafoe', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: false,
   },
   {
     id: 9,
@@ -135,6 +143,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: true,
   },
   {
     id: 10,
@@ -150,6 +159,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: false,
   },
   {
     id: 11,
@@ -165,6 +175,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: true,
   },
   {
     id: 12,
@@ -180,6 +191,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: false,
   },
   {
     id: 13,
@@ -195,6 +207,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: false,
   },
   {
     id: 14,
@@ -210,6 +223,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: false,
   },
   {
     id: 15,
@@ -225,6 +239,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: false,
   },
   {
     id: 16,
@@ -240,6 +255,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: false,
   },
   {
     id: 17,
@@ -255,6 +271,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: false,
   },
   {
     id: 18,
@@ -270,6 +287,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: false,
   },
   {
     id: 19,
@@ -285,6 +303,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: true,
   },
   {
     id: 20,
@@ -300,6 +319,7 @@ const films : Film[] = [
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
     runTime: 90,
+    isFavorite: false,
   },
 ];
 

@@ -8,6 +8,8 @@ import {Actions} from '../../../types/action';
 import {Dispatch} from 'redux';
 import {connect, ConnectedProps} from 'react-redux';
 import {setCurrentFilm} from '../../../store/action';
+import { getFavoriteFilms } from '../../../utils';
+
 
 const mapStateToProps = ({films}: State) => ({
   films,
@@ -24,6 +26,8 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function MyListScreen ({films}: PropsFromRedux): JSX.Element {
+  const favoriteFilms = getFavoriteFilms(films);
+
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -37,7 +41,7 @@ function MyListScreen ({films}: PropsFromRedux): JSX.Element {
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <FilmList films = {films} renderedFilmCount = {films.length} />
+        <FilmList films = {favoriteFilms} renderedFilmCount = {favoriteFilms.length} />
       </section>
 
       <Footer />

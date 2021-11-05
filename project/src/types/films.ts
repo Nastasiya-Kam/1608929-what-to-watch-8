@@ -21,6 +21,7 @@ type Film = {
   director: string,
   starring: string[],
   runTime: number,
+  isFavorite: boolean,
 };
 
 type PlayerFilm = {

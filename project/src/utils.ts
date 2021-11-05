@@ -39,4 +39,6 @@ const getSimilarGenreFilms = (films: Film[], genre: string, currentId: number) =
   }
 });
 
-export {getGrade, getGenres, getCurrentGenreFilms, getSimilarGenreFilms};
+const getFavoriteFilms = (films: Film[]) => films.filter((film) => film.isFavorite);
+
+export {getGrade, getGenres, getCurrentGenreFilms, getSimilarGenreFilms, getFavoriteFilms};
