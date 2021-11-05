@@ -33,7 +33,7 @@ function App(): JSX.Element {
     <BrowserRouter>
       <Switch>
         <Route exact path = {AppRoute.Root}>
-          <MainScreen />
+          <MainScreen promoFilm = {someFilm} />
         </Route>
         <Route exact path = {AppRoute.Login}>
           <SignInScreen />
