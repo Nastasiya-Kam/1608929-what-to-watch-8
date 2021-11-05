@@ -27,7 +27,7 @@ const getGenres = (films: Film[]): string[] => [DEFAULT_GENRE, ...new Set(films.
 
 const getCurrentGenreFilms = (films: Film[], currentGenre: string): Film[] => {
   if (currentGenre !== DEFAULT_GENRE) {
-    return films.filter((film) => film.genre === currentGenre);
+    return films.filter((film) => film.genre.toUpperCase() === currentGenre.toUpperCase());
   }
 
   return films;
