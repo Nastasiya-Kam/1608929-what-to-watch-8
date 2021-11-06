@@ -129,7 +129,7 @@ function FilmScreen ({films, currentFilm}: PropsFromRedux): JSX.Element {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmList films = {films} renderedFilmCount = {SIMILAR_FILMS_COUNT} />
+          <FilmList films = {films.slice(0, SIMILAR_FILMS_COUNT)} />
         </section>
 
         <Footer />
