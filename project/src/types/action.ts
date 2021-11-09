@@ -5,6 +5,7 @@ enum ActionType {
   GetGenreFilms = 'getGenreFilms',
   ResetGenre = 'resetGenre',
   SetCurrentFilm = 'setCurrentFilm',
+  LoadFilms = 'data/loadFilms',
 }
 
 type ChangeGenreAction = {
@@ -26,7 +27,17 @@ type SetCurrentFilmAction = {
   payload: Film;
 }
 
-type Actions = ChangeGenreAction | GetGenreFilmsAction | ResetGenreAction | SetCurrentFilmAction;
+type LoadFilmsAction = {
+  type: ActionType.LoadFilms;
+  payload: Film[];
+}
+
+type Actions =
+  | ChangeGenreAction
+  | GetGenreFilmsAction
+  | ResetGenreAction
+  | SetCurrentFilmAction
+  | LoadFilmsAction;
 
 export {ActionType};
-export type {ChangeGenreAction, GetGenreFilmsAction, ResetGenreAction, SetCurrentFilmAction, Actions};
+export type {ChangeGenreAction, GetGenreFilmsAction, ResetGenreAction, SetCurrentFilmAction, LoadFilmsAction, Actions};

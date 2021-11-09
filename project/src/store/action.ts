@@ -1,4 +1,4 @@
-import {ActionType, ChangeGenreAction, GetGenreFilmsAction, ResetGenreAction, SetCurrentFilmAction} from '../types/action';
+import {ActionType, ChangeGenreAction, GetGenreFilmsAction, ResetGenreAction, SetCurrentFilmAction, LoadFilmsAction} from '../types/action';
 import {Film} from '../types/films';
 
 const changeGenre = (genre: string): ChangeGenreAction => ({
@@ -20,4 +20,9 @@ const setCurrentFilm = (film: Film): SetCurrentFilmAction => ({
   payload: film,
 });
 
-export {changeGenre, getGenreFilms, resetGenre, setCurrentFilm};
+const loadFilms = (films: Film[]): LoadFilmsAction => ({
+  type: ActionType.LoadFilms,
+  payload: films,
+});
+
+export {changeGenre, getGenreFilms, resetGenre, setCurrentFilm, loadFilms};

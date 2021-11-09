@@ -19,6 +19,8 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...state, currentFilm: action.payload};
     case ActionType.ResetGenre:
       return {...initialState};
+    case ActionType.LoadFilms:
+      return {...state, films};
     default:
       return state;
   }
