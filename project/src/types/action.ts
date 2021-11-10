@@ -1,4 +1,5 @@
 import {Film} from '../types/films';
+// import {requireAuthorization, requireLogout} from '../store/action';
 
 enum ActionType {
   ChangeGenre = 'changeGenre',
@@ -6,6 +7,8 @@ enum ActionType {
   ResetGenre = 'resetGenre',
   SetCurrentFilm = 'setCurrentFilm',
   LoadFilms = 'data/loadFilms',
+  RequireAuthorization = 'user/requireAuthorization',
+  RequireLogout = 'user/requireLogout'
 }
 
 type ChangeGenreAction = {
@@ -32,12 +35,25 @@ type LoadFilmsAction = {
   payload: Film[];
 }
 
+type RequireAuthorizationAction = {
+  type: ActionType.RequireAuthorization;
+  payload: string,
+}
+
+type RequireLogoutAction = {
+  type: ActionType.RequireLogout,
+}
+
 type Actions =
   | ChangeGenreAction
   | GetGenreFilmsAction
   | ResetGenreAction
   | SetCurrentFilmAction
-  | LoadFilmsAction;
+  | LoadFilmsAction
+  | RequireAuthorizationAction
+  | RequireLogoutAction;
+  // | ReturnType<typeof requireAuthorization>
+  // | ReturnType<typeof requireLogout>;
 
 export {ActionType};
-export type {ChangeGenreAction, GetGenreFilmsAction, ResetGenreAction, SetCurrentFilmAction, LoadFilmsAction, Actions};
+export type {ChangeGenreAction, GetGenreFilmsAction, ResetGenreAction, SetCurrentFilmAction, LoadFilmsAction, RequireAuthorizationAction, RequireLogoutAction, Actions};

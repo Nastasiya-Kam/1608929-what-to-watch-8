@@ -1,4 +1,4 @@
-import {DEFAULT_GENRE} from '../const';
+import {DEFAULT_GENRE, AuthorizationStatus} from '../const';
 import {films} from '../mocks/films';
 import {ActionType, Actions} from '../types/action';
 import {State} from '../types/state';
@@ -7,6 +7,7 @@ const initialState = {
   currentGenre: DEFAULT_GENRE,
   films: films,
   currentFilm: films[1],
+  authorizationStatus: AuthorizationStatus.Unknown,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -21,6 +22,10 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...initialState};
     case ActionType.LoadFilms:
       return {...state, films};
+    case ActionType.RequireAuthorization:
+      return {...state, authorizationStatus: action.payload};
+    case ActionType.RequireLogout:
+      return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
     default:
       return state;
   }
