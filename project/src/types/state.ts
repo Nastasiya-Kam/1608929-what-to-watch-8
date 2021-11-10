@@ -1,11 +1,11 @@
-import {Film} from './films';
-// import {AuthorizationStatus} from '../const';
+import {Film, Films} from './films';
+import {AuthorizationStatus} from '../const';
 
 type State = {
   currentGenre: string,
-  films: Film[],
+  films: Films,
   currentFilm: Film,
-  authorizationStatus: string,
+  authorizationStatus: AuthorizationStatus,
 };
 
 export type {State};

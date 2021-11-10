@@ -30,5 +30,6 @@ type PlayerFilm = {
 }
 
 type FilmId = number;
+type Films = Film[];
 
-export type {PromoFilm, Film, PlayerFilm, FilmId};
+export type {PromoFilm, Film, PlayerFilm, FilmId, Films};

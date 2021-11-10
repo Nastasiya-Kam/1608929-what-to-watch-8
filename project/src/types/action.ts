@@ -1,5 +1,10 @@
+import {AuthorizationStatus} from '../const';
 import {Film} from '../types/films';
 // import {requireAuthorization, requireLogout} from '../store/action';
+import {ThunkAction, ThunkDispatch} from 'redux-thunk';
+import {AxiosInstance} from 'axios';
+import {State} from '../types/state';
+
 
 enum ActionType {
   ChangeGenre = 'changeGenre',
@@ -37,7 +42,7 @@ type LoadFilmsAction = {
 
 type RequireAuthorizationAction = {
   type: ActionType.RequireAuthorization;
-  payload: string,
+  payload: AuthorizationStatus,
 }
 
 type RequireLogoutAction = {
@@ -55,5 +60,9 @@ type Actions =
   // | ReturnType<typeof requireAuthorization>
   // | ReturnType<typeof requireLogout>;
 
+type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
+
+type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;
+
 export {ActionType};
-export type {ChangeGenreAction, GetGenreFilmsAction, ResetGenreAction, SetCurrentFilmAction, LoadFilmsAction, RequireAuthorizationAction, RequireLogoutAction, Actions};
+export type {ChangeGenreAction, GetGenreFilmsAction, ResetGenreAction, SetCurrentFilmAction, LoadFilmsAction, RequireAuthorizationAction, RequireLogoutAction, Actions, ThunkActionResult, ThunkAppDispatch};
