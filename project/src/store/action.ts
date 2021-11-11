@@ -1,5 +1,15 @@
-import {ActionType, ChangeGenreAction, GetGenreFilmsAction, ResetGenreAction, SetCurrentFilmAction, LoadFilmsAction, RequireAuthorizationAction, RequireLogoutAction} from '../types/action';
-import {Film} from '../types/films';
+import {
+  ActionType,
+  ChangeGenreAction,
+  GetGenreFilmsAction,
+  ResetGenreAction,
+  SetCurrentFilmAction,
+  LoadFilmsAction,
+  LoadPromoAction,
+  RequireAuthorizationAction,
+  RequireLogoutAction
+} from '../types/action';
+import {Film, Films} from '../types/films';
 import {AuthorizationStatus} from '../const';
 
 const changeGenre = (genre: string): ChangeGenreAction => ({
@@ -7,7 +17,7 @@ const changeGenre = (genre: string): ChangeGenreAction => ({
   payload: genre,
 });
 
-const getGenreFilms = (films: Film[]): GetGenreFilmsAction => ({
+const getGenreFilms = (films: Films): GetGenreFilmsAction => ({
   type: ActionType.GetGenreFilms,
   payload: films,
 });
@@ -21,9 +31,14 @@ const setCurrentFilm = (film: Film): SetCurrentFilmAction => ({
   payload: film,
 });
 
-const loadFilms = (films: Film[]): LoadFilmsAction => ({
+const loadFilms = (films: Films): LoadFilmsAction => ({
   type: ActionType.LoadFilms,
   payload: films,
+});
+
+const loadPromo = (film: Film): LoadPromoAction => ({
+  type: ActionType.LoadPromo,
+  payload: film,
 });
 
 const requireAuthorization = (authStatus: AuthorizationStatus): RequireAuthorizationAction => ({
@@ -35,4 +50,4 @@ const requireLogout = (): RequireLogoutAction => ({
   type: ActionType.RequireLogout,
 });
 
-export {changeGenre, getGenreFilms, resetGenre, setCurrentFilm, loadFilms, requireAuthorization, requireLogout};
+export {changeGenre, getGenreFilms, resetGenre, setCurrentFilm, loadFilms, loadPromo, requireAuthorization, requireLogout};

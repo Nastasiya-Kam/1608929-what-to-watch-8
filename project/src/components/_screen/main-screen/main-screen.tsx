@@ -7,25 +7,23 @@ import GenreList from '../../genre-list/genre-list';
 import {useState} from 'react';
 import {Dispatch} from 'redux';
 import {connect, ConnectedProps} from 'react-redux';
-import {Film} from '../../../types/films';
 import {State} from '../../../types/state';
 import {Actions} from '../../../types/action';
 import {changeGenre} from '../../../store/action';
 import {getGenres, getCurrentGenreFilms} from '../../../utils';
 import {GENRE_FILMS_COUNT} from '../../../const';
+import LoadingScreen from '../loading-screen/loading-screen';
 
-type Props = {
-  promoFilm: Film,
-}
-
-const mapStateToProps = ({films, currentGenre}: State) => {
+const mapStateToProps = ({films, promoFilm, currentGenre, isDataLoaded}: State) => {
   const filmsByGenre = getCurrentGenreFilms(films, currentGenre);
   const genres = getGenres(films);
 
   return {
     films: filmsByGenre,
+    promoFilm,
     genres,
     currentGenre,
+    isDataLoaded,
   };
 };
 
@@ -38,11 +36,17 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & Props;
 
-function MainScreen({promoFilm, films, genres, currentGenre, onGenreChange}: ConnectedComponentProps): JSX.Element {
-  const {title, genre, release, previewImage, posterImage} = promoFilm;
+function MainScreen({promoFilm, films, genres, currentGenre, onGenreChange, isDataLoaded}: PropsFromRedux): JSX.Element {
   const [renderedFilmCount, setRenderedFilmCount] = useState(GENRE_FILMS_COUNT);
+
+  if (!isDataLoaded || !promoFilm) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
+  const {title, genre, release, previewImage, posterImage} = promoFilm;
 
   return (
     <>

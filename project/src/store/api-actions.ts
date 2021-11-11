@@ -1,14 +1,25 @@
 import {ThunkActionResult} from '../types/action';
-import {loadFilms, requireAuthorization, requireLogout} from './action';
+import {loadFilms, loadPromo, requireAuthorization, requireLogout} from './action';
 import {saveToken, dropToken, Token} from '../services/token';
 import {APIRoute, AuthorizationStatus} from '../const';
-import {Films} from '../types/films';
+import {Film, Films} from '../types/films';
 import {AuthData} from '../types/auth-data';
+import {adaptToClient} from '../utils';
 
 const fetchFilmsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<Films>(APIRoute.Films);
-    dispatch(loadFilms(data));
+    const adaptedData = data.map((film) => adaptToClient(film));
+
+    dispatch(loadFilms(adaptedData));
+  };
+
+const fetchPromoFilmAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<Film>(APIRoute.Promo);
+    const adaptedData = adaptToClient(data);
+
+    dispatch(loadPromo(adaptedData));
   };
 
 const checkAuthAction = (): ThunkActionResult =>
@@ -35,6 +46,7 @@ const logoutAction = (): ThunkActionResult =>
 
 export {
   fetchFilmsAction,
+  fetchPromoFilmAction,
   checkAuthAction,
   loginAction,
   logoutAction
