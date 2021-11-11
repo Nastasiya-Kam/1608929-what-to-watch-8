@@ -5,6 +5,7 @@ import {State} from '../types/state';
 const initialState = {
   currentGenre: DEFAULT_GENRE,
   films: [],
+  comments: [],
   promoFilm: [][0],
   currentFilm: [][1],
   authorizationStatus: AuthorizationStatus.Unknown,

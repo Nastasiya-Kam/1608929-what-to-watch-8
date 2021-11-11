@@ -1,5 +1,6 @@
 import {AuthorizationStatus} from '../const';
 import {Film, Films} from '../types/films';
+import {Comments} from '../types/comment';
 // import {requireAuthorization, requireLogout} from '../store/action';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {AxiosInstance} from 'axios';
@@ -12,6 +13,7 @@ enum ActionType {
   SetCurrentFilm = 'setCurrentFilm',
   LoadFilms = 'data/loadFilms',
   LoadPromo = 'data/loadPromo',
+  LoadComments = 'data/loadComments',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout'
 }
@@ -45,6 +47,11 @@ type LoadPromoAction = {
   payload: Film;
 }
 
+type LoadCommentsAction = {
+  type: ActionType.LoadComments;
+  payload: Comments;
+}
+
 type RequireAuthorizationAction = {
   type: ActionType.RequireAuthorization;
   payload: AuthorizationStatus,
@@ -61,6 +68,7 @@ type Actions =
   | SetCurrentFilmAction
   | LoadFilmsAction
   | LoadPromoAction
+  | LoadCommentsAction
   | RequireAuthorizationAction
   | RequireLogoutAction;
   // | ReturnType<typeof requireAuthorization>
@@ -77,6 +85,7 @@ export type {
   SetCurrentFilmAction,
   LoadFilmsAction,
   LoadPromoAction,
+  LoadCommentsAction,
   RequireAuthorizationAction,
   RequireLogoutAction,
   Actions,

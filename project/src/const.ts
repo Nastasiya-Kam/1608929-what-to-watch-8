@@ -54,7 +54,7 @@ const DEFAULT_GENRE = 'All genres';
 enum APIRoute {
   Films = '/films',
   Promo = '/promo',
-  Comments = '/comments',
+  Comments = '/comments/:film_id',
   Login = '/login',
   Logout = '/logout',
 }

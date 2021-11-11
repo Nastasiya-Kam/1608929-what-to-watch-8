@@ -1,5 +1,6 @@
 import {DEFAULT_GENRE, Grade} from './const';
 import {Film} from './types/films';
+import {Comment} from './types/comment';
 
 const getGrade = (rating: number): string | undefined => {
   if (rating < Grade.BAD.value) {
@@ -55,6 +56,15 @@ const adaptToClient = (film: any): Film => ({
   isFavorite: film['is_favorite'],
 });
 
+const adaptCommentsToClient = (comment: any): Comment => ({
+  id: comment['id'],
+  userId: comment['user']['id'],
+  userName: comment['user']['name'],
+  rating: comment['rating'],
+  text: comment['comment'],
+  date: comment['date'],
+});
+
 // const adaptToServer = (film: Film) => {
 //   'id': film.id,
 //   'comments': film.comments,
@@ -83,4 +93,12 @@ const adaptToClient = (film: any): Film => ({
 //   },
 // };
 
-export {getGrade, getGenres, getCurrentGenreFilms, getSimilarGenreFilms, getFavoriteFilms, adaptToClient};
+export {
+  getGrade,
+  getGenres,
+  getCurrentGenreFilms,
+  getSimilarGenreFilms,
+  getFavoriteFilms,
+  adaptToClient,
+  adaptCommentsToClient
+};

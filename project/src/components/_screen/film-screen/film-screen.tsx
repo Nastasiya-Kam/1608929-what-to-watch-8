@@ -116,10 +116,7 @@ function FilmScreen ({films, currentFilm}: PropsFromRedux): JSX.Element {
                 </ul>
               </nav>
 
-              <Tabs
-                currentScreen = {currentScreen}
-                film = {currentFilm}
-              />
+              <Tabs currentScreen = {currentScreen} />
 
             </div>
           </div>

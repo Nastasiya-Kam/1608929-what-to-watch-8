@@ -1,10 +1,11 @@
 import {ThunkActionResult} from '../types/action';
-import {loadFilms, loadPromo, requireAuthorization, requireLogout} from './action';
+import {loadFilms, loadPromo, loadComments, requireAuthorization, requireLogout} from './action';
 import {saveToken, dropToken, Token} from '../services/token';
 import {APIRoute, AuthorizationStatus} from '../const';
 import {Film, Films} from '../types/films';
+import {Comments} from '../types/comment';
 import {AuthData} from '../types/auth-data';
-import {adaptToClient} from '../utils';
+import {adaptToClient, adaptCommentsToClient} from '../utils';
 
 const fetchFilmsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -20,6 +21,16 @@ const fetchPromoFilmAction = (): ThunkActionResult =>
     const adaptedData = adaptToClient(data);
 
     dispatch(loadPromo(adaptedData));
+  };
+
+const fetchCommentsAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<Comments>(APIRoute.Comments.replace(':film_id', String(16)));
+    const adaptedData = data.map((comment) => adaptCommentsToClient(comment));
+    // eslint-disable-next-line
+    console.log(APIRoute.Comments.replace(':film_id', String(16)));
+
+    dispatch(loadComments(adaptedData));
   };
 
 const checkAuthAction = (): ThunkActionResult =>
@@ -47,6 +58,7 @@ const logoutAction = (): ThunkActionResult =>
 export {
   fetchFilmsAction,
   fetchPromoFilmAction,
+  fetchCommentsAction,
   checkAuthAction,
   loginAction,
   logoutAction

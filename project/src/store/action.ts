@@ -6,10 +6,12 @@ import {
   SetCurrentFilmAction,
   LoadFilmsAction,
   LoadPromoAction,
+  LoadCommentsAction,
   RequireAuthorizationAction,
   RequireLogoutAction
 } from '../types/action';
 import {Film, Films} from '../types/films';
+import {Comments} from '../types/comment';
 import {AuthorizationStatus} from '../const';
 
 const changeGenre = (genre: string): ChangeGenreAction => ({
@@ -41,6 +43,11 @@ const loadPromo = (film: Film): LoadPromoAction => ({
   payload: film,
 });
 
+const loadComments = (comments: Comments): LoadCommentsAction => ({
+  type: ActionType.LoadComments,
+  payload: comments,
+});
+
 const requireAuthorization = (authStatus: AuthorizationStatus): RequireAuthorizationAction => ({
   type: ActionType.RequireAuthorization,
   payload: authStatus,
@@ -50,4 +57,4 @@ const requireLogout = (): RequireLogoutAction => ({
   type: ActionType.RequireLogout,
 });
 
-export {changeGenre, getGenreFilms, resetGenre, setCurrentFilm, loadFilms, loadPromo, requireAuthorization, requireLogout};
+export {changeGenre, getGenreFilms, resetGenre, setCurrentFilm, loadFilms, loadPromo, loadComments, requireAuthorization, requireLogout};

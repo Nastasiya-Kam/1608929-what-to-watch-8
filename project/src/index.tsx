@@ -6,7 +6,7 @@ import {reducer} from './store/reducer';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {createAPI} from './services/api';
 import App from './components/app/app';
-import {checkAuthAction, fetchFilmsAction, fetchPromoFilmAction} from './store/api-actions';
+import {checkAuthAction, fetchFilmsAction, fetchPromoFilmAction, fetchCommentsAction} from './store/api-actions';
 import {requireAuthorization} from './store/action';
 import {AuthorizationStatus} from './const';
 import {ThunkAppDispatch} from './types/action';
@@ -25,6 +25,7 @@ const store = createStore(
 (store.dispatch as ThunkAppDispatch)(checkAuthAction());
 (store.dispatch as ThunkAppDispatch)(fetchFilmsAction());
 (store.dispatch as ThunkAppDispatch)(fetchPromoFilmAction());
+(store.dispatch as ThunkAppDispatch)(fetchCommentsAction());
 
 ReactDOM.render(
   <Provider store = {store}>
