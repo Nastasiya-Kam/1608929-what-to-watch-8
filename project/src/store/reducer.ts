@@ -6,8 +6,8 @@ const initialState = {
   currentGenre: DEFAULT_GENRE,
   films: [],
   comments: [],
-  promoFilm: [][0],
-  currentFilm: [][1],
+  promoFilm: null,
+  currentFilm: null,
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
 };
@@ -40,7 +40,6 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {
         ...state,
         authorizationStatus: action.payload,
-        isDataLoaded: true,
       };
     case ActionType.RequireLogout:
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth};

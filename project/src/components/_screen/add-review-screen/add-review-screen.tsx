@@ -3,6 +3,7 @@ import AddReviewForm from '../../add-review-form/add-review-form';
 import Logo from '../../logo/logo';
 import SignOut from '../../sign-out/sign-out';
 import {State} from '../../../types/state';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 const mapStateToProps = ({currentFilm}: State) => ({
   currentFilm,
@@ -13,6 +14,12 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function AddReviewScreen ({currentFilm}: PropsFromRedux): JSX.Element {
+  if (currentFilm === null) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   const {id, previewImage, posterImage, title} = currentFilm;
 
   return (

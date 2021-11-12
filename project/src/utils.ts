@@ -1,4 +1,4 @@
-import {DEFAULT_GENRE, Grade} from './const';
+import {AuthorizationStatus, DEFAULT_GENRE, Grade} from './const';
 import {Film} from './types/films';
 import {Comment} from './types/comment';
 
@@ -93,6 +93,9 @@ const adaptCommentsToClient = (comment: any): Comment => ({
 //   },
 // };
 
+const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+  authorizationStatus === AuthorizationStatus.Unknown;
+
 export {
   getGrade,
   getGenres,
@@ -100,5 +103,6 @@ export {
   getSimilarGenreFilms,
   getFavoriteFilms,
   adaptToClient,
-  adaptCommentsToClient
+  adaptCommentsToClient,
+  isCheckedAuth
 };

@@ -58,6 +58,9 @@ function MainScreen({promoFilm, films, genres, currentGenre, onGenreChange, isDa
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
+          {/* // TODO Для гостей в шапке страницы отображается ссылка для перехода на страницу ввода логина и пароля.
+          // TODO Для авторизованных пользователей — электронная почта зарегистрированного пользователя. */}
+
           <Logo />
           <SignOut />
         </header>
