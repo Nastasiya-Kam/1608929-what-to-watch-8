@@ -1,5 +1,6 @@
 import Logo from '../../logo/logo';
 import SignOut from '../../sign-out/sign-out';
+import SignIn from '../../sign-in/sign-in';
 import FilmList from '../../film-list/film-list';
 import Footer from '../../footer/footer';
 import ShowMore from '../../show-more/show-more';
@@ -10,11 +11,11 @@ import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../../types/state';
 import {Actions} from '../../../types/action';
 import {changeGenre} from '../../../store/action';
-import {getGenres, getCurrentGenreFilms} from '../../../utils';
+import {getGenres, getCurrentGenreFilms, isCheckedAuth} from '../../../utils';
 import {GENRE_FILMS_COUNT} from '../../../const';
 import LoadingScreen from '../loading-screen/loading-screen';
 
-const mapStateToProps = ({films, promoFilm, currentGenre, isDataLoaded}: State) => {
+const mapStateToProps = ({films, promoFilm, currentGenre, authorizationStatus, isDataLoaded}: State) => {
   const filmsByGenre = getCurrentGenreFilms(films, currentGenre);
   const genres = getGenres(films);
 
@@ -23,6 +24,7 @@ const mapStateToProps = ({films, promoFilm, currentGenre, isDataLoaded}: State) 
     promoFilm,
     genres,
     currentGenre,
+    authorizationStatus,
     isDataLoaded,
   };
 };
@@ -37,7 +39,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function MainScreen({promoFilm, films, genres, currentGenre, onGenreChange, isDataLoaded}: PropsFromRedux): JSX.Element {
+function MainScreen({promoFilm, films, genres, currentGenre, authorizationStatus, onGenreChange, isDataLoaded}: PropsFromRedux): JSX.Element {
   const [renderedFilmCount, setRenderedFilmCount] = useState(GENRE_FILMS_COUNT);
 
   if (!isDataLoaded || !promoFilm) {
@@ -58,11 +60,12 @@ function MainScreen({promoFilm, films, genres, currentGenre, onGenreChange, isDa
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
+          <Logo />
           {/* // TODO Для гостей в шапке страницы отображается ссылка для перехода на страницу ввода логина и пароля.
           // TODO Для авторизованных пользователей — электронная почта зарегистрированного пользователя. */}
-
-          <Logo />
-          <SignOut />
+          {isCheckedAuth(authorizationStatus)
+            ? <SignOut />
+            : <SignIn />}
         </header>
 
         <div className="film-card__wrap">
