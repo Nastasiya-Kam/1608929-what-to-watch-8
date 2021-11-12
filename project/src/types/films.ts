@@ -14,7 +14,10 @@ type Film = {
   release: number,
   posterImage: string,
   previewImage: string,
+  backgroundImage: string,
+  backgroundColor: string,
   videoLink: string,
+  previewVideoLink: string,
   description: string,
   rating: number,
   scoresCount: number,
@@ -30,5 +33,6 @@ type PlayerFilm = {
 }
 
 type FilmId = number;
+type Films = Film[];
 
-export type {PromoFilm, Film, PlayerFilm, FilmId};
+export type {PromoFilm, Film, PlayerFilm, FilmId, Films};

@@ -8,11 +8,9 @@ import {getFavoriteFilms} from '../../../utils';
 
 const mapStateToProps = ({films}: State) => {
   const favoriteFilms = getFavoriteFilms(films);
-  const renderedFilmCount = films.length;
 
   return ({
     films: favoriteFilms,
-    renderedFilmCount,
   });
 };
 
@@ -20,7 +18,7 @@ const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function MyListScreen ({films, renderedFilmCount}: PropsFromRedux): JSX.Element {
+function MyListScreen ({films}: PropsFromRedux): JSX.Element {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -30,7 +28,7 @@ function MyListScreen ({films, renderedFilmCount}: PropsFromRedux): JSX.Element 
       </header>
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <FilmList films = {films} renderedFilmCount = {renderedFilmCount} />
+        <FilmList films = {films} />
       </section>
       <Footer />
     </div>

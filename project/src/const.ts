@@ -51,6 +51,14 @@ const GENRE_FILMS_COUNT = 8;
 const COMMENTS_COLUMNS_COUNT = 2;
 const DEFAULT_GENRE = 'All genres';
 
+enum APIRoute {
+  Films = '/films',
+  Promo = '/promo',
+  Comments = '/comments/:film_id',
+  Login = '/login',
+  Logout = '/logout',
+}
+
 export {
   AppRoute,
   AuthorizationStatus,
@@ -61,5 +69,6 @@ export {
   SIMILAR_FILMS_COUNT,
   GENRE_FILMS_COUNT,
   COMMENTS_COLUMNS_COUNT,
-  DEFAULT_GENRE
+  DEFAULT_GENRE,
+  APIRoute
 };

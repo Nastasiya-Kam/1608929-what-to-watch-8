@@ -1,4 +1,5 @@
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
+import {connect, ConnectedProps} from 'react-redux';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import MainScreen from '../_screen/main-screen/main-screen';
@@ -6,34 +7,29 @@ import SignInScreen from '../_screen/sign-in-screen/sign-in-screen';
 import MyListScreen from '../_screen/my-list-screen/my-list-screen';
 import FilmScreen from '../_screen/film-screen/film-screen';
 import AddReviewScreen from '../_screen/add-review-screen/add-review-screen';
-import PlayerScreen from '../_screen/player-screen/player-screen';
+// import PlayerScreen from '../_screen/player-screen/player-screen';
 import NotFoundScreen from '../_screen/not-found-screen/not-found-screen';
-import {films} from '../../mocks/films';
-import {PromoFilm, PlayerFilm} from '../../types/films';
+// import LoadingScreen from '../_screen/loading-screen/loading-screen';
+// import {isCheckedAuth} from '../../game';
+import {State} from '../../types/state';
 
-const someFilm = films[0];
+const mapStateToProps = ({films, promoFilm, authorizationStatus, isDataLoaded}: State) => ({
+  films,
+  promoFilm,
+  authorizationStatus,
+  isDataLoaded,
+});
 
-const promoFilm : PromoFilm = {
-  id: someFilm.id,
-  title: someFilm.title,
-  genre: someFilm.genre,
-  releaseDate: someFilm.release,
-  posterImage: someFilm.posterImage,
-  previewImage: someFilm.previewImage,
-};
+const connector = connect(mapStateToProps);
 
-const playerFilm : PlayerFilm = {
-  videoLink: films[0].videoLink,
-  playerPoster: films[0].previewImage,
-};
+type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function App(): JSX.Element {
-
+function App(props: PropsFromRedux): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path = {AppRoute.Root}>
-          <MainScreen promoFilm = {someFilm} />
+          <MainScreen />
         </Route>
         <Route exact path = {AppRoute.Login}>
           <SignInScreen />
@@ -57,23 +53,16 @@ function App(): JSX.Element {
         <PrivateRoute
           exact
           path = {AppRoute.AddReview}
-          render = {() => (
-            <AddReviewScreen
-              id = {promoFilm.id}
-              previewImage = {promoFilm.previewImage}
-              posterImage = {promoFilm.posterImage}
-              name = {promoFilm.title}
-            />
-          )}
+          render = {() => <AddReviewScreen />}
           authorizationStatus = {AuthorizationStatus.Auth}
         >
         </PrivateRoute>
-        <Route exact path = {AppRoute.Player}>
+        {/* <Route exact path = {AppRoute.Player}>
           <PlayerScreen
             videoLink = {playerFilm.videoLink}
             playerPoster = {playerFilm.playerPoster}
           />
-        </Route>
+        </Route> */}
         <Route>
           <NotFoundScreen />
         </Route>
@@ -82,4 +71,5 @@ function App(): JSX.Element {
   );
 }
 
-export default App;
+export {App};
+export default connector(App);

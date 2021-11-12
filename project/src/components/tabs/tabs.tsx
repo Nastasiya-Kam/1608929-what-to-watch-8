@@ -1,16 +1,35 @@
 import {ScreenType, MINUTES_IN_HOURS, COMMENTS_COLUMNS_COUNT} from '../../const';
 import {getGrade} from '../../utils';
-import {comments} from '../../mocks/comments';
-import {Film} from '../../types/films';
+import {connect, ConnectedProps} from 'react-redux';
+import {State} from '../../types/state';
 import Comment from '../comment/comment';
+import LoadingScreen from '../_screen/loading-screen/loading-screen';
 
 type Props = {
   currentScreen: string,
-  film: Film,
 }
 
-function Tabs({currentScreen, film}: Props): JSX.Element {
-  const {genre, release, description, rating, scoresCount, director, starring, runTime} = film;
+const mapStateToProps = ({currentFilm, comments}: State) => ({
+  currentFilm,
+  comments,
+});
+
+// TODO получение комментариев в зависимости от текущего фильма
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & Props;
+
+function Tabs({currentScreen, currentFilm, comments}: ConnectedComponentProps): JSX.Element {
+
+  if (!currentFilm) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
+  const {genre, release, description, rating, scoresCount, director, starring, runTime} = currentFilm;
 
   const commentsLength = comments.length;
   const middleCommentsLength = commentsLength / COMMENTS_COLUMNS_COUNT;
@@ -101,9 +120,6 @@ function Tabs({currentScreen, film}: Props): JSX.Element {
           <div className="film-card__text">
             {/* // TODO Пока не очень ясно, как будет приходить description, чтобы его отрисовать тут */}
             <p>{description}</p>
-
-            <p>Gustave prides himself on providing first-className service to the hotel&apos;s guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave&apos;s lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.</p>
-
             <p className="film-card__director"><strong>Director: {director}</strong></p>
 
             <p className="film-card__starring"><strong>Starring: {starring.join(', ')}</strong></p>
@@ -113,4 +129,5 @@ function Tabs({currentScreen, film}: Props): JSX.Element {
   }
 }
 
-export default Tabs;
+export {Tabs};
+export default connector(Tabs);

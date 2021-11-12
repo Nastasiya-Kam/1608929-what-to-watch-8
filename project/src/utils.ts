@@ -1,5 +1,6 @@
 import {DEFAULT_GENRE, Grade} from './const';
 import {Film} from './types/films';
+import {Comment} from './types/comment';
 
 const getGrade = (rating: number): string | undefined => {
   if (rating < Grade.BAD.value) {
@@ -35,4 +36,69 @@ const getSimilarGenreFilms = (films: Film[], genre: string, currentId: number): 
 
 const getFavoriteFilms = (films: Film[]): Film[] => films.filter((film) => film.isFavorite);
 
-export {getGrade, getGenres, getCurrentGenreFilms, getSimilarGenreFilms, getFavoriteFilms};
+const adaptToClient = (film: any): Film => ({
+  id: film['id'],
+  genre: film['genre'],
+  description: film['description'],
+  rating: film['rating'],
+  director: film['director'],
+  starring: film['starring'],
+  title: film['name'],
+  release: film['released'],
+  posterImage: film['poster_image'],
+  previewImage: film['preview_image'],
+  backgroundImage: film['background_image'],
+  backgroundColor: film['background_color'],
+  videoLink: film['video_link'],
+  previewVideoLink: film['preview_video_link'],
+  scoresCount: film['scores_count'],
+  runTime: film['run_time'],
+  isFavorite: film['is_favorite'],
+});
+
+const adaptCommentsToClient = (comment: any): Comment => ({
+  id: comment['id'],
+  userId: comment['user']['id'],
+  userName: comment['user']['name'],
+  rating: comment['rating'],
+  text: comment['comment'],
+  date: comment['date'],
+});
+
+// const adaptToServer = (film: Film) => {
+//   'id': film.id,
+//   'comments': film.comments,
+//   'film_info': {
+//     'title': film.name,
+//     'alternative_title': film.original,
+//     'poster': film.img,
+//     'description': film.description,
+//     'total_rating': film.rating,
+//     'release': {
+//       'date': film.release,
+//       'release_country': film.country,
+//     },
+//     'runtime': film.duration,
+//     'genre': film.genres,
+//     'director': film.director,
+//     'writers': film.writers,
+//     'actors': film.actors,
+//     'age_rating': film.age,
+//   },
+//   'user_details': {
+//     'watchlist': film.isWatchList,
+//     'watching_date': film.watchingDate,
+//     'already_watched': film.isWatched,
+//     'favorite': film.isFavorite,
+//   },
+// };
+
+export {
+  getGrade,
+  getGenres,
+  getCurrentGenreFilms,
+  getSimilarGenreFilms,
+  getFavoriteFilms,
+  adaptToClient,
+  adaptCommentsToClient
+};
