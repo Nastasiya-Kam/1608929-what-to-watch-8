@@ -65,36 +65,8 @@ const adaptCommentsToClient = (comment: any): Comment => ({
   date: comment['date'],
 });
 
-// const adaptToServer = (film: Film) => {
-//   'id': film.id,
-//   'comments': film.comments,
-//   'film_info': {
-//     'title': film.name,
-//     'alternative_title': film.original,
-//     'poster': film.img,
-//     'description': film.description,
-//     'total_rating': film.rating,
-//     'release': {
-//       'date': film.release,
-//       'release_country': film.country,
-//     },
-//     'runtime': film.duration,
-//     'genre': film.genres,
-//     'director': film.director,
-//     'writers': film.writers,
-//     'actors': film.actors,
-//     'age_rating': film.age,
-//   },
-//   'user_details': {
-//     'watchlist': film.isWatchList,
-//     'watching_date': film.watchingDate,
-//     'already_watched': film.isWatched,
-//     'favorite': film.isFavorite,
-//   },
-// };
-
 const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
-  authorizationStatus === AuthorizationStatus.Unknown;
+  authorizationStatus === AuthorizationStatus.Auth;
 
 export {
   getGrade,

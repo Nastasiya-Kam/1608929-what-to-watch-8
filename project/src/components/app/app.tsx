@@ -1,5 +1,5 @@
-import {Switch, Route, BrowserRouter} from 'react-router-dom';
-// import {connect, ConnectedProps} from 'react-redux';
+import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
+import {connect, ConnectedProps} from 'react-redux';
 import {AppRoute} from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import MainScreen from '../_screen/main-screen/main-screen';
@@ -10,22 +10,22 @@ import AddReviewScreen from '../_screen/add-review-screen/add-review-screen';
 // import PlayerScreen from '../_screen/player-screen/player-screen';
 import NotFoundScreen from '../_screen/not-found-screen/not-found-screen';
 // import LoadingScreen from '../_screen/loading-screen/loading-screen';
-// import {isCheckedAuth} from '../../game';
-// import {State} from '../../types/state';
+import {State} from '../../types/state';
 // import LoadingScreen from '../_screen/loading-screen/loading-screen';
-// import {isCheckedAuth} from '../../utils';
+import {isCheckedAuth} from '../../utils';
+import browserHistory from '../../browser-history';
 
-// const mapStateToProps = ({authorizationStatus, isDataLoaded}: State) => ({
-//   authorizationStatus,
+const mapStateToProps = ({authorizationStatus}: State) => ({
+  authorizationStatus,
 //   isDataLoaded,
-// });
+});
 
-// const connector = connect(mapStateToProps);
+const connector = connect(mapStateToProps);
 
-// type PropsFromRedux = ConnectedProps<typeof connector>;
+type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function App(): JSX.Element { //props: PropsFromRedux
-  // const {authorizationStatus, isDataLoaded} = props;
+function App(props: PropsFromRedux): JSX.Element {
+  const {authorizationStatus} = props;
 
   // if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
   //   return (
@@ -34,13 +34,22 @@ function App(): JSX.Element { //props: PropsFromRedux
   // }
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path = {AppRoute.Root}>
           <MainScreen />
         </Route>
-        <Route exact path = {AppRoute.Login}>
-          <SignInScreen />
+        <Route
+          exact
+          path = {AppRoute.Login}
+          render = {() => {
+            if (!isCheckedAuth(authorizationStatus)) {
+              return <SignInScreen />;
+            }
+
+            return <MainScreen />;
+          }}
+        >
         </Route>
         <PrivateRoute
           exact
@@ -77,6 +86,6 @@ function App(): JSX.Element { //props: PropsFromRedux
   );
 }
 
-// export {App};
-// export default connector(App);
-export default App;
+export {App};
+export default connector(App);
+// export default App;

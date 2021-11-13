@@ -10,6 +10,7 @@ const initialState = {
   currentFilm: null,
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
+  userMail: '',
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -31,16 +32,12 @@ const reducer = (state: State = initialState, action: Actions): State => {
     case ActionType.LoadPromo: {
       const promoFilm = action.payload;
 
-      return {
-        ...state,
-        promoFilm,
-      };
+      return {...state, promoFilm};
     }
     case ActionType.RequireAuthorization:
-      return {
-        ...state,
-        authorizationStatus: action.payload,
-      };
+      return {...state, authorizationStatus: action.payload};
+    case ActionType.SetUserMail:
+      return {...state, userMail: action.payload};
     case ActionType.RequireLogout:
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
     case ActionType.ResetGenre:

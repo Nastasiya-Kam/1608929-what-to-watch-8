@@ -10,6 +10,7 @@ type State = {
   currentFilm: Film | null,
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
+  userMail: string,
 };
 
 export type {State};

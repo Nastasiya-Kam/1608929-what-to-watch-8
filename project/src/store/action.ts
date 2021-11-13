@@ -53,8 +53,19 @@ const requireAuthorization = (authStatus: AuthorizationStatus): RequireAuthoriza
   payload: authStatus,
 });
 
-const requireLogout = (): RequireLogoutAction => ({
+const requireLogout = (auth: AuthorizationStatus): RequireLogoutAction => ({
   type: ActionType.RequireLogout,
+  payload: auth,
 });
 
-export {changeGenre, getGenreFilms, resetGenre, setCurrentFilm, loadFilms, loadPromo, loadComments, requireAuthorization, requireLogout};
+export {
+  changeGenre,
+  getGenreFilms,
+  resetGenre,
+  setCurrentFilm,
+  loadFilms,
+  loadPromo,
+  loadComments,
+  requireAuthorization,
+  requireLogout
+};

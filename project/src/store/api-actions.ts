@@ -25,10 +25,8 @@ const fetchPromoFilmAction = (): ThunkActionResult =>
 
 const fetchCommentsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Comments>(APIRoute.Comments.replace(':film_id', String(16)));
+    const {data} = await api.get<Comments>(APIRoute.Comments.replace(':film_id', String(1)));
     const adaptedData = data.map((comment) => adaptCommentsToClient(comment));
-    // eslint-disable-next-line
-    console.log(APIRoute.Comments.replace(':film_id', String(16)));
 
     dispatch(loadComments(adaptedData));
   };
@@ -52,7 +50,7 @@ const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(requireLogout());
+    dispatch(requireLogout(AuthorizationStatus.NoAuth));
   };
 
 export {
