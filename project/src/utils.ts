@@ -32,7 +32,7 @@ const getCurrentGenreFilms = (films: Film[], currentGenre: string): Film[] => {
   return films;
 };
 
-const getSimilarGenreFilms = (films: Film[], genre: string, currentId: number): Film[] => films.filter((element) => (currentId !== element.id) && element.genre === genre);
+const getSimilarGenreFilms = (films: Film[], currentId: number): Film[] => films.filter((element) => (currentId !== element.id));
 
 const getFavoriteFilms = (films: Film[]): Film[] => films.filter((film) => film.isFavorite);
 

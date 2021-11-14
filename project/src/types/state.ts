@@ -11,6 +11,7 @@ type State = {
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
   userMail: string,
+  similarFilms: Films,
 };
 
 export type {State};

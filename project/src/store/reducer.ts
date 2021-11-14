@@ -11,6 +11,7 @@ const initialState = {
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
   userMail: '',
+  similarFilms: [],
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -33,6 +34,13 @@ const reducer = (state: State = initialState, action: Actions): State => {
       const promoFilm = action.payload;
 
       return {...state, promoFilm};
+    }
+    case ActionType.LoadSimilar: {
+      const similarFilms = action.payload;
+      return {
+        ...state,
+        similarFilms,
+      };
     }
     case ActionType.LoadComments: {
       const comments = action.payload;

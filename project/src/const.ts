@@ -53,6 +53,7 @@ const DEFAULT_GENRE = 'All genres';
 
 enum APIRoute {
   Films = '/films',
+  Similar = '/films/:id/similar',
   Promo = '/promo',
   Comments = '/comments/:film_id',
   Login = '/login',

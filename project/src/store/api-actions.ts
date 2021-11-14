@@ -1,4 +1,4 @@
-import {loadFilms, redirectToRoute, loadPromo, loadComments, requireAuthorization, requireLogout} from './action';
+import {loadFilms, redirectToRoute, loadPromo, loadSimilar, loadComments, requireAuthorization, requireLogout} from './action';
 import {saveToken, dropToken, Token} from '../services/token';
 import {APIRoute, AuthorizationStatus, AppRoute} from '../const';
 import {adaptToClient, adaptCommentsToClient} from '../utils';
@@ -21,6 +21,14 @@ const fetchPromoFilmAction = (): ThunkActionResult =>
     const adaptedData = adaptToClient(data);
 
     dispatch(loadPromo(adaptedData));
+  };
+
+const fetchSimilarFilmsAction = (id: FilmId): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<Films>(APIRoute.Similar.replace(':id', String(id)));
+    const adaptedData = data.map((film) => adaptToClient(film));
+
+    dispatch(loadSimilar(adaptedData));
   };
 
 const fetchCommentsAction = (id: FilmId): ThunkActionResult =>
@@ -56,6 +64,7 @@ const logoutAction = (): ThunkActionResult =>
 export {
   fetchFilmsAction,
   fetchPromoFilmAction,
+  fetchSimilarFilmsAction,
   fetchCommentsAction,
   checkAuthAction,
   loginAction,
