@@ -1,12 +1,13 @@
 import Logo from '../../logo/logo';
 import Footer from '../../footer/footer';
 import SignOut from '../../sign-out/sign-out';
+import SignIn from '../../sign-in/sign-in';
 import FilmList from '../../film-list/film-list';
 import Tabs from '../../tabs/tabs';
 import {FilmId} from '../../../types/films';
 import {State} from '../../../types/state';
 import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
-import {getSimilarGenreFilms} from '../../../utils';
+import {getSimilarGenreFilms, isCheckedAuth} from '../../../utils';
 import {Link} from 'react-router-dom';
 import {useState} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
@@ -16,7 +17,7 @@ type Props = {
   id: FilmId,
 }
 
-const mapStateToProps = ({films}: State, ownProps: Props) => {
+const mapStateToProps = ({films, authorizationStatus}: State, ownProps: Props) => {
   const {id} = ownProps;
   const currentFilm = films.find((item) => item.id === id);
   const similarFilms = currentFilm ? getSimilarGenreFilms(films, currentFilm.genre, currentFilm.id) : [];
@@ -24,6 +25,7 @@ const mapStateToProps = ({films}: State, ownProps: Props) => {
   return ({
     currentFilm,
     films: similarFilms,
+    authorizationStatus,
   });
 };
 
@@ -31,7 +33,7 @@ const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function FilmScreen ({films, currentFilm}: PropsFromRedux): JSX.Element {
+function FilmScreen ({currentFilm, films, authorizationStatus}: PropsFromRedux): JSX.Element {
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
 
   if (!currentFilm) {
@@ -52,7 +54,9 @@ function FilmScreen ({films, currentFilm}: PropsFromRedux): JSX.Element {
 
           <header className="page-header film-card__head">
             <Logo />
-            <SignOut />
+            {isCheckedAuth(authorizationStatus)
+              ? <SignOut />
+              : <SignIn />}
           </header>
 
           <div className="film-card__wrap">
@@ -77,7 +81,7 @@ function FilmScreen ({films, currentFilm}: PropsFromRedux): JSX.Element {
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link to={AppRoute.AddReview.replace(':id', String(id))} className="btn film-card__button">Add review</Link>
+                {isCheckedAuth(authorizationStatus) && <Link to={AppRoute.AddReview.replace(':id', String(id))} className="btn film-card__button">Add review</Link>}
               </div>
             </div>
           </div>
