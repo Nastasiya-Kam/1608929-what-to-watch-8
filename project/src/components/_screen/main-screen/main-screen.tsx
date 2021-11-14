@@ -14,6 +14,7 @@ import {changeGenre} from '../../../store/action';
 import {getGenres, getCurrentGenreFilms, isCheckedAuth} from '../../../utils';
 import {GENRE_FILMS_COUNT} from '../../../const';
 import LoadingScreen from '../loading-screen/loading-screen';
+import FavoriteButton from '../../favorite-button/favorite-button';
 
 const mapStateToProps = ({films, promoFilm, currentGenre, authorizationStatus, isDataLoaded}: State) => {
   const filmsByGenre = getCurrentGenreFilms(films, currentGenre);
@@ -41,6 +42,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function MainScreen({promoFilm, films, genres, currentGenre, authorizationStatus, onGenreChange, isDataLoaded}: PropsFromRedux): JSX.Element {
   const [renderedFilmCount, setRenderedFilmCount] = useState(GENRE_FILMS_COUNT);
+  const [favoriteStatus, setFavoriteStatus] = useState(false);
 
   if (!isDataLoaded || !promoFilm) {
     return (
@@ -86,12 +88,7 @@ function MainScreen({promoFilm, films, genres, currentGenre, authorizationStatus
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
+                <FavoriteButton isFavorite = {favoriteStatus} onClick = {setFavoriteStatus} />
               </div>
             </div>
           </div>

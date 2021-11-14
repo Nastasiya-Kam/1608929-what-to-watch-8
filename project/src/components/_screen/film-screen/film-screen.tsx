@@ -4,8 +4,7 @@ import SignOut from '../../sign-out/sign-out';
 import SignIn from '../../sign-in/sign-in';
 import FilmList from '../../film-list/film-list';
 import Tabs from '../../tabs/tabs';
-import InList from '../../in-list/in-list';
-import InListNot from '../../in-list-not/in-list-not';
+import FavoriteButton from '../../favorite-button/favorite-button';
 import {FilmId} from '../../../types/films';
 import {State} from '../../../types/state';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
@@ -50,6 +49,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus, onLoadComments, onLoadSimilar}: PropsFromRedux): JSX.Element {
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
+  const [favoriteStatus, setFavoriteStatus] = useState(false);
 
   useEffect(() => {
     if (!currentFilm) {
@@ -63,7 +63,7 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
     return <NotFoundScreen />;
   }
 
-  const {id, title, genre, release, posterImage, previewImage, isFavorite} = currentFilm;
+  const {id, title, genre, release, posterImage, previewImage} = currentFilm;
 
   return (
     <>
@@ -98,9 +98,7 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
                   <span>Play</span>
                 </button>
                 {/* // TODO  to={AppRoute.AddReview.replace(':id', String(id))} */}
-                {(isFavorite)
-                  ? <InList />
-                  : <InListNot />}
+                <FavoriteButton isFavorite={favoriteStatus} onClick = {setFavoriteStatus} />
                 {isCheckedAuth(authorizationStatus) && <Link to={AppRoute.AddReview.replace(':id', String(id))} className="btn film-card__button">Add review</Link>}
               </div>
             </div>

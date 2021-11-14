@@ -32,6 +32,13 @@ const fetchFavoriteFilmsAction = (): ThunkActionResult =>
     dispatch(loadFavorite(adaptedData));
   };
 
+const postFavoriteFilmStatusAction = (id: FilmId): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    // const {data} = await api.post<Film>(APIRoute.FavoriteStatus.replace(':film_id', String(id)).replace(':status', String()));
+    // dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    // dispatch(loadFavorite(adaptedData));
+  };
+
 const fetchSimilarFilmsAction = (id: FilmId): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<Films>(APIRoute.Similar.replace(':id', String(id)));
@@ -80,6 +87,7 @@ export {
   fetchFilmsAction,
   fetchPromoFilmAction,
   fetchFavoriteFilmsAction,
+  postFavoriteFilmStatusAction,
   fetchSimilarFilmsAction,
   fetchCommentsAction,
   postCommentAction,
