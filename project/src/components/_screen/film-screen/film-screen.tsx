@@ -4,6 +4,8 @@ import SignOut from '../../sign-out/sign-out';
 import SignIn from '../../sign-in/sign-in';
 import FilmList from '../../film-list/film-list';
 import Tabs from '../../tabs/tabs';
+import InList from '../../in-list/in-list';
+import InListNot from '../../in-list-not/in-list-not';
 import {FilmId} from '../../../types/films';
 import {State} from '../../../types/state';
 import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
@@ -40,7 +42,7 @@ function FilmScreen ({currentFilm, films, authorizationStatus}: PropsFromRedux):
     return <NotFoundScreen />;
   }
 
-  const {id, title, genre, release, posterImage, previewImage} = currentFilm;
+  const {id, title, genre, release, posterImage, previewImage, isFavorite} = currentFilm;
 
   return (
     <>
@@ -75,12 +77,9 @@ function FilmScreen ({currentFilm, films, authorizationStatus}: PropsFromRedux):
                   <span>Play</span>
                 </button>
                 {/* // TODO  to={AppRoute.AddReview.replace(':id', String(id))} */}
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
+                {(isFavorite)
+                  ? <InList />
+                  : <InListNot />}
                 {isCheckedAuth(authorizationStatus) && <Link to={AppRoute.AddReview.replace(':id', String(id))} className="btn film-card__button">Add review</Link>}
               </div>
             </div>
