@@ -6,6 +6,7 @@ import {
   SetCurrentFilmAction,
   LoadFilmsAction,
   LoadPromoAction,
+  LoadFavoriteAction,
   LoadSimilarAction,
   LoadCommentsAction,
   RequireAuthorizationAction,
@@ -45,6 +46,11 @@ const loadPromo = (film: Film): LoadPromoAction => ({
   payload: film,
 });
 
+const loadFavorite = (films: Films): LoadFavoriteAction => ({
+  type: ActionType.LoadFavorite,
+  payload: films,
+});
+
 const loadSimilar = (films: Films): LoadSimilarAction => ({
   type: ActionType.LoadSimilar,
   payload: films,
@@ -77,6 +83,7 @@ export {
   setCurrentFilm,
   loadFilms,
   loadPromo,
+  loadFavorite,
   loadSimilar,
   loadComments,
   requireAuthorization,

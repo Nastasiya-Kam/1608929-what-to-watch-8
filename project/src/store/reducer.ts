@@ -8,9 +8,11 @@ const initialState = {
   comments: [],
   promoFilm: null,
   currentFilm: null,
-  authorizationStatus: AuthorizationStatus.Unknown,
+  authorizationStatus: AuthorizationStatus.Auth,
   isDataLoaded: false,
   userMail: '',
+  favoriteFilms: [],
+  isFavoriteLoaded: false,
   similarFilms: [],
 };
 
@@ -32,8 +34,15 @@ const reducer = (state: State = initialState, action: Actions): State => {
     }
     case ActionType.LoadPromo: {
       const promoFilm = action.payload;
-
       return {...state, promoFilm};
+    }
+    case ActionType.LoadFavorite: {
+      const favoriteFilms = action.payload;
+      return {
+        ...state,
+        favoriteFilms,
+        isFavoriteLoaded: true,
+      };
     }
     case ActionType.LoadSimilar: {
       const similarFilms = action.payload;

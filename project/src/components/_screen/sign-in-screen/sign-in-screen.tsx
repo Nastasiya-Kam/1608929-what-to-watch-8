@@ -69,6 +69,7 @@ function SignInScreen(props: PropsFromRedux): JSX.Element {
           className="sign-in__form"
           onSubmit={handleSubmit}
         >
+          {/* //TODO не рабоает, почему? */}
           {(passwordRef.current !== null && checkPassword(passwordRef.current.value)) && <SignInMessage />}
           {/* {<SignInError />} */}
           <div className="sign-in__fields">
@@ -98,11 +99,7 @@ function SignInScreen(props: PropsFromRedux): JSX.Element {
             </div>
           </div>
           <div className="sign-in__submit">
-            <button
-              className="sign-in__btn"
-              type="submit"
-              // onClick={() => history.push(AppRoute.Root)}
-            >
+            <button className="sign-in__btn" type="submit" >
               Sign in
             </button>
           </div>

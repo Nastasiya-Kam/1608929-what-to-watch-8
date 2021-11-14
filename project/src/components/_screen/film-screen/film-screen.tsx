@@ -10,36 +10,37 @@ import {FilmId} from '../../../types/films';
 import {State} from '../../../types/state';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {ThunkAppDispatch} from '../../../types/action';
-import {Actions} from '../../../types/action';
 import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
 import {getSimilarGenreFilms, isCheckedAuth} from '../../../utils';
 import {store} from '../../../index';
-import {fetchCommentsAction} from '../../../store/api-actions';
+import {fetchCommentsAction, fetchSimilarFilmsAction} from '../../../store/api-actions';
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
-import {Dispatch} from 'redux';
 
 type Props = {
   currentId: FilmId,
 }
 
-const mapStateToProps = ({films, authorizationStatus}: State, ownProps: Props) => {
+const mapStateToProps = ({films, similarFilms, authorizationStatus}: State, ownProps: Props) => {
   const {currentId} = ownProps;
   const currentFilm = films.find((item) => item.id === currentId);
-  const similarFilms = currentFilm ? getSimilarGenreFilms(films, currentFilm.genre, currentFilm.id) : [];
+  const currentSimilarFilms = currentFilm ? getSimilarGenreFilms(similarFilms, currentFilm.id) : [];
 
   return ({
     currentId,
     currentFilm,
-    films: similarFilms,
+    similarFilms: currentSimilarFilms,
     authorizationStatus,
   });
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+const mapDispatchToProps = () => ({
   onLoadComments(id: FilmId) {
     (store.dispatch as ThunkAppDispatch)(fetchCommentsAction(id));
+  },
+  onLoadSimilar(id: FilmId) {
+    (store.dispatch as ThunkAppDispatch)(fetchSimilarFilmsAction(id));
   },
 });
 
@@ -47,7 +48,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function FilmScreen ({currentId, currentFilm, films, authorizationStatus, onLoadComments}: PropsFromRedux): JSX.Element {
+function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus, onLoadComments, onLoadSimilar}: PropsFromRedux): JSX.Element {
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
 
   useEffect(() => {
@@ -55,6 +56,7 @@ function FilmScreen ({currentId, currentFilm, films, authorizationStatus, onLoad
       return;
     }
     onLoadComments(currentId);
+    onLoadSimilar(currentId);
   }, [currentFilm]);
 
   if (!currentFilm) {
@@ -148,7 +150,7 @@ function FilmScreen ({currentId, currentFilm, films, authorizationStatus, onLoad
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmList films = {films.slice(0, SIMILAR_FILMS_COUNT)} />
+          <FilmList films = {similarFilms.slice(0, SIMILAR_FILMS_COUNT)} />
         </section>
 
         <Footer />

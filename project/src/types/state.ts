@@ -11,6 +11,8 @@ type State = {
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
   userMail: string,
+  favoriteFilms: Films,
+  isFavoriteLoaded: boolean,
   similarFilms: Films,
 };
 

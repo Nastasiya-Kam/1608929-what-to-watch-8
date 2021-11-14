@@ -2,7 +2,8 @@ import {Actions} from '../../types/action';
 import {connect, ConnectedProps} from 'react-redux';
 import {Dispatch} from 'redux';
 import {requireLogout} from '../../store/action';
-import {AuthorizationStatus} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
+import {Redirect} from 'react-router-dom';
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onLogout(auth: AuthorizationStatus) {
@@ -18,8 +19,21 @@ function SignOut({onLogout}: PropsFromRedux): JSX.Element {
   return (
     <ul className="user-block">
       <li className="user-block__item">
-        <div className="user-block__avatar">
-          <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+        <div
+          className="user-block__avatar"
+          onClick={() => {
+            // eslint-disable-next-line
+            console.log('avatar');
+            // TODO не работает
+            <Redirect to={AppRoute.MyList} />;
+          }}
+        >
+          <img
+            src="img/avatar.jpg"
+            alt="User avatar"
+            width="63"
+            height="63"
+          />
         </div>
       </li>
       <li className="user-block__item">

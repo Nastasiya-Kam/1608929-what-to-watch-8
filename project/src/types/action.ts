@@ -12,6 +12,7 @@ enum ActionType {
   SetCurrentFilm = 'setCurrentFilm',
   LoadFilms = 'data/loadFilms',
   LoadPromo = 'data/loadPromo',
+  LoadFavorite = 'data/loadFavorite',
   LoadSimilar = 'data/loadSimilar',
   LoadComments = 'data/loadComments',
   RequireAuthorization = 'user/requireAuthorization',
@@ -47,6 +48,11 @@ type LoadFilmsAction = {
 type LoadPromoAction = {
   type: ActionType.LoadPromo;
   payload: Film;
+}
+
+type LoadFavoriteAction = {
+  type: ActionType.LoadFavorite;
+  payload: Films;
 }
 
 type LoadSimilarAction = {
@@ -86,6 +92,7 @@ type Actions =
   | SetCurrentFilmAction
   | LoadFilmsAction
   | LoadPromoAction
+  | LoadFavoriteAction
   | LoadSimilarAction
   | LoadCommentsAction
   | RequireAuthorizationAction
@@ -106,6 +113,7 @@ export type {
   SetCurrentFilmAction,
   LoadFilmsAction,
   LoadPromoAction,
+  LoadFavoriteAction,
   LoadSimilarAction,
   LoadCommentsAction,
   RequireAuthorizationAction,
