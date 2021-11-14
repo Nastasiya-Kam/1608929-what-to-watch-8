@@ -7,7 +7,6 @@ type Props = {
   date: string,
 }
 
-
 function Comment({userName, rating, text, date}: Props): JSX.Element {
   const dataComment = dayjs().format('MMMM D, YYYY');
 

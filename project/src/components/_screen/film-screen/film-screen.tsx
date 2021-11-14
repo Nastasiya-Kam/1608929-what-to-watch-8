@@ -8,35 +8,54 @@ import InList from '../../in-list/in-list';
 import InListNot from '../../in-list-not/in-list-not';
 import {FilmId} from '../../../types/films';
 import {State} from '../../../types/state';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
+import {ThunkAppDispatch} from '../../../types/action';
+import {Actions} from '../../../types/action';
 import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
 import {getSimilarGenreFilms, isCheckedAuth} from '../../../utils';
+import {store} from '../../../index';
+import {fetchCommentsAction} from '../../../store/api-actions';
 import {Link} from 'react-router-dom';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
-import NotFoundScreen from '../not-found-screen/not-found-screen';
+import {Dispatch} from 'redux';
 
 type Props = {
-  id: FilmId,
+  currentId: FilmId,
 }
 
 const mapStateToProps = ({films, authorizationStatus}: State, ownProps: Props) => {
-  const {id} = ownProps;
-  const currentFilm = films.find((item) => item.id === id);
+  const {currentId} = ownProps;
+  const currentFilm = films.find((item) => item.id === currentId);
   const similarFilms = currentFilm ? getSimilarGenreFilms(films, currentFilm.genre, currentFilm.id) : [];
 
   return ({
+    currentId,
     currentFilm,
     films: similarFilms,
     authorizationStatus,
   });
 };
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onLoadComments(id: FilmId) {
+    (store.dispatch as ThunkAppDispatch)(fetchCommentsAction(id));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function FilmScreen ({currentFilm, films, authorizationStatus}: PropsFromRedux): JSX.Element {
+function FilmScreen ({currentId, currentFilm, films, authorizationStatus, onLoadComments}: PropsFromRedux): JSX.Element {
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
+
+  useEffect(() => {
+    if (!currentFilm) {
+      return;
+    }
+    onLoadComments(currentId);
+  }, [currentFilm]);
 
   if (!currentFilm) {
     return <NotFoundScreen />;

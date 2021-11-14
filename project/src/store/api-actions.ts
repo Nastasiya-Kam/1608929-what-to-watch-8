@@ -1,11 +1,11 @@
-import {ThunkActionResult} from '../types/action';
 import {loadFilms, redirectToRoute, loadPromo, loadComments, requireAuthorization, requireLogout} from './action';
 import {saveToken, dropToken, Token} from '../services/token';
 import {APIRoute, AuthorizationStatus, AppRoute} from '../const';
-import {Film, Films} from '../types/films';
+import {adaptToClient, adaptCommentsToClient} from '../utils';
+import {ThunkActionResult} from '../types/action';
+import {Film, FilmId, Films} from '../types/films';
 import {Comments} from '../types/comment';
 import {AuthData} from '../types/auth-data';
-import {adaptToClient, adaptCommentsToClient} from '../utils';
 
 const fetchFilmsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -23,11 +23,10 @@ const fetchPromoFilmAction = (): ThunkActionResult =>
     dispatch(loadPromo(adaptedData));
   };
 
-const fetchCommentsAction = (): ThunkActionResult =>
+const fetchCommentsAction = (id: FilmId): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Comments>(APIRoute.Comments.replace(':film_id', String(1)));
+    const {data} = await api.get<Comments>(APIRoute.Comments.replace(':film_id', String(id)));
     const adaptedData = data.map((comment) => adaptCommentsToClient(comment));
-
     dispatch(loadComments(adaptedData));
   };
 

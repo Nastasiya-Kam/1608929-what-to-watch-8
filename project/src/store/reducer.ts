@@ -34,12 +34,20 @@ const reducer = (state: State = initialState, action: Actions): State => {
 
       return {...state, promoFilm};
     }
+    case ActionType.LoadComments: {
+      const comments = action.payload;
+      return {
+        ...state,
+        comments,
+      };
+    }
     case ActionType.RequireAuthorization:
       return {...state, authorizationStatus: action.payload};
     case ActionType.SetUserMail:
       return {...state, userMail: action.payload};
     case ActionType.RequireLogout:
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
+    // TODO где используется?
     case ActionType.ResetGenre:
       return {...initialState};
     default:

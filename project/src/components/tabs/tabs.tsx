@@ -14,15 +14,12 @@ const mapStateToProps = ({currentFilm, comments}: State) => ({
   comments,
 });
 
-// TODO получение комментариев в зависимости от текущего фильма
-
 const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & Props;
 
 function Tabs({currentScreen, currentFilm, comments}: ConnectedComponentProps): JSX.Element {
-
   if (!currentFilm) {
     return (
       <LoadingScreen />
@@ -78,7 +75,6 @@ function Tabs({currentScreen, currentFilm, comments}: ConnectedComponentProps): 
         </div>
       );
     case ScreenType.Reviews:
-      // TODO Как комментарии "прикрепляются" к своему фильму?
       return (
         <div className="film-card__reviews film-card__row">
           <div className="film-card__reviews-col">
@@ -118,7 +114,6 @@ function Tabs({currentScreen, currentFilm, comments}: ConnectedComponentProps): 
           </div>
 
           <div className="film-card__text">
-            {/* // TODO Пока не очень ясно, как будет приходить description, чтобы его отрисовать тут */}
             <p>{description}</p>
             <p className="film-card__director"><strong>Director: {director}</strong></p>
 

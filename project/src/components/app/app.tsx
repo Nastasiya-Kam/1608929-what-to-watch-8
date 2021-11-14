@@ -53,7 +53,7 @@ function App(props: PropsFromRedux): JSX.Element {
           path = {AppRoute.Film}
           render = {(routerProps) => {
             const id = parseInt(routerProps?.match?.params?.id as string, 10);
-            return <FilmScreen id = {id} />;
+            return <FilmScreen currentId = {id} />;
           }}
         >
         </Route>
