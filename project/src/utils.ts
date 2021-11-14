@@ -65,11 +65,6 @@ const adaptCommentsToClient = (comment: any): Comment => ({
   date: comment['date'],
 });
 
-const adaptCommentsToServer = (comment: Comment): any => ({
-  'rating': comment.rating,
-  'comment': comment.text,
-});
-
 const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Auth;
 
@@ -85,7 +80,6 @@ export {
   getFavoriteFilms,
   adaptToClient,
   adaptCommentsToClient,
-  adaptCommentsToServer,
   isCheckedAuth,
   checkValidText,
   checkValidRating,

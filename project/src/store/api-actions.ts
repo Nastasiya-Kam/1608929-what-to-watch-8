@@ -1,11 +1,12 @@
 import {loadFilms, redirectToRoute, loadPromo, loadFavorite, loadSimilar, loadComments, requireAuthorization, requireLogout} from './action'; //, sendComment
 import {saveToken, dropToken, Token} from '../services/token';
 import {APIRoute, AuthorizationStatus, AppRoute} from '../const';
-import {adaptToClient, adaptCommentsToClient, adaptCommentsToServer} from '../utils';
+import {adaptToClient, adaptCommentsToClient} from '../utils';
 import {ThunkActionResult} from '../types/action';
 import {Film, FilmId, Films} from '../types/films';
-import {Comments} from '../types/comment';
+import {CommentPost, Comments} from '../types/comment';
 import {AuthData} from '../types/auth-data';
+import browserHistory from '../browser-history';
 
 const fetchFilmsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -30,6 +31,7 @@ const fetchFavoriteFilmsAction = (): ThunkActionResult =>
     //   .then((response) => {
     const {data} = await api.get<Films>(APIRoute.Favorite);
     const adaptedData = data.map((film) => adaptToClient(film));
+    dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(loadFavorite(adaptedData));
     // });
   };
@@ -49,13 +51,10 @@ const fetchCommentsAction = (id: FilmId): ThunkActionResult =>
     dispatch(loadComments(adaptedData));
   };
 
-const postCommentsAction = (id: FilmId, comment: any): ThunkActionResult =>
+const postCommentAction = (id: FilmId, {rating, text: comment}: CommentPost): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const adaptedData = adaptCommentsToServer(comment);
-    const {data} = await api.post<Comment>(APIRoute.Comment.replace(':film_id', String(id)), {adaptedData});
-    // eslint-disable-next-line
-    console.log(data);
-    dispatch(redirectToRoute(AppRoute.Root));
+    await api.post<Comment>(APIRoute.Comment.replace(':film_id', String(id)), {rating, comment});
+    browserHistory.push(AppRoute.Film.replace(':id', String(id)));
   };
 
 const checkAuthAction = (): ThunkActionResult =>
@@ -87,7 +86,7 @@ export {
   fetchFavoriteFilmsAction,
   fetchSimilarFilmsAction,
   fetchCommentsAction,
-  postCommentsAction,
+  postCommentAction,
   checkAuthAction,
   loginAction,
   logoutAction
