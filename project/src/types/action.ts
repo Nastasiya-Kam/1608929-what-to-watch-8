@@ -5,6 +5,7 @@ import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {AxiosInstance} from 'axios';
 import {State} from '../types/state';
 
+// TODO resetGenre проверить везде
 enum ActionType {
   ChangeGenre = 'changeGenre',
   GetGenreFilms = 'getGenreFilms',
@@ -15,6 +16,7 @@ enum ActionType {
   LoadFavorite = 'data/loadFavorite',
   LoadSimilar = 'data/loadSimilar',
   LoadComments = 'data/loadComments',
+  SendComment = 'data/sendComment',
   RequireAuthorization = 'user/requireAuthorization',
   SetUserMail = 'user/setUserMail',
   RequireLogout = 'user/requireLogout',
@@ -64,6 +66,9 @@ type LoadCommentsAction = {
   type: ActionType.LoadComments;
   payload: Comments;
 }
+type SendCommentAction = {
+  type: ActionType.SendComment;
+}
 
 type RequireAuthorizationAction = {
   type: ActionType.RequireAuthorization;
@@ -95,6 +100,7 @@ type Actions =
   | LoadFavoriteAction
   | LoadSimilarAction
   | LoadCommentsAction
+  | SendCommentAction
   | RequireAuthorizationAction
   | SetUserMailAction
   | RequireLogoutAction
@@ -116,6 +122,7 @@ export type {
   LoadFavoriteAction,
   LoadSimilarAction,
   LoadCommentsAction,
+  SendCommentAction,
   RequireAuthorizationAction,
   SetUserMailAction,
   RequireLogoutAction,

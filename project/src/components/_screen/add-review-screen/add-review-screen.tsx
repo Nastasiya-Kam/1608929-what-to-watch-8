@@ -4,16 +4,25 @@ import Logo from '../../logo/logo';
 import SignOut from '../../sign-out/sign-out';
 import {State} from '../../../types/state';
 import LoadingScreen from '../loading-screen/loading-screen';
+import {ThunkAppDispatch} from '../../../types/action';
+import {CommentPost} from '../../../types/comment';
+import {postCommentsAction} from '../../../store/api-actions';
 
 const mapStateToProps = ({currentFilm}: State) => ({
   currentFilm,
 });
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onSubmit(id: number, review: CommentPost) {
+    dispatch(postCommentsAction(id, review));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function AddReviewScreen ({currentFilm}: PropsFromRedux): JSX.Element {
+function AddReviewScreen ({currentFilm, onSubmit}: PropsFromRedux): JSX.Element {
   if (currentFilm === null) {
     return (
       <LoadingScreen />
@@ -56,9 +65,7 @@ function AddReviewScreen ({currentFilm}: PropsFromRedux): JSX.Element {
       <div className="add-review">
         <AddReviewForm
           filmId = {id}
-          onReviewSubmit = {() => {
-            throw new Error('Function \'onReview\' isn\'t implemented.');
-          }}
+          onReviewSubmit = {(currentId, review) => onSubmit(currentId, review)}
         />
       </div>
 

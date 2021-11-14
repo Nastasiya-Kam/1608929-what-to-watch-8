@@ -1,7 +1,7 @@
-import {loadFilms, redirectToRoute, loadPromo, loadFavorite, loadSimilar, loadComments, requireAuthorization, requireLogout} from './action';
+import {loadFilms, redirectToRoute, loadPromo, loadFavorite, loadSimilar, loadComments, requireAuthorization, requireLogout} from './action'; //, sendComment
 import {saveToken, dropToken, Token} from '../services/token';
 import {APIRoute, AuthorizationStatus, AppRoute} from '../const';
-import {adaptToClient, adaptCommentsToClient} from '../utils';
+import {adaptToClient, adaptCommentsToClient, adaptCommentsToServer} from '../utils';
 import {ThunkActionResult} from '../types/action';
 import {Film, FilmId, Films} from '../types/films';
 import {Comments} from '../types/comment';
@@ -30,8 +30,6 @@ const fetchFavoriteFilmsAction = (): ThunkActionResult =>
     //   .then((response) => {
     const {data} = await api.get<Films>(APIRoute.Favorite);
     const adaptedData = data.map((film) => adaptToClient(film));
-    // eslint-disable-next-line
-    console.log(data);
     dispatch(loadFavorite(adaptedData));
     // });
   };
@@ -49,6 +47,15 @@ const fetchCommentsAction = (id: FilmId): ThunkActionResult =>
     const {data} = await api.get<Comments>(APIRoute.Comments.replace(':film_id', String(id)));
     const adaptedData = data.map((comment) => adaptCommentsToClient(comment));
     dispatch(loadComments(adaptedData));
+  };
+
+const postCommentsAction = (id: FilmId, comment: any): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const adaptedData = adaptCommentsToServer(comment);
+    const {data} = await api.post<Comment>(APIRoute.Comment.replace(':film_id', String(id)), {adaptedData});
+    // eslint-disable-next-line
+    console.log(data);
+    dispatch(redirectToRoute(AppRoute.Root));
   };
 
 const checkAuthAction = (): ThunkActionResult =>
@@ -80,6 +87,7 @@ export {
   fetchFavoriteFilmsAction,
   fetchSimilarFilmsAction,
   fetchCommentsAction,
+  postCommentsAction,
   checkAuthAction,
   loginAction,
   logoutAction

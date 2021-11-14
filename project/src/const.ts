@@ -57,6 +57,7 @@ enum APIRoute {
   Similar = '/films/:id/similar',
   Promo = '/promo',
   Comments = '/comments/:film_id',
+  Comment = '/comments/:film_id',
   Login = '/login',
   Logout = '/logout',
 }

@@ -65,8 +65,17 @@ const adaptCommentsToClient = (comment: any): Comment => ({
   date: comment['date'],
 });
 
+const adaptCommentsToServer = (comment: Comment): any => ({
+  'rating': comment.rating,
+  'comment': comment.text,
+});
+
 const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Auth;
+
+const checkValidText = (text: string): boolean => (text.length >= 50 && text.length <= 400);
+const checkValidRating = (rating: number): boolean => (rating !==0);
+const checkValidForm = (isValidText: boolean, isValidRating: boolean): boolean => isValidText === true && isValidRating === true;
 
 export {
   getGrade,
@@ -76,5 +85,9 @@ export {
   getFavoriteFilms,
   adaptToClient,
   adaptCommentsToClient,
-  isCheckedAuth
+  adaptCommentsToServer,
+  isCheckedAuth,
+  checkValidText,
+  checkValidRating,
+  checkValidForm
 };

@@ -9,4 +9,9 @@ type Comment = {
 
 type Comments = Comment[]
 
-export type {Comment, Comments};
+type CommentPost = {
+  rating: number,
+  text: string,
+}
+
+export type {Comment, Comments, CommentPost};

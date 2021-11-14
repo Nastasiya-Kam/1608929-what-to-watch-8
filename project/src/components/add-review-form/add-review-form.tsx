@@ -1,14 +1,11 @@
 import {useState, FormEvent, ChangeEvent, Fragment} from 'react';
 import {FilmId} from '../../types/films';
-
-type UserReview = {
-  text: string,
-  rating: number,
-}
+import {checkValidText, checkValidRating, checkValidForm} from '../../utils';
+import {CommentPost} from '../../types/comment';
 
 type Props = {
   filmId: FilmId,
-  onReviewSubmit: (filmId: number, userReview: UserReview) => void
+  onReviewSubmit: (filmId: number, userReview: CommentPost) => void
 }
 
 const STARS = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
@@ -16,6 +13,8 @@ const STARS = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 function AddReviewForm({filmId, onReviewSubmit}: Props): JSX.Element {
   const [userComment, setUserComment] = useState('');
   const [userRating, setUserRating] = useState(0);
+  const [validText, setValidText] = useState(false);
+  const [validRating, setValidRating] = useState(false);
 
   return (
     <form action="#"
@@ -23,13 +22,11 @@ function AddReviewForm({filmId, onReviewSubmit}: Props): JSX.Element {
       onSubmit={(evt: FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
         const review = {
-          text: userComment,
           rating: userRating,
+          text: userComment,
         };
 
-        //TODO текст от 50 до 400 символов
-        //todo кнопка не активна, пока не поставил оценку и не ввёл текст
-        //todo блокировка формы при отправке данных
+        //TODO блокировка формы при отправке данных
         //todo разблокировка в случае успеха или при возникновении ошибки
         //todo при успехе переход на карточку фильма
         onReviewSubmit(filmId, review);
@@ -47,9 +44,10 @@ function AddReviewForm({filmId, onReviewSubmit}: Props): JSX.Element {
                 value={star}
                 checked={star === userRating}
                 onChange={({target}: ChangeEvent<HTMLInputElement>) => {
-                  const value = target.value;
+                  const value = parseInt(target.value, 10);
 
-                  setUserRating(parseInt(value, 10));
+                  setValidRating(checkValidRating(value));
+                  setUserRating(value);
                 }}
               />
               <label className="rating__label" htmlFor={`star-${star}`}>Rating {star}</label>
@@ -63,15 +61,20 @@ function AddReviewForm({filmId, onReviewSubmit}: Props): JSX.Element {
           onChange={({target}: ChangeEvent<HTMLTextAreaElement>) => {
             const value = target.value;
 
+            setValidText(checkValidText(value));
             setUserComment(value);
           }}
         >
         </textarea>
         <div className="add-review__submit">
-          <button className="add-review__btn" type="submit">Post</button>
+          <button
+            className="add-review__btn"
+            type="submit"
+            disabled={!checkValidForm(validText, validRating)}
+          >
+            Post
+          </button>
         </div>
-        <p>Введённый комментарий: {userComment}</p>
-        <p>Введённый рейтинг: {userRating}</p>
       </div>
     </form>
   );
