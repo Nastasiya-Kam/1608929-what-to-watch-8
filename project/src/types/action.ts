@@ -1,4 +1,4 @@
-import {AuthorizationStatus} from '../const';
+import {AppRoute, AuthorizationStatus} from '../const';
 import {Film, Films} from '../types/films';
 import {Comments} from '../types/comment';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
@@ -15,7 +15,8 @@ enum ActionType {
   LoadComments = 'data/loadComments',
   RequireAuthorization = 'user/requireAuthorization',
   SetUserMail = 'user/setUserMail',
-  RequireLogout = 'user/requireLogout'
+  RequireLogout = 'user/requireLogout',
+  RedirectToRoute = 'redirectToRoute'
 }
 
 type ChangeGenreAction = {
@@ -67,6 +68,11 @@ type RequireLogoutAction = {
   payload: AuthorizationStatus;
 }
 
+type RedirectToRouteAction = {
+  type: ActionType.RedirectToRoute;
+  payload: AppRoute;
+}
+
 type Actions =
   | ChangeGenreAction
   | GetGenreFilmsAction
@@ -77,7 +83,8 @@ type Actions =
   | LoadCommentsAction
   | RequireAuthorizationAction
   | SetUserMailAction
-  | RequireLogoutAction;
+  | RequireLogoutAction
+  | RedirectToRouteAction;
   // | ReturnType<typeof requireAuthorization>
   // | ReturnType<typeof requireLogout>;
 
@@ -96,6 +103,7 @@ export type {
   RequireAuthorizationAction,
   SetUserMailAction,
   RequireLogoutAction,
+  RedirectToRouteAction,
   Actions,
   ThunkActionResult,
   ThunkAppDispatch

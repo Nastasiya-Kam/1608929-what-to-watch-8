@@ -8,11 +8,12 @@ import {
   LoadPromoAction,
   LoadCommentsAction,
   RequireAuthorizationAction,
-  RequireLogoutAction
+  RequireLogoutAction,
+  RedirectToRouteAction
 } from '../types/action';
 import {Film, Films} from '../types/films';
 import {Comments} from '../types/comment';
-import {AuthorizationStatus} from '../const';
+import {AppRoute, AuthorizationStatus} from '../const';
 
 const changeGenre = (genre: string): ChangeGenreAction => ({
   type: ActionType.ChangeGenre,
@@ -58,6 +59,11 @@ const requireLogout = (auth: AuthorizationStatus): RequireLogoutAction => ({
   payload: auth,
 });
 
+const redirectToRoute = (url: AppRoute): RedirectToRouteAction => ({
+  type: ActionType.RedirectToRoute,
+  payload: url,
+});
+
 export {
   changeGenre,
   getGenreFilms,
@@ -67,5 +73,6 @@ export {
   loadPromo,
   loadComments,
   requireAuthorization,
-  requireLogout
+  requireLogout,
+  redirectToRoute
 };

@@ -9,15 +9,12 @@ import FilmScreen from '../_screen/film-screen/film-screen';
 import AddReviewScreen from '../_screen/add-review-screen/add-review-screen';
 // import PlayerScreen from '../_screen/player-screen/player-screen';
 import NotFoundScreen from '../_screen/not-found-screen/not-found-screen';
-// import LoadingScreen from '../_screen/loading-screen/loading-screen';
 import {State} from '../../types/state';
-// import LoadingScreen from '../_screen/loading-screen/loading-screen';
 import {isCheckedAuth} from '../../utils';
 import browserHistory from '../../browser-history';
 
 const mapStateToProps = ({authorizationStatus}: State) => ({
   authorizationStatus,
-//   isDataLoaded,
 });
 
 const connector = connect(mapStateToProps);
@@ -26,12 +23,6 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function App(props: PropsFromRedux): JSX.Element {
   const {authorizationStatus} = props;
-
-  // if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
-  //   return (
-  //     <LoadingScreen />
-  //   );
-  // }
 
   return (
     <BrowserRouter history={browserHistory}>
@@ -88,4 +79,3 @@ function App(props: PropsFromRedux): JSX.Element {
 
 export {App};
 export default connector(App);
-// export default App;
