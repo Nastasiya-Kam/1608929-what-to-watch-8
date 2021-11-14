@@ -26,14 +26,10 @@ const fetchPromoFilmAction = (): ThunkActionResult =>
 
 const fetchFavoriteFilmsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    //  TODO проверить авторизован ли пользователь
-    // await api.get(APIRoute.Login)
-    //   .then((response) => {
     const {data} = await api.get<Films>(APIRoute.Favorite);
     const adaptedData = data.map((film) => adaptToClient(film));
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(loadFavorite(adaptedData));
-    // });
   };
 
 const fetchSimilarFilmsAction = (id: FilmId): ThunkActionResult =>

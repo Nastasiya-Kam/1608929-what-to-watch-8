@@ -5,11 +5,9 @@ import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {AxiosInstance} from 'axios';
 import {State} from '../types/state';
 
-// TODO resetGenre проверить везде
 enum ActionType {
   ChangeGenre = 'changeGenre',
   GetGenreFilms = 'getGenreFilms',
-  ResetGenre = 'resetGenre',
   SetCurrentFilm = 'setCurrentFilm',
   LoadFilms = 'data/loadFilms',
   LoadPromo = 'data/loadPromo',
@@ -32,10 +30,6 @@ type GetGenreFilmsAction = {
   type: ActionType.GetGenreFilms;
   payload: Films;
 };
-
-type ResetGenreAction = {
-  type: ActionType.ResetGenre;
-}
 
 type SetCurrentFilmAction = {
   type: ActionType.SetCurrentFilm;
@@ -93,7 +87,6 @@ type RedirectToRouteAction = {
 type Actions =
   | ChangeGenreAction
   | GetGenreFilmsAction
-  | ResetGenreAction
   | SetCurrentFilmAction
   | LoadFilmsAction
   | LoadPromoAction
@@ -115,7 +108,6 @@ export {ActionType};
 export type {
   ChangeGenreAction,
   GetGenreFilmsAction,
-  ResetGenreAction,
   SetCurrentFilmAction,
   LoadFilmsAction,
   LoadPromoAction,

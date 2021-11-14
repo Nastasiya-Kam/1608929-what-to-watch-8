@@ -64,9 +64,6 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...state, userMail: action.payload};
     case ActionType.RequireLogout:
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
-    // TODO где используется?
-    case ActionType.ResetGenre:
-      return {...initialState};
     default:
       return state;
   }

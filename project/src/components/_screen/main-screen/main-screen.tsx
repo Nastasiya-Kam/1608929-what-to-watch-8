@@ -61,8 +61,6 @@ function MainScreen({promoFilm, films, genres, currentGenre, authorizationStatus
 
         <header className="page-header film-card__head">
           <Logo />
-          {/* // TODO Для гостей в шапке страницы отображается ссылка для перехода на страницу ввода логина и пароля.
-          // TODO Для авторизованных пользователей — электронная почта зарегистрированного пользователя. */}
           {isCheckedAuth(authorizationStatus)
             ? <SignOut />
             : <SignIn />}

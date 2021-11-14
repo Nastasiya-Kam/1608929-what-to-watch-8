@@ -5,8 +5,8 @@ import {loginAction} from '../../../store/api-actions';
 import {useRef, FormEvent} from 'react';
 import {ThunkAppDispatch} from '../../../types/action';
 import {AuthData} from '../../../types/auth-data';
-import SignInMessage from '../../sign-in-message/sign-in-message';
-// import SignInError from '../../sign-in-error/sign-in-error';
+// import SignInMessage from '../../sign-in-message/sign-in-message';
+import SignInError from '../../sign-in-error/sign-in-error';
 import {useHistory} from 'react-router';
 import {AppRoute} from '../../../const';
 
@@ -42,9 +42,7 @@ function SignInScreen(props: PropsFromRedux): JSX.Element {
     evt.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
-      const pattern = /^[\s]+$/;
-
-      if (!pattern.test(passwordRef.current.value)) {
+      if (!checkPassword(passwordRef.current.value)) {
         onSubmit({
           login: loginRef.current.value,
           password: passwordRef.current.value,
@@ -69,9 +67,9 @@ function SignInScreen(props: PropsFromRedux): JSX.Element {
           className="sign-in__form"
           onSubmit={handleSubmit}
         >
-          {/* //TODO не рабоает, почему? */}
-          {(passwordRef.current !== null && checkPassword(passwordRef.current.value)) && <SignInMessage />}
-          {/* {<SignInError />} */}
+          {/* //TODO не работает, почему? Использовать useEffect? при отправке выводить сообщение*/}
+          {(passwordRef.current !== null && !checkPassword(passwordRef.current.value)) && <SignInError />}
+          {/* {<SignInMessage />} */}
           <div className="sign-in__fields">
             <div className="sign-in__field">
               <input

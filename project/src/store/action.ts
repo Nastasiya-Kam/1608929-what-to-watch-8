@@ -2,7 +2,6 @@ import {
   ActionType,
   ChangeGenreAction,
   GetGenreFilmsAction,
-  ResetGenreAction,
   SetCurrentFilmAction,
   LoadFilmsAction,
   LoadPromoAction,
@@ -25,10 +24,6 @@ const changeGenre = (genre: string): ChangeGenreAction => ({
 const getGenreFilms = (films: Films): GetGenreFilmsAction => ({
   type: ActionType.GetGenreFilms,
   payload: films,
-});
-
-const resetGenre = (): ResetGenreAction => ({
-  type: ActionType.ResetGenre,
 });
 
 const setCurrentFilm = (film: Film): SetCurrentFilmAction => ({
@@ -79,7 +74,6 @@ const redirectToRoute = (url: AppRoute): RedirectToRouteAction => ({
 export {
   changeGenre,
   getGenreFilms,
-  resetGenre,
   setCurrentFilm,
   loadFilms,
   loadPromo,
