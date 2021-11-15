@@ -10,9 +10,9 @@ import {State} from '../../../types/state';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {ThunkAppDispatch} from '../../../types/action';
 import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
-import {getSimilarGenreFilms, isCheckedAuth} from '../../../utils';
+import {getSimilarGenreFilms, isCheckedAuth, checkFavoriteStatus} from '../../../utils';
 import {store} from '../../../index';
-import {fetchCommentsAction, fetchSimilarFilmsAction} from '../../../store/api-actions';
+import {fetchCommentsAction, fetchSimilarFilmsAction, postFavoriteFilmStatusAction} from '../../../store/api-actions';
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
@@ -21,25 +21,30 @@ type Props = {
   currentId: FilmId,
 }
 
-const mapStateToProps = ({films, similarFilms, authorizationStatus}: State, ownProps: Props) => {
+const mapStateToProps = ({films, similarFilms, authorizationStatus, favoriteFilms}: State, ownProps: Props) => {
   const {currentId} = ownProps;
   const currentFilm = films.find((item) => item.id === currentId);
   const currentSimilarFilms = currentFilm ? getSimilarGenreFilms(similarFilms, currentFilm.id) : [];
+  const currentFavoriteStatus: boolean = currentFilm ? checkFavoriteStatus(currentFilm.id, favoriteFilms) : false;
 
   return ({
     currentId,
     currentFilm,
     similarFilms: currentSimilarFilms,
     authorizationStatus,
+    currentFavoriteStatus,
   });
 };
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onLoadComments(id: FilmId) {
     (store.dispatch as ThunkAppDispatch)(fetchCommentsAction(id));
   },
   onLoadSimilar(id: FilmId) {
     (store.dispatch as ThunkAppDispatch)(fetchSimilarFilmsAction(id));
+  },
+  onStatusFavoriteChange(id: FilmId, status: number) {
+    dispatch(postFavoriteFilmStatusAction(id, status));
   },
 });
 
@@ -47,9 +52,9 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus, onLoadComments, onLoadSimilar}: PropsFromRedux): JSX.Element {
+function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus, currentFavoriteStatus, onLoadComments, onLoadSimilar, onStatusFavoriteChange}: PropsFromRedux): JSX.Element {
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
-  const [favoriteStatus, setFavoriteStatus] = useState(false);
+  const [favoriteStatus, setFavoriteStatus] = useState(currentFavoriteStatus);
 
   useEffect(() => {
     if (!currentFilm) {
@@ -58,6 +63,16 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
     onLoadComments(currentId);
     onLoadSimilar(currentId);
   }, [currentFilm]);
+
+  useEffect(() => {
+    if (!currentFilm) {
+      return;
+    }
+
+    const status = favoriteStatus ? 1 : 0;
+
+    onStatusFavoriteChange(currentId, status);
+  }, [favoriteStatus]);
 
   if (!currentFilm) {
     return <NotFoundScreen />;
@@ -98,7 +113,7 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
                   <span>Play</span>
                 </button>
                 {/* // TODO  to={AppRoute.AddReview.replace(':id', String(id))} */}
-                <FavoriteButton isFavorite={favoriteStatus} onClick = {setFavoriteStatus} />
+                <FavoriteButton isFavorite = {favoriteStatus} onClick = {setFavoriteStatus} />
                 {isCheckedAuth(authorizationStatus) && <Link to={AppRoute.AddReview.replace(':id', String(id))} className="btn film-card__button">Add review</Link>}
               </div>
             </div>

@@ -32,11 +32,10 @@ const fetchFavoriteFilmsAction = (): ThunkActionResult =>
     dispatch(loadFavorite(adaptedData));
   };
 
-const postFavoriteFilmStatusAction = (id: FilmId): ThunkActionResult =>
+const postFavoriteFilmStatusAction = (id: FilmId, status: number): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    // const {data} = await api.post<Film>(APIRoute.FavoriteStatus.replace(':film_id', String(id)).replace(':status', String()));
-    // dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    // dispatch(loadFavorite(adaptedData));
+    await api.post<Film>(APIRoute.FavoriteStatus.replace(':film_id', String(id)).replace(':status', String(status)), {status});
+    dispatch(requireAuthorization(AuthorizationStatus.Auth));
   };
 
 const fetchSimilarFilmsAction = (id: FilmId): ThunkActionResult =>
@@ -56,7 +55,7 @@ const fetchCommentsAction = (id: FilmId): ThunkActionResult =>
 
 const postCommentAction = (id: FilmId, {rating, text: comment}: CommentPost): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    await api.post<Comment>(APIRoute.Comment.replace(':film_id', String(id)), {rating, comment});
+    await api.post<CommentPost>(APIRoute.Comment.replace(':film_id', String(id)), {rating, comment});
     browserHistory.push(AppRoute.Film.replace(':id', String(id)));
   };
 

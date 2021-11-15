@@ -1,5 +1,5 @@
 import {AuthorizationStatus, DEFAULT_GENRE, Grade} from './const';
-import {Film} from './types/films';
+import {Film, FilmId, Films} from './types/films';
 import {Comment} from './types/comment';
 
 const getGrade = (rating: number): string | undefined => {
@@ -72,6 +72,8 @@ const checkValidText = (text: string): boolean => (text.length >= 50 && text.len
 const checkValidRating = (rating: number): boolean => (rating !==0);
 const checkValidForm = (isValidText: boolean, isValidRating: boolean): boolean => isValidText === true && isValidRating === true;
 
+const checkFavoriteStatus = (id: FilmId, favoriteFilms: Films): boolean => favoriteFilms.some((item) => item.id === id);
+
 export {
   getGrade,
   getGenres,
@@ -83,5 +85,6 @@ export {
   isCheckedAuth,
   checkValidText,
   checkValidRating,
-  checkValidForm
+  checkValidForm,
+  checkFavoriteStatus
 };
