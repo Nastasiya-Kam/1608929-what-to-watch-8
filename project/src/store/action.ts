@@ -2,17 +2,19 @@ import {
   ActionType,
   ChangeGenreAction,
   GetGenreFilmsAction,
-  ResetGenreAction,
   SetCurrentFilmAction,
   LoadFilmsAction,
   LoadPromoAction,
+  LoadFavoriteAction,
+  LoadSimilarAction,
   LoadCommentsAction,
   RequireAuthorizationAction,
-  RequireLogoutAction
+  RequireLogoutAction,
+  RedirectToRouteAction
 } from '../types/action';
 import {Film, Films} from '../types/films';
 import {Comments} from '../types/comment';
-import {AuthorizationStatus} from '../const';
+import {AppRoute, AuthorizationStatus} from '../const';
 
 const changeGenre = (genre: string): ChangeGenreAction => ({
   type: ActionType.ChangeGenre,
@@ -22,10 +24,6 @@ const changeGenre = (genre: string): ChangeGenreAction => ({
 const getGenreFilms = (films: Films): GetGenreFilmsAction => ({
   type: ActionType.GetGenreFilms,
   payload: films,
-});
-
-const resetGenre = (): ResetGenreAction => ({
-  type: ActionType.ResetGenre,
 });
 
 const setCurrentFilm = (film: Film): SetCurrentFilmAction => ({
@@ -43,6 +41,16 @@ const loadPromo = (film: Film): LoadPromoAction => ({
   payload: film,
 });
 
+const loadFavorite = (films: Films): LoadFavoriteAction => ({
+  type: ActionType.LoadFavorite,
+  payload: films,
+});
+
+const loadSimilar = (films: Films): LoadSimilarAction => ({
+  type: ActionType.LoadSimilar,
+  payload: films,
+});
+
 const loadComments = (comments: Comments): LoadCommentsAction => ({
   type: ActionType.LoadComments,
   payload: comments,
@@ -53,8 +61,26 @@ const requireAuthorization = (authStatus: AuthorizationStatus): RequireAuthoriza
   payload: authStatus,
 });
 
-const requireLogout = (): RequireLogoutAction => ({
+const requireLogout = (auth: AuthorizationStatus): RequireLogoutAction => ({
   type: ActionType.RequireLogout,
+  payload: auth,
 });
 
-export {changeGenre, getGenreFilms, resetGenre, setCurrentFilm, loadFilms, loadPromo, loadComments, requireAuthorization, requireLogout};
+const redirectToRoute = (url: AppRoute): RedirectToRouteAction => ({
+  type: ActionType.RedirectToRoute,
+  payload: url,
+});
+
+export {
+  changeGenre,
+  getGenreFilms,
+  setCurrentFilm,
+  loadFilms,
+  loadPromo,
+  loadFavorite,
+  loadSimilar,
+  loadComments,
+  requireAuthorization,
+  requireLogout,
+  redirectToRoute
+};

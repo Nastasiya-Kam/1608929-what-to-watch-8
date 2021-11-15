@@ -3,22 +3,48 @@ import SignOut from '../../sign-out/sign-out';
 import Footer from '../../footer/footer';
 import FilmList from '../../film-list/film-list';
 import {State} from '../../../types/state';
+import {ThunkAppDispatch} from '../../../types/action';
+import {isCheckedAuth} from '../../../utils';
+import {fetchFavoriteFilmsAction, checkAuthAction} from '../../../store/api-actions';
+import {store} from '../../../index';
 import {connect, ConnectedProps} from 'react-redux';
-import {getFavoriteFilms} from '../../../utils';
+import {useEffect} from 'react';
+import LoadingScreen from '../loading-screen/loading-screen';
 
-const mapStateToProps = ({films}: State) => {
-  const favoriteFilms = getFavoriteFilms(films);
+const mapStateToProps = ({favoriteFilms, isFavoriteLoaded, authorizationStatus}: State) => ({
+  favoriteFilms,
+  isFavoriteLoaded,
+  authorizationStatus,
+});
 
-  return ({
-    films: favoriteFilms,
-  });
-};
+const mapDispatchToProps = () => ({
+  onLoadFavorites() {
+    //  TODO нужно ли проверять авторизован ли пользователь
+    checkAuthAction();
+    (store.dispatch as ThunkAppDispatch)(fetchFavoriteFilmsAction());
+  },
+});
 
-const connector = connect(mapStateToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function MyListScreen ({films}: PropsFromRedux): JSX.Element {
+function MyListScreen ({favoriteFilms, isFavoriteLoaded, authorizationStatus, onLoadFavorites}: PropsFromRedux): JSX.Element {
+  // eslint-disable-next-line
+  console.log(isFavoriteLoaded);
+
+  useEffect(() => {
+    if (!isCheckedAuth(authorizationStatus)) {
+      return;
+    }
+
+    onLoadFavorites();
+  }, [authorizationStatus]);
+
+  if (!favoriteFilms) {
+    return <LoadingScreen />;
+  }
+
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -28,7 +54,7 @@ function MyListScreen ({films}: PropsFromRedux): JSX.Element {
       </header>
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <FilmList films = {films} />
+        <FilmList films = {favoriteFilms} />
       </section>
       <Footer />
     </div>

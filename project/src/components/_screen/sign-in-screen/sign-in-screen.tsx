@@ -1,7 +1,58 @@
+import {connect, ConnectedProps} from 'react-redux';
 import Footer from '../../footer/footer';
 import Logo from '../../logo/logo';
+import {loginAction} from '../../../store/api-actions';
+import {useRef, FormEvent} from 'react';
+import {ThunkAppDispatch} from '../../../types/action';
+import {AuthData} from '../../../types/auth-data';
+// import SignInMessage from '../../sign-in-message/sign-in-message';
+import SignInError from '../../sign-in-error/sign-in-error';
+import {useHistory} from 'react-router';
+import {AppRoute} from '../../../const';
 
-function SignInScreen (): JSX.Element {
+const checkPassword = (password: string): boolean => {
+  const patternPassword = /^[\s]+$/;
+
+  if (password !== null) {
+    return patternPassword.test(password);
+  }
+
+  return false;
+};
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onSubmit(authData: AuthData) {
+    dispatch(loginAction(authData));
+  },
+});
+
+const connector = connect(null, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function SignInScreen(props: PropsFromRedux): JSX.Element {
+  const {onSubmit} = props;
+
+  const loginRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+
+  const history = useHistory();
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (loginRef.current !== null && passwordRef.current !== null) {
+      if (!checkPassword(passwordRef.current.value)) {
+        onSubmit({
+          login: loginRef.current.value,
+          password: passwordRef.current.value,
+        });
+
+        history.push(AppRoute.Root);
+      }
+    }
+  };
+
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -11,19 +62,44 @@ function SignInScreen (): JSX.Element {
       </header>
 
       <div className="sign-in user-page__content">
-        <form action="#" className="sign-in__form">
+        <form
+          action=""
+          className="sign-in__form"
+          onSubmit={handleSubmit}
+        >
+          {/* //TODO не работает, почему? Использовать useEffect? при отправке выводить сообщение*/}
+          {(passwordRef.current !== null && !checkPassword(passwordRef.current.value)) && <SignInError />}
+          {/* {<SignInMessage />} */}
           <div className="sign-in__fields">
             <div className="sign-in__field">
-              <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" />
-              <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
+              <input
+                ref={loginRef}
+                className="sign-in__input"
+                type="email"
+                placeholder="Email address"
+                name="user-email"
+                id="user-email"
+              />
+              <label className="sign-in__label visually-hidden" htmlFor="user-email">
+                Email address
+              </label>
             </div>
             <div className="sign-in__field">
-              <input className="sign-in__input" type="password" placeholder="Password" name="user-password" id="user-password" />
+              <input
+                ref={passwordRef}
+                className="sign-in__input"
+                type="password"
+                placeholder="Password"
+                name="user-password"
+                id="user-password"
+              />
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
             </div>
           </div>
           <div className="sign-in__submit">
-            <button className="sign-in__btn" type="submit">Sign in</button>
+            <button className="sign-in__btn" type="submit" >
+              Sign in
+            </button>
           </div>
         </form>
       </div>
@@ -33,4 +109,5 @@ function SignInScreen (): JSX.Element {
   );
 }
 
-export default SignInScreen;
+export {SignInScreen};
+export default connector(SignInScreen);

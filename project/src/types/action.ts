@@ -1,7 +1,6 @@
-import {AuthorizationStatus} from '../const';
+import {AppRoute, AuthorizationStatus} from '../const';
 import {Film, Films} from '../types/films';
 import {Comments} from '../types/comment';
-// import {requireAuthorization, requireLogout} from '../store/action';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {AxiosInstance} from 'axios';
 import {State} from '../types/state';
@@ -9,13 +8,16 @@ import {State} from '../types/state';
 enum ActionType {
   ChangeGenre = 'changeGenre',
   GetGenreFilms = 'getGenreFilms',
-  ResetGenre = 'resetGenre',
   SetCurrentFilm = 'setCurrentFilm',
   LoadFilms = 'data/loadFilms',
   LoadPromo = 'data/loadPromo',
+  LoadFavorite = 'data/loadFavorite',
+  LoadSimilar = 'data/loadSimilar',
   LoadComments = 'data/loadComments',
   RequireAuthorization = 'user/requireAuthorization',
-  RequireLogout = 'user/requireLogout'
+  SetUserMail = 'user/setUserMail',
+  RequireLogout = 'user/requireLogout',
+  RedirectToRoute = 'redirectToRoute'
 }
 
 type ChangeGenreAction = {
@@ -27,10 +29,6 @@ type GetGenreFilmsAction = {
   type: ActionType.GetGenreFilms;
   payload: Films;
 };
-
-type ResetGenreAction = {
-  type: ActionType.ResetGenre;
-}
 
 type SetCurrentFilmAction = {
   type: ActionType.SetCurrentFilm;
@@ -47,6 +45,16 @@ type LoadPromoAction = {
   payload: Film;
 }
 
+type LoadFavoriteAction = {
+  type: ActionType.LoadFavorite;
+  payload: Films;
+}
+
+type LoadSimilarAction = {
+  type: ActionType.LoadSimilar;
+  payload: Films;
+}
+
 type LoadCommentsAction = {
   type: ActionType.LoadComments;
   payload: Comments;
@@ -57,20 +65,34 @@ type RequireAuthorizationAction = {
   payload: AuthorizationStatus,
 }
 
+type SetUserMailAction = {
+  type: ActionType.SetUserMail;
+  payload: string;
+}
+
 type RequireLogoutAction = {
-  type: ActionType.RequireLogout,
+  type: ActionType.RequireLogout;
+  payload: AuthorizationStatus;
+}
+
+type RedirectToRouteAction = {
+  type: ActionType.RedirectToRoute;
+  payload: AppRoute;
 }
 
 type Actions =
   | ChangeGenreAction
   | GetGenreFilmsAction
-  | ResetGenreAction
   | SetCurrentFilmAction
   | LoadFilmsAction
   | LoadPromoAction
+  | LoadFavoriteAction
+  | LoadSimilarAction
   | LoadCommentsAction
   | RequireAuthorizationAction
-  | RequireLogoutAction;
+  | SetUserMailAction
+  | RequireLogoutAction
+  | RedirectToRouteAction;
   // | ReturnType<typeof requireAuthorization>
   // | ReturnType<typeof requireLogout>;
 
@@ -81,13 +103,16 @@ export {ActionType};
 export type {
   ChangeGenreAction,
   GetGenreFilmsAction,
-  ResetGenreAction,
   SetCurrentFilmAction,
   LoadFilmsAction,
   LoadPromoAction,
+  LoadFavoriteAction,
+  LoadSimilarAction,
   LoadCommentsAction,
   RequireAuthorizationAction,
+  SetUserMailAction,
   RequireLogoutAction,
+  RedirectToRouteAction,
   Actions,
   ThunkActionResult,
   ThunkAppDispatch

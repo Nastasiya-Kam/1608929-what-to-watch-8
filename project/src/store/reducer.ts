@@ -6,10 +6,14 @@ const initialState = {
   currentGenre: DEFAULT_GENRE,
   films: [],
   comments: [],
-  promoFilm: [][0],
-  currentFilm: [][1],
-  authorizationStatus: AuthorizationStatus.Unknown,
+  promoFilm: null,
+  currentFilm: null,
+  authorizationStatus: AuthorizationStatus.Auth,
   isDataLoaded: false,
+  userMail: '',
+  favoriteFilms: [],
+  isFavoriteLoaded: false,
+  similarFilms: [],
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -30,22 +34,36 @@ const reducer = (state: State = initialState, action: Actions): State => {
     }
     case ActionType.LoadPromo: {
       const promoFilm = action.payload;
-
+      return {...state, promoFilm};
+    }
+    case ActionType.LoadFavorite: {
+      const favoriteFilms = action.payload;
       return {
         ...state,
-        promoFilm,
+        favoriteFilms,
+        isFavoriteLoaded: true,
+      };
+    }
+    case ActionType.LoadSimilar: {
+      const similarFilms = action.payload;
+      return {
+        ...state,
+        similarFilms,
+      };
+    }
+    case ActionType.LoadComments: {
+      const comments = action.payload;
+      return {
+        ...state,
+        comments,
       };
     }
     case ActionType.RequireAuthorization:
-      return {
-        ...state,
-        authorizationStatus: action.payload,
-        isDataLoaded: true,
-      };
+      return {...state, authorizationStatus: action.payload};
+    case ActionType.SetUserMail:
+      return {...state, userMail: action.payload};
     case ActionType.RequireLogout:
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
-    case ActionType.ResetGenre:
-      return {...initialState};
     default:
       return state;
   }

@@ -1,5 +1,5 @@
-import {DEFAULT_GENRE, Grade} from './const';
-import {Film} from './types/films';
+import {AuthorizationStatus, DEFAULT_GENRE, Grade} from './const';
+import {Film, FilmId, Films} from './types/films';
 import {Comment} from './types/comment';
 
 const getGrade = (rating: number): string | undefined => {
@@ -32,7 +32,7 @@ const getCurrentGenreFilms = (films: Film[], currentGenre: string): Film[] => {
   return films;
 };
 
-const getSimilarGenreFilms = (films: Film[], genre: string, currentId: number): Film[] => films.filter((element) => (currentId !== element.id) && element.genre === genre);
+const getSimilarGenreFilms = (films: Film[], currentId: number): Film[] => films.filter((element) => (currentId !== element.id));
 
 const getFavoriteFilms = (films: Film[]): Film[] => films.filter((film) => film.isFavorite);
 
@@ -65,33 +65,14 @@ const adaptCommentsToClient = (comment: any): Comment => ({
   date: comment['date'],
 });
 
-// const adaptToServer = (film: Film) => {
-//   'id': film.id,
-//   'comments': film.comments,
-//   'film_info': {
-//     'title': film.name,
-//     'alternative_title': film.original,
-//     'poster': film.img,
-//     'description': film.description,
-//     'total_rating': film.rating,
-//     'release': {
-//       'date': film.release,
-//       'release_country': film.country,
-//     },
-//     'runtime': film.duration,
-//     'genre': film.genres,
-//     'director': film.director,
-//     'writers': film.writers,
-//     'actors': film.actors,
-//     'age_rating': film.age,
-//   },
-//   'user_details': {
-//     'watchlist': film.isWatchList,
-//     'watching_date': film.watchingDate,
-//     'already_watched': film.isWatched,
-//     'favorite': film.isFavorite,
-//   },
-// };
+const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+  authorizationStatus === AuthorizationStatus.Auth;
+
+const checkValidText = (text: string): boolean => (text.length >= 50 && text.length <= 400);
+const checkValidRating = (rating: number): boolean => (rating !==0);
+const checkValidForm = (isValidText: boolean, isValidRating: boolean): boolean => isValidText === true && isValidRating === true;
+
+const checkFavoriteStatus = (id: FilmId, favoriteFilms: Films): boolean => favoriteFilms.some((item) => item.id === id);
 
 export {
   getGrade,
@@ -100,5 +81,10 @@ export {
   getSimilarGenreFilms,
   getFavoriteFilms,
   adaptToClient,
-  adaptCommentsToClient
+  adaptCommentsToClient,
+  isCheckedAuth,
+  checkValidText,
+  checkValidRating,
+  checkValidForm,
+  checkFavoriteStatus
 };
