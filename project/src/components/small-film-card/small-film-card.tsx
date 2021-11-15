@@ -7,6 +7,7 @@ import VideoPlayer from '../video-player/video-player';
 import {setCurrentFilm} from '../../store/action';
 import {Dispatch} from 'redux';
 import {connect, ConnectedProps} from 'react-redux';
+import browserHistory from '../../browser-history';
 
 type Props = {
   film: Film,
@@ -41,7 +42,10 @@ function SmallFilmCard({film, setActiveCardId, isActive, onCurrentFilmChange}: C
         setActiveCardId(null);
       }}
     >
-      <div className="small-film-card__image">
+      <div
+        className="small-film-card__image"
+        onClick={() => browserHistory.push(AppRoute.Film.replace(':id', String(id)))}
+      >
         {
           (isActive)
             ? <VideoPlayer videoLink={videoLink} poster={previewImage} />
