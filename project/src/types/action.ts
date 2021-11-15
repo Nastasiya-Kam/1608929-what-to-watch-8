@@ -14,7 +14,6 @@ enum ActionType {
   LoadFavorite = 'data/loadFavorite',
   LoadSimilar = 'data/loadSimilar',
   LoadComments = 'data/loadComments',
-  SendComment = 'data/sendComment',
   RequireAuthorization = 'user/requireAuthorization',
   SetUserMail = 'user/setUserMail',
   RequireLogout = 'user/requireLogout',
@@ -60,9 +59,6 @@ type LoadCommentsAction = {
   type: ActionType.LoadComments;
   payload: Comments;
 }
-type SendCommentAction = {
-  type: ActionType.SendComment;
-}
 
 type RequireAuthorizationAction = {
   type: ActionType.RequireAuthorization;
@@ -93,7 +89,6 @@ type Actions =
   | LoadFavoriteAction
   | LoadSimilarAction
   | LoadCommentsAction
-  | SendCommentAction
   | RequireAuthorizationAction
   | SetUserMailAction
   | RequireLogoutAction
@@ -114,7 +109,6 @@ export type {
   LoadFavoriteAction,
   LoadSimilarAction,
   LoadCommentsAction,
-  SendCommentAction,
   RequireAuthorizationAction,
   SetUserMailAction,
   RequireLogoutAction,

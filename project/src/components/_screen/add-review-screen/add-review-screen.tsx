@@ -7,13 +7,14 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import {ThunkAppDispatch} from '../../../types/action';
 import {CommentPost} from '../../../types/comment';
 import {postCommentAction} from '../../../store/api-actions';
+import {FilmId} from '../../../types/films';
 
 const mapStateToProps = ({currentFilm}: State) => ({
   currentFilm,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(id: number, review: CommentPost) {
+  onSubmit(id: FilmId, review: CommentPost) {
     dispatch(postCommentAction(id, review));
   },
 });
