@@ -10,7 +10,7 @@ import {State} from '../../../types/state';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {ThunkAppDispatch} from '../../../types/action';
 import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
-import {getSimilarGenreFilms, isCheckedAuth, checkFavoriteStatus} from '../../../utils';
+import {getFilmsWithoutId, isCheckedAuth, checkFavoriteStatus} from '../../../utils';
 import {store} from '../../../index';
 import {fetchCommentsAction, fetchSimilarFilmsAction, postFavoriteFilmStatusAction} from '../../../store/api-actions';
 import {Link} from 'react-router-dom';
@@ -24,7 +24,7 @@ type Props = {
 const mapStateToProps = ({films, similarFilms, authorizationStatus, favoriteFilms}: State, ownProps: Props) => {
   const {currentId} = ownProps;
   const currentFilm = films.find((item) => item.id === currentId);
-  const currentSimilarFilms = currentFilm ? getSimilarGenreFilms(similarFilms, currentFilm.id) : [];
+  const currentSimilarFilms = currentFilm ? getFilmsWithoutId(similarFilms, currentFilm.id) : [];
   const currentFavoriteStatus: boolean = currentFilm ? checkFavoriteStatus(currentFilm.id, favoriteFilms) : false;
 
   return ({
@@ -78,14 +78,17 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
     return <NotFoundScreen />;
   }
 
-  const {id, title, genre, release, posterImage, previewImage} = currentFilm;
+  const {id, title, genre, release, posterImage, backgroundImage, backgroundColor} = currentFilm;
 
   return (
     <>
-      <section className="film-card film-card--full">
+      <section
+        className="film-card film-card--full"
+        style={{backgroundColor: backgroundColor}}
+      >
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={previewImage} alt={title} />
+            <img src={backgroundImage} alt={title} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>

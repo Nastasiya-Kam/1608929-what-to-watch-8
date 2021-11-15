@@ -1,3 +1,17 @@
+const MIN_COMMENT_LENGTH = 50;
+const MAX_COMMENT_LENGTH = 400;
+const MINUTES_IN_HOURS = 60;
+const SIMILAR_FILMS_COUNT = 4;
+const GENRE_FILMS_COUNT = 8;
+const COMMENTS_COLUMNS_COUNT = 2;
+const DEFAULT_GENRE = 'All genres';
+
+const enum AppRouteChangeElement {
+  FILM_ID = ':film_id',
+  STATUS = ':status',
+  ID = ':id',
+}
+
 const enum AppRoute {
   Root = '/',
   Login = '/login',
@@ -20,8 +34,6 @@ const enum ScreenType {
   Overview = 'Overview',
   Reviews = 'Reviews',
 }
-
-const MINUTES_IN_HOURS = 60;
 
 const Grade = {
   BAD: {
@@ -46,11 +58,6 @@ const Grade = {
   },
 };
 
-const SIMILAR_FILMS_COUNT = 4;
-const GENRE_FILMS_COUNT = 8;
-const COMMENTS_COLUMNS_COUNT = 2;
-const DEFAULT_GENRE = 'All genres';
-
 enum APIRoute {
   Films = '/films',
   Favorite = '/favorite',
@@ -64,15 +71,18 @@ enum APIRoute {
 }
 
 export {
-  AppRoute,
-  AuthorizationStatus,
-  ScreenTypes,
-  ScreenType,
+  MIN_COMMENT_LENGTH,
+  MAX_COMMENT_LENGTH,
   MINUTES_IN_HOURS,
-  Grade,
   SIMILAR_FILMS_COUNT,
   GENRE_FILMS_COUNT,
   COMMENTS_COLUMNS_COUNT,
   DEFAULT_GENRE,
+  AppRouteChangeElement,
+  AppRoute,
+  AuthorizationStatus,
+  ScreenTypes,
+  ScreenType,
+  Grade,
   APIRoute
 };

@@ -66,13 +66,13 @@ function MainScreen({promoFilm, films, genres, currentGenre, authorizationStatus
     );
   }
 
-  const {title, genre, release, previewImage, posterImage} = promoFilm;
+  const {title, genre, release, backgroundImage, posterImage} = promoFilm;
 
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={previewImage} alt={title} />
+          <img src={backgroundImage} alt={title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>

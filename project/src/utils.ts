@@ -1,4 +1,4 @@
-import {AuthorizationStatus, DEFAULT_GENRE, Grade} from './const';
+import {APIRoute, AuthorizationStatus, DEFAULT_GENRE, Grade, MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH, AppRouteChangeElement} from './const';
 import {Film, FilmId, Films} from './types/films';
 import {Comment} from './types/comment';
 
@@ -32,7 +32,7 @@ const getCurrentGenreFilms = (films: Film[], currentGenre: string): Film[] => {
   return films;
 };
 
-const getSimilarGenreFilms = (films: Film[], currentId: number): Film[] => films.filter((element) => (currentId !== element.id));
+const getFilmsWithoutId = (films: Film[], currentId: number): Film[] => films.filter((element) => (currentId !== element.id));
 
 const getFavoriteFilms = (films: Film[]): Film[] => films.filter((film) => film.isFavorite);
 
@@ -68,17 +68,19 @@ const adaptCommentsToClient = (comment: any): Comment => ({
 const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Auth;
 
-const checkValidText = (text: string): boolean => (text.length >= 50 && text.length <= 400);
+const checkValidText = (text: string): boolean => (text.length >= MIN_COMMENT_LENGTH && text.length <= MAX_COMMENT_LENGTH);
 const checkValidRating = (rating: number): boolean => (rating !==0);
 const checkValidForm = (isValidText: boolean, isValidRating: boolean): boolean => isValidText === true && isValidRating === true;
 
 const checkFavoriteStatus = (id: FilmId, favoriteFilms: Films): boolean => favoriteFilms.some((item) => item.id === id);
 
+const getIdRoute = (apiRoute: APIRoute, id: number) => apiRoute.replace(AppRouteChangeElement.FILM_ID, String(id));
+
 export {
   getGrade,
   getGenres,
   getCurrentGenreFilms,
-  getSimilarGenreFilms,
+  getFilmsWithoutId,
   getFavoriteFilms,
   adaptToClient,
   adaptCommentsToClient,
@@ -86,5 +88,6 @@ export {
   checkValidText,
   checkValidRating,
   checkValidForm,
-  checkFavoriteStatus
+  checkFavoriteStatus,
+  getIdRoute
 };

@@ -30,7 +30,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & Props;
 
 function SmallFilmCard({film, setActiveCardId, isActive, onCurrentFilmChange}: ConnectedComponentProps): JSX.Element {
-  const {id, title, posterImage, videoLink} = film;
+  const {id, title, previewImage, videoLink} = film;
 
   return (
     <article className="small-film-card catalog__films-card"
@@ -44,8 +44,8 @@ function SmallFilmCard({film, setActiveCardId, isActive, onCurrentFilmChange}: C
       <div className="small-film-card__image">
         {
           (isActive)
-            ? <VideoPlayer videoLink={videoLink} poster={posterImage} />
-            : <img src={posterImage} alt={title} width="280" height="175" />
+            ? <VideoPlayer videoLink={videoLink} poster={previewImage} />
+            : <img src={previewImage} alt={title} width="280" height="175" />
         }
       </div>
       <h3 className="small-film-card__title">

@@ -1,7 +1,7 @@
 import {loadFilms, redirectToRoute, loadPromo, loadFavorite, loadSimilar, loadComments, requireAuthorization, requireLogout} from './action'; //, sendComment
 import {saveToken, dropToken, Token} from '../services/token';
-import {APIRoute, AuthorizationStatus, AppRoute} from '../const';
-import {adaptToClient, adaptCommentsToClient} from '../utils';
+import {APIRoute, AuthorizationStatus, AppRoute, AppRouteChangeElement} from '../const';
+import {adaptToClient, adaptCommentsToClient, getIdRoute} from '../utils';
 import {ThunkActionResult} from '../types/action';
 import {Film, FilmId, Films} from '../types/films';
 import {CommentPost, Comments} from '../types/comment';
@@ -34,13 +34,13 @@ const fetchFavoriteFilmsAction = (): ThunkActionResult =>
 
 const postFavoriteFilmStatusAction = (id: FilmId, status: number): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    await api.post<Film>(APIRoute.FavoriteStatus.replace(':film_id', String(id)).replace(':status', String(status)), {status});
+    await api.post<Film>(getIdRoute(APIRoute.FavoriteStatus, id).replace(AppRouteChangeElement.STATUS, String(status)), {status});
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
   };
 
 const fetchSimilarFilmsAction = (id: FilmId): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Films>(APIRoute.Similar.replace(':id', String(id)));
+    const {data} = await api.get<Films>(APIRoute.Similar.replace(AppRouteChangeElement.ID, String(id)));
     const adaptedData = data.map((film) => adaptToClient(film));
 
     dispatch(loadSimilar(adaptedData));
@@ -48,14 +48,14 @@ const fetchSimilarFilmsAction = (id: FilmId): ThunkActionResult =>
 
 const fetchCommentsAction = (id: FilmId): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Comments>(APIRoute.Comments.replace(':film_id', String(id)));
+    const {data} = await api.get<Comments>(getIdRoute(APIRoute.Comments, id));
     const adaptedData = data.map((comment) => adaptCommentsToClient(comment));
     dispatch(loadComments(adaptedData));
   };
 
 const postCommentAction = (id: FilmId, {rating, text: comment}: CommentPost): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    await api.post<CommentPost>(APIRoute.Comment.replace(':film_id', String(id)), {rating, comment});
+    await api.post<CommentPost>(getIdRoute(APIRoute.Comment, id), {rating, comment});
     browserHistory.push(AppRoute.Film.replace(':id', String(id)));
   };
 

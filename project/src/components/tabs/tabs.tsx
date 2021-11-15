@@ -78,7 +78,7 @@ function Tabs({currentScreen, currentFilm, comments}: ConnectedComponentProps): 
       return (
         <div className="film-card__reviews film-card__row">
           <div className="film-card__reviews-col">
-            {comments.slice(0, middleCommentsLength).map((comment) => (
+            {comments.slice(0, middleCommentsLength + 1).map((comment) => (
               <Comment
                 key={comment.id}
                 userName={comment.userName}
@@ -89,7 +89,7 @@ function Tabs({currentScreen, currentFilm, comments}: ConnectedComponentProps): 
             ))}
           </div>
           <div className="film-card__reviews-col">
-            {comments.slice(middleCommentsLength, commentsLength).map((comment) => (
+            {comments.slice(middleCommentsLength + 1, commentsLength).map((comment) => (
               <Comment
                 key={comment.id}
                 userName={comment.userName}
