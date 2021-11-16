@@ -68,8 +68,7 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
     if (!currentFilm) {
       return;
     }
-
-    const status = favoriteStatus ? 1 : 0;
+    const status = Number(favoriteStatus);
 
     onStatusFavoriteChange(currentId, status);
   }, [favoriteStatus]);

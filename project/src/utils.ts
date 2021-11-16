@@ -72,7 +72,7 @@ const checkValidText = (text: string): boolean => (text.length >= MIN_COMMENT_LE
 const checkValidRating = (rating: number): boolean => (rating !==0);
 const checkValidForm = (isValidText: boolean, isValidRating: boolean): boolean => isValidText === true && isValidRating === true;
 
-const checkFavoriteStatus = (id: FilmId, favoriteFilms: Films): boolean => favoriteFilms.some((item) => item.id === id);
+const checkFavoriteStatus = (id: FilmId, favoriteFilms: Films): boolean => favoriteFilms.some((film) => film.id === id);
 
 const getIdRoute = (apiRoute: APIRoute, id: number) => apiRoute.replace(AppRouteChangeElement.FILM_ID, String(id));
 

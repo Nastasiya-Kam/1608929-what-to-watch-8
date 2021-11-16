@@ -46,7 +46,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function MainScreen({promoFilm, films, genres, currentGenre, authorizationStatus, onGenreChange, isDataLoaded, currentStatus, onStatusFavoriteChange}: PropsFromRedux): JSX.Element { //, onStatusFavoriteChange
+function MainScreen({promoFilm, films, genres, currentGenre, authorizationStatus, onGenreChange, isDataLoaded, currentStatus, onStatusFavoriteChange}: PropsFromRedux): JSX.Element {
   const [renderedFilmCount, setRenderedFilmCount] = useState(GENRE_FILMS_COUNT);
   const [favoriteStatus, setFavoriteStatus] = useState(currentStatus);
 
@@ -55,7 +55,7 @@ function MainScreen({promoFilm, films, genres, currentGenre, authorizationStatus
       return;
     }
 
-    const status = favoriteStatus ? 1 : 0;
+    const status = Number(favoriteStatus);
 
     onStatusFavoriteChange(promoFilm.id, status);
   }, [favoriteStatus]);
