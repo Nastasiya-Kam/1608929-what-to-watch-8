@@ -5,7 +5,7 @@ import {CommentPost} from '../../types/comment';
 
 type Props = {
   filmId: FilmId,
-  onReviewSubmit: (filmId: number, userReview: CommentPost) => void
+  onReviewSubmit: (filmId: number, userReview: CommentPost) => void,
 }
 
 const STARS = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];

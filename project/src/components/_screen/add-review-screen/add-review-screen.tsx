@@ -30,10 +30,13 @@ function AddReviewScreen ({currentFilm, onSubmit}: PropsFromRedux): JSX.Element 
     );
   }
 
-  const {id, previewImage, posterImage, title} = currentFilm;
+  const {id, previewImage, posterImage, title, backgroundColor} = currentFilm;
 
   return (
-    <section className="film-card film-card--full">
+    <section
+      className="film-card film-card--full"
+      style={{backgroundColor: backgroundColor}}
+    >
       <div className="film-card__header">
         <div className="film-card__bg">
           <img src={previewImage} alt={title} />
