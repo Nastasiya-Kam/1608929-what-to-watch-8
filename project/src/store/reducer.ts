@@ -8,7 +8,7 @@ const initialState = {
   comments: [],
   promoFilm: null,
   currentFilm: null,
-  authorizationStatus: AuthorizationStatus.Auth,
+  authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
   userMail: '',
   favoriteFilms: [],

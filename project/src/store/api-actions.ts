@@ -28,14 +28,14 @@ const fetchFavoriteFilmsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<Films>(APIRoute.Favorite);
     const adaptedData = data.map((film) => adaptToClient(film));
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    // dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(loadFavorite(adaptedData));
   };
 
 const postFavoriteFilmStatusAction = (id: FilmId, status: number): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     await api.post<Film>(getIdRoute(APIRoute.FavoriteStatus, id).replace(AppRouteChangeElement.STATUS, String(status)), {status});
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    // dispatch(requireAuthorization(AuthorizationStatus.Auth));
   };
 
 const fetchSimilarFilmsAction = (id: FilmId): ThunkActionResult =>
