@@ -155,7 +155,7 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
                 </ul>
               </nav>
 
-              <Tabs currentScreen = {currentScreen} />
+              <Tabs currentScreen = {currentScreen} currentFilm = {currentFilm} />
 
             </div>
           </div>

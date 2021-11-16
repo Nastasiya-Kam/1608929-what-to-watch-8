@@ -2,15 +2,16 @@ import {ScreenType, MINUTES_IN_HOURS, COMMENTS_COLUMNS_COUNT} from '../../const'
 import {getGrade} from '../../utils';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../types/state';
+import {Film} from '../../types/films';
 import Comment from '../comment/comment';
 import LoadingScreen from '../_screen/loading-screen/loading-screen';
 
 type Props = {
   currentScreen: string,
+  currentFilm: Film,
 }
 
-const mapStateToProps = ({currentFilm, comments}: State) => ({
-  currentFilm,
+const mapStateToProps = ({comments}: State) => ({
   comments,
 });
 
