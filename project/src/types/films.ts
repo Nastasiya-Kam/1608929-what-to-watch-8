@@ -49,12 +49,7 @@ type FilmServer = {
 
 type FilmsServer = FilmServer[]
 
-type PlayerFilm = {
-  videoLink: string,
-  playerPoster: string,
-}
-
 type FilmId = number;
 type Films = Film[];
 
-export type {PromoFilm, Film, FilmServer, FilmsServer, PlayerFilm, FilmId, Films};
+export type {PromoFilm, Film, FilmServer, FilmsServer, FilmId, Films};

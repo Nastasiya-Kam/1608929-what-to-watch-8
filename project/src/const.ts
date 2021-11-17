@@ -70,6 +70,10 @@ enum APIRoute {
   Logout = '/logout',
 }
 
+const playerTogglerStyle = {
+  left: '30%',
+};
+
 export {
   MIN_COMMENT_LENGTH,
   MAX_COMMENT_LENGTH,
@@ -84,5 +88,6 @@ export {
   ScreenTypes,
   ScreenType,
   Grade,
-  APIRoute
+  APIRoute,
+  playerTogglerStyle
 };

@@ -7,7 +7,7 @@ import SignInScreen from '../_screen/sign-in-screen/sign-in-screen';
 import MyListScreen from '../_screen/my-list-screen/my-list-screen';
 import FilmScreen from '../_screen/film-screen/film-screen';
 import AddReviewScreen from '../_screen/add-review-screen/add-review-screen';
-// import PlayerScreen from '../_screen/player-screen/player-screen';
+import PlayerScreen from '../_screen/player-screen/player-screen';
 import NotFoundScreen from '../_screen/not-found-screen/not-found-screen';
 import {State} from '../../types/state';
 import {isCheckedAuth} from '../../utils';
@@ -63,12 +63,15 @@ function App(props: PropsFromRedux): JSX.Element {
           render = {() => <AddReviewScreen />}
         >
         </PrivateRoute>
-        {/* <Route exact path = {AppRoute.Player}>
-          <PlayerScreen
-            videoLink = {playerFilm.videoLink}
-            playerPoster = {playerFilm.playerPoster}
-          />
-        </Route> */}
+        <Route
+          exact
+          path = {AppRoute.Player}
+          render = {(routerProps) => {
+            const id = parseInt(routerProps?.match?.params?.id as string, 10);
+            return <PlayerScreen currentId = {id} />;
+          }}
+        >
+        </Route>
         <Route>
           <NotFoundScreen />
         </Route>

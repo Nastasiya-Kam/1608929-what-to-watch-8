@@ -5,9 +5,9 @@ import SignIn from '../../sign-in/sign-in';
 import FilmList from '../../film-list/film-list';
 import Tabs from '../../tabs/tabs';
 import FavoriteButton from '../../favorite-button/favorite-button';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {FilmId} from '../../../types/films';
 import {State} from '../../../types/state';
-import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {ThunkAppDispatch} from '../../../types/action';
 import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
 import {getFilmsWithoutId, isCheckedAuth, checkFavoriteStatus} from '../../../utils';
@@ -16,6 +16,7 @@ import {fetchCommentsAction, fetchSimilarFilmsAction, postFavoriteFilmStatusActi
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
+import browserHistory from '../../../browser-history';
 
 type Props = {
   currentId: FilmId,
@@ -106,9 +107,13 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
                 <span className="film-card__genre">{genre}</span>
                 <span className="film-card__year">{release}</span>
               </p>
-
+              {/* //TODO вынести кнопку в отдельный компонент (аналогично для главной страницы) */}
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button
+                  className="btn btn--play film-card__button"
+                  type="button"
+                  onClick={() => browserHistory.push(AppRoute.Player.replace(':id', String(id)))}
+                >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
