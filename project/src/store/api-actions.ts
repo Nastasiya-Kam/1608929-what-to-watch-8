@@ -7,6 +7,9 @@ import {Film, FilmId, Films} from '../types/films';
 import {CommentPost, Comments} from '../types/comment';
 import {AuthData} from '../types/auth-data';
 import browserHistory from '../browser-history';
+import {toast} from 'react-toastify';
+
+const AUTH_FAIL_MESSAGE = 'Не забудьте авторизоваться';
 
 const fetchFilmsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -61,10 +64,12 @@ const postCommentAction = (id: FilmId, {rating, text: comment}: CommentPost): Th
 
 const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    await api.get(APIRoute.Login)
-      .then(() => {
-        dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      });
+    try {
+      await api.get(APIRoute.Login);
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    } catch {
+      toast.info(AUTH_FAIL_MESSAGE);
+    }
   };
 
 const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
