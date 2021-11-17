@@ -24,13 +24,10 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function PlayerScreen({currentFilm}: PropsFromRedux): JSX.Element {
   const [isPlaying, setIsPlaying] = useState(true);
+  // const [timer, setTimer] = useState(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
-    // eslint-disable-next-line
-    console.log(videoRef.current);
-    // eslint-disable-next-line
-    console.log(currentFilm);
     if (videoRef.current === null) {
       return;
     }
@@ -42,6 +39,26 @@ function PlayerScreen({currentFilm}: PropsFromRedux): JSX.Element {
 
     videoRef.current.pause();
   }, [isPlaying, videoRef, currentFilm]);
+
+  // useEffect(() => {
+  //   if (!currentFilm && timer === undefined) {
+  //     return;
+  //   }
+
+  //   if (timer > 60) {
+  //     setTimeout(() => setTimer(timer - 1), 1000);
+  //   } else {
+  //     setTimer(100500);
+  //   }
+
+
+  //   // eslint-disable-next-line
+  //   console.log(timer);
+
+  //   return (() => {
+  //     setTimer(0);
+  //   });
+  // });
 
   if (!currentFilm) {
     return <NotFoundScreen />;
@@ -73,7 +90,7 @@ function PlayerScreen({currentFilm}: PropsFromRedux): JSX.Element {
             <progress className="player__progress" value="30" max="100"></progress>
             <div className="player__toggler" style={playerTogglerStyle}>Toggler</div>
           </div>
-          {/* //TODO Если продолжительность фильма (dayjs?)
+          {/* //TODO Если продолжительность фильма
               более часа то -01:45:45
               менее часа, то -53:00 */}
           <div className="player__time-value">1:30:29</div>
