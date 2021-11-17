@@ -60,8 +60,6 @@ const reducer = (state: State = initialState, action: Actions): State => {
     }
     case ActionType.RequireAuthorization:
       return {...state, authorizationStatus: action.payload};
-    case ActionType.SetUserMail:
-      return {...state, userMail: action.payload};
     case ActionType.RequireLogout:
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
     default:
