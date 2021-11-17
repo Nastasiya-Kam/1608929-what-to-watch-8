@@ -3,8 +3,8 @@ import {saveToken, dropToken, Token} from '../services/token';
 import {APIRoute, AuthorizationStatus, AppRoute, AppRouteChangeElement} from '../const';
 import {adaptToClient, adaptCommentsToClient, getIdRoute} from '../utils';
 import {ThunkActionResult} from '../types/action';
-import {Film, FilmId, Films} from '../types/films';
-import {CommentPost, Comments} from '../types/comment';
+import {Film, FilmId, FilmServer, FilmsServer} from '../types/films';
+import {CommentPost, CommentsServer} from '../types/comment';
 import {AuthData} from '../types/auth-data';
 import browserHistory from '../browser-history';
 import {toast} from 'react-toastify';
@@ -13,7 +13,7 @@ const AUTH_FAIL_MESSAGE = 'Не забудьте авторизоваться';
 
 const fetchFilmsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Films>(APIRoute.Films);
+    const {data} = await api.get<FilmsServer>(APIRoute.Films);
     const adaptedData = data.map((film) => adaptToClient(film));
 
     dispatch(loadFilms(adaptedData));
@@ -21,7 +21,7 @@ const fetchFilmsAction = (): ThunkActionResult =>
 
 const fetchPromoFilmAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Film>(APIRoute.Promo);
+    const {data} = await api.get<FilmServer>(APIRoute.Promo);
     const adaptedData = adaptToClient(data);
 
     dispatch(loadPromo(adaptedData));
@@ -29,7 +29,7 @@ const fetchPromoFilmAction = (): ThunkActionResult =>
 
 const fetchFavoriteFilmsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Films>(APIRoute.Favorite);
+    const {data} = await api.get<FilmsServer>(APIRoute.Favorite);
     const adaptedData = data.map((film) => adaptToClient(film));
     // dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(loadFavorite(adaptedData));
@@ -43,7 +43,7 @@ const postFavoriteFilmStatusAction = (id: FilmId, status: number): ThunkActionRe
 
 const fetchSimilarFilmsAction = (id: FilmId): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Films>(APIRoute.Similar.replace(AppRouteChangeElement.ID, String(id)));
+    const {data} = await api.get<FilmsServer>(APIRoute.Similar.replace(AppRouteChangeElement.ID, String(id)));
     const adaptedData = data.map((film) => adaptToClient(film));
 
     dispatch(loadSimilar(adaptedData));
@@ -51,7 +51,7 @@ const fetchSimilarFilmsAction = (id: FilmId): ThunkActionResult =>
 
 const fetchCommentsAction = (id: FilmId): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Comments>(getIdRoute(APIRoute.Comments, id));
+    const {data} = await api.get<CommentsServer>(getIdRoute(APIRoute.Comments, id));
     const adaptedData = data.map((comment) => adaptCommentsToClient(comment));
     dispatch(loadComments(adaptedData));
   };

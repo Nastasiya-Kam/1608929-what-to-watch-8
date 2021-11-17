@@ -1,6 +1,6 @@
 import {APIRoute, AuthorizationStatus, DEFAULT_GENRE, Grade, MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH, AppRouteChangeElement} from './const';
-import {Film, FilmId, Films} from './types/films';
-import {Comment} from './types/comment';
+import {Film, FilmId, Films, FilmServer} from './types/films';
+import {Comment, CommentServer} from './types/comment';
 
 const getGrade = (rating: number): string | undefined => {
   if (rating < Grade.BAD.value) {
@@ -36,7 +36,7 @@ const getFilmsWithoutId = (films: Film[], currentId: number): Film[] => films.fi
 
 const getFavoriteFilms = (films: Film[]): Film[] => films.filter((film) => film.isFavorite);
 
-const adaptToClient = (film: any): Film => ({
+const adaptToClient = (film: FilmServer): Film => ({
   id: film['id'],
   genre: film['genre'],
   description: film['description'],
@@ -56,7 +56,7 @@ const adaptToClient = (film: any): Film => ({
   isFavorite: film['is_favorite'],
 });
 
-const adaptCommentsToClient = (comment: any): Comment => ({
+const adaptCommentsToClient = (comment: CommentServer): Comment => ({
   id: comment['id'],
   userId: comment['user']['id'],
   userName: comment['user']['name'],
