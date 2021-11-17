@@ -6,6 +6,7 @@ import FilmList from '../../film-list/film-list';
 import Tabs from '../../tabs/tabs';
 import FavoriteButton from '../../favorite-button/favorite-button';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import PlayButton from '../../play-button/play-button';
 import {FilmId} from '../../../types/films';
 import {State} from '../../../types/state';
 import {ThunkAppDispatch} from '../../../types/action';
@@ -16,7 +17,6 @@ import {fetchCommentsAction, fetchSimilarFilmsAction, postFavoriteFilmStatusActi
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
-import browserHistory from '../../../browser-history';
 
 type Props = {
   currentId: FilmId,
@@ -107,19 +107,8 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
                 <span className="film-card__genre">{genre}</span>
                 <span className="film-card__year">{release}</span>
               </p>
-              {/* //TODO вынести кнопку в отдельный компонент (аналогично для главной страницы) */}
               <div className="film-card__buttons">
-                <button
-                  className="btn btn--play film-card__button"
-                  type="button"
-                  onClick={() => browserHistory.push(AppRoute.Player.replace(':id', String(id)))}
-                >
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
-                {/* // TODO  to={AppRoute.AddReview.replace(':id', String(id))} */}
+                <PlayButton id = {currentId} />
                 <FavoriteButton isFavorite = {favoriteStatus} onClick = {setFavoriteStatus} />
                 {isCheckedAuth(authorizationStatus) && <Link to={AppRoute.AddReview.replace(':id', String(id))} className="btn film-card__button">Add review</Link>}
               </div>

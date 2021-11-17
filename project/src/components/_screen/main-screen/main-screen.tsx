@@ -7,6 +7,7 @@ import ShowMore from '../../show-more/show-more';
 import GenreList from '../../genre-list/genre-list';
 import LoadingScreen from '../loading-screen/loading-screen';
 import FavoriteButton from '../../favorite-button/favorite-button';
+import PlayButton from '../../play-button/play-button';
 import {useState, useEffect} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../../types/state';
@@ -46,7 +47,8 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function MainScreen({promoFilm, films, genres, currentGenre, authorizationStatus, onGenreChange, isDataLoaded, currentStatus, onStatusFavoriteChange}: PropsFromRedux): JSX.Element {
+function MainScreen(props: PropsFromRedux): JSX.Element {
+  const {promoFilm, films, genres, currentGenre, authorizationStatus, onGenreChange, isDataLoaded, currentStatus, onStatusFavoriteChange} = props;
   const [renderedFilmCount, setRenderedFilmCount] = useState(GENRE_FILMS_COUNT);
   const [favoriteStatus, setFavoriteStatus] = useState(currentStatus);
 
@@ -98,12 +100,7 @@ function MainScreen({promoFilm, films, genres, currentGenre, authorizationStatus
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
+                <PlayButton id = {promoFilm.id} />
                 <FavoriteButton isFavorite = {favoriteStatus} onClick = {setFavoriteStatus} />
               </div>
             </div>
