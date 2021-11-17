@@ -1,4 +1,4 @@
-import {AppRoute} from '../../const';
+import {AppRoute, AppRouteChangeElement} from '../../const';
 import {Link} from 'react-router-dom';
 import {FilmId, Film} from '../../types/films';
 import {State} from '../../types/state';
@@ -44,7 +44,7 @@ function SmallFilmCard({film, setActiveCardId, isActive, onCurrentFilmChange}: C
     >
       <div
         className="small-film-card__image"
-        onClick={() => browserHistory.push(AppRoute.Film.replace(':id', String(id)))}
+        onClick={() => browserHistory.push(AppRoute.Film.replace(AppRouteChangeElement.ID, String(id)))}
       >
         {
           (isActive)
@@ -55,7 +55,7 @@ function SmallFilmCard({film, setActiveCardId, isActive, onCurrentFilmChange}: C
       <h3 className="small-film-card__title">
         <Link
           className="small-film-card__link"
-          to={AppRoute.Film.replace(':id', String(id))}
+          to={AppRoute.Film.replace(AppRouteChangeElement.ID, String(id))}
           onClick={() => {
             onCurrentFilmChange(film);
           }}

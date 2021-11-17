@@ -3,7 +3,7 @@ import {State} from '../../../types/state';
 import {FilmId} from '../../../types/films';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {playerTogglerStyle} from '../../../const';
-import {useRef} from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 type Props = {
   currentId: FilmId,
@@ -23,7 +23,25 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function PlayerScreen({currentFilm}: PropsFromRedux): JSX.Element {
+  const [isPlaying, setIsPlaying] = useState(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    // eslint-disable-next-line
+    console.log(videoRef.current);
+    // eslint-disable-next-line
+    console.log(currentFilm);
+    if (videoRef.current === null) {
+      return;
+    }
+
+    if (isPlaying) {
+      videoRef.current.play();
+      return;
+    }
+
+    videoRef.current.pause();
+  }, [isPlaying, videoRef, currentFilm]);
 
   if (!currentFilm) {
     return <NotFoundScreen />;
@@ -65,12 +83,11 @@ function PlayerScreen({currentFilm}: PropsFromRedux): JSX.Element {
           <button
             type="button"
             className="player__play"
-            onClick={() => 'Остановка/плей'}
+            onClick={() => setIsPlaying(!isPlaying)}
           >
-            <svg viewBox="0 0 19 19" width="19" height="19">
-              <use xlinkHref="#play-s"></use>
-            </svg>
-            <span>Play</span>
+            {(isPlaying)
+              ? <><svg viewBox="0 0 14 21" width="14" height="21"><use xlinkHref="#pause"></use></svg><span>Play</span></>
+              : <><svg viewBox="0 0 19 19" width="19" height="19"><use xlinkHref="#play-s"></use></svg><span>Pause</span></>}
           </button>
           <div className="player__name">Transpotting</div>
 
