@@ -5,6 +5,7 @@ const SIMILAR_FILMS_COUNT = 4;
 const GENRE_FILMS_COUNT = 8;
 const COMMENTS_COLUMNS_COUNT = 2;
 const DEFAULT_GENRE = 'All genres';
+const STARS = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
 const enum AppRouteChangeElement {
   FILM_ID = ':film_id',
@@ -82,6 +83,7 @@ export {
   GENRE_FILMS_COUNT,
   COMMENTS_COLUMNS_COUNT,
   DEFAULT_GENRE,
+  STARS,
   AppRouteChangeElement,
   AppRoute,
   AuthorizationStatus,

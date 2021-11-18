@@ -6,8 +6,8 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 import browserHistory from '../../browser-history';
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onLogout(auth: AuthorizationStatus) {
-    dispatch(requireLogout(auth));
+  onLogout(authStatus: AuthorizationStatus) {
+    dispatch(requireLogout(authStatus));
   },
 });
 

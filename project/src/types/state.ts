@@ -5,11 +5,11 @@ import {AuthorizationStatus} from '../const';
 type State = {
   currentGenre: string,
   films: Films,
+  isDataLoaded: boolean,
   comments: Comments,
   promoFilm: Film | null,
   currentFilm: Film | null,
   authorizationStatus: AuthorizationStatus,
-  isDataLoaded: boolean,
   userMail: string,
   favoriteFilms: Films,
   isFavoriteLoaded: boolean,

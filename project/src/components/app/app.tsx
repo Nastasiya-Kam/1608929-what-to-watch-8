@@ -1,6 +1,6 @@
 import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
 import {connect, ConnectedProps} from 'react-redux';
-import {AppRoute} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import MainScreen from '../_screen/main-screen/main-screen';
 import SignInScreen from '../_screen/sign-in-screen/sign-in-screen';
@@ -10,11 +10,13 @@ import AddReviewScreen from '../_screen/add-review-screen/add-review-screen';
 import PlayerScreen from '../_screen/player-screen/player-screen';
 import NotFoundScreen from '../_screen/not-found-screen/not-found-screen';
 import {State} from '../../types/state';
-import {isCheckedAuth} from '../../utils';
 import browserHistory from '../../browser-history';
+import {isCheckedAuth} from '../../utils';
+import LoadingScreen from '../_screen/loading-screen/loading-screen';
 
-const mapStateToProps = ({authorizationStatus}: State) => ({
+const mapStateToProps = ({authorizationStatus, isDataLoaded}: State) => ({
   authorizationStatus,
+  isDataLoaded,
 });
 
 const connector = connect(mapStateToProps);
@@ -22,7 +24,13 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function App(props: PropsFromRedux): JSX.Element {
-  const {authorizationStatus} = props;
+  const {authorizationStatus, isDataLoaded} = props;
+
+  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <BrowserRouter history={browserHistory}>
@@ -34,7 +42,7 @@ function App(props: PropsFromRedux): JSX.Element {
           exact
           path = {AppRoute.Login}
           render = {() => {
-            if (!isCheckedAuth(authorizationStatus)) {
+            if (authorizationStatus !== AuthorizationStatus.Auth) {
               return <SignInScreen />;
             }
 

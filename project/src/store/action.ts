@@ -48,9 +48,9 @@ const requireAuthorization = (authStatus: AuthorizationStatus) => ({
   payload: authStatus,
 } as const);
 
-const requireLogout = (auth: AuthorizationStatus) => ({
+const requireLogout = (authStatus: AuthorizationStatus) => ({
   type: ActionType.RequireLogout,
-  payload: auth,
+  payload: authStatus,
 } as const);
 
 const redirectToRoute = (url: AppRoute) => ({

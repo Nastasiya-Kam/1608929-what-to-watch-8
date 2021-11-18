@@ -2,13 +2,12 @@ import {useState, FormEvent, ChangeEvent, Fragment} from 'react';
 import {FilmId} from '../../types/films';
 import {checkValidText, checkValidRating, checkValidForm} from '../../utils';
 import {CommentPost} from '../../types/comment';
+import {STARS} from '../../const';
 
 type Props = {
   filmId: FilmId,
   onReviewSubmit: (filmId: number, userReview: CommentPost) => void,
 }
-
-const STARS = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
 function AddReviewForm({filmId, onReviewSubmit}: Props): JSX.Element {
   const [userComment, setUserComment] = useState('');

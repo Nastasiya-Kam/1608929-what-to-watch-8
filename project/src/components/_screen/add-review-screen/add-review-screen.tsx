@@ -2,12 +2,12 @@ import {connect, ConnectedProps} from 'react-redux';
 import AddReviewForm from '../../add-review-form/add-review-form';
 import Logo from '../../logo/logo';
 import SignOut from '../../sign-out/sign-out';
-import {State} from '../../../types/state';
 import LoadingScreen from '../loading-screen/loading-screen';
+import {State} from '../../../types/state';
 import {ThunkAppDispatch} from '../../../types/action';
 import {CommentPost} from '../../../types/comment';
-import {postCommentAction} from '../../../store/api-actions';
 import {FilmId} from '../../../types/films';
+import {postCommentAction} from '../../../store/api-actions';
 
 const mapStateToProps = ({currentFilm}: State) => ({
   currentFilm,
