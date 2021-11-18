@@ -82,9 +82,9 @@ const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
 
 const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    api.delete(APIRoute.Logout);
+    await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(requireLogout(AuthorizationStatus.NoAuth));
+    dispatch(requireLogout());
   };
 
 export {
