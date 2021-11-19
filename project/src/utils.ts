@@ -68,8 +68,7 @@ const adaptCommentsToClient = (comment: CommentServer): Comment => ({
   date: comment['date'],
 });
 
-const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
-  authorizationStatus === AuthorizationStatus.Auth;
+const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean => authorizationStatus === AuthorizationStatus.Unknown;
 
 const checkValidText = (text: string): boolean => (text.length >= MIN_COMMENT_LENGTH && text.length <= MAX_COMMENT_LENGTH);
 const checkValidRating = (rating: number): boolean => (rating !==0);

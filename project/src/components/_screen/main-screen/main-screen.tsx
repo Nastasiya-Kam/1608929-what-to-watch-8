@@ -15,8 +15,8 @@ import {ThunkAppDispatch} from '../../../types/action';
 import {FilmId} from '../../../types/films';
 import {changeGenre} from '../../../store/action';
 import {postFavoriteFilmStatusAction} from '../../../store/api-actions';
-import {getGenres, getCurrentGenreFilms, isCheckedAuth, checkFavoriteStatus} from '../../../utils';
-import {GENRE_FILMS_COUNT} from '../../../const';
+import {getGenres, getCurrentGenreFilms, checkFavoriteStatus} from '../../../utils';
+import {AuthorizationStatus, GENRE_FILMS_COUNT} from '../../../const';
 
 const mapStateToProps = ({films, promoFilm, currentGenre, authorizationStatus, isDataLoaded, favoriteFilms}: State) => {
   const filmsByGenre = getCurrentGenreFilms(films, currentGenre);
@@ -60,7 +60,7 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
     const status = Number(favoriteStatus);
 
     onStatusFavoriteChange(promoFilm.id, status);
-  }, [favoriteStatus]);
+  }, [favoriteStatus, promoFilm, onStatusFavoriteChange]);
 
   if (!isDataLoaded || !promoFilm) {
     return (
@@ -81,7 +81,7 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
 
         <header className="page-header film-card__head">
           <Logo />
-          {isCheckedAuth(authorizationStatus)
+          {(authorizationStatus === AuthorizationStatus.Auth)
             ? <SignOut />
             : <SignIn />}
         </header>

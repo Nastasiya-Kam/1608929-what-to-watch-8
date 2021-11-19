@@ -10,8 +10,8 @@ import PlayButton from '../../play-button/play-button';
 import {FilmId} from '../../../types/films';
 import {State} from '../../../types/state';
 import {ThunkAppDispatch} from '../../../types/action';
-import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
-import {getFilmsWithoutId, isCheckedAuth, checkFavoriteStatus} from '../../../utils';
+import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT, AuthorizationStatus, AppRouteChangeElement} from '../../../const';
+import {getFilmsWithoutId, checkFavoriteStatus} from '../../../utils';
 import {store} from '../../../index';
 import {fetchCommentsAction, fetchSimilarFilmsAction, postFavoriteFilmStatusAction} from '../../../store/api-actions';
 import {Link} from 'react-router-dom';
@@ -63,7 +63,7 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
     }
     onLoadComments(currentId);
     onLoadSimilar(currentId);
-  }, [currentFilm]);
+  }, [currentFilm, onLoadComments, onLoadSimilar, currentId]);
 
   useEffect(() => {
     if (!currentFilm) {
@@ -72,7 +72,7 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
     const status = Number(favoriteStatus);
 
     onStatusFavoriteChange(currentId, status);
-  }, [favoriteStatus]);
+  }, [favoriteStatus, currentFilm, onStatusFavoriteChange, currentId]);
 
   if (!currentFilm) {
     return <NotFoundScreen />;
@@ -95,7 +95,7 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
 
           <header className="page-header film-card__head">
             <Logo />
-            {isCheckedAuth(authorizationStatus)
+            {(authorizationStatus === AuthorizationStatus.Auth)
               ? <SignOut />
               : <SignIn />}
           </header>
@@ -110,7 +110,7 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
               <div className="film-card__buttons">
                 <PlayButton id = {currentId} />
                 <FavoriteButton isFavorite = {favoriteStatus} onClick = {setFavoriteStatus} />
-                {isCheckedAuth(authorizationStatus) && <Link to={AppRoute.AddReview.replace(':id', String(id))} className="btn film-card__button">Add review</Link>}
+                {(authorizationStatus === AuthorizationStatus.Auth) && <Link to={AppRoute.AddReview.replace(AppRouteChangeElement.ID, String(id))} className="btn film-card__button">Add review</Link>}
               </div>
             </div>
           </div>

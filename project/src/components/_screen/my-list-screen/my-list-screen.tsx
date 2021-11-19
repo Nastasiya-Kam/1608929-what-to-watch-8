@@ -4,12 +4,12 @@ import Footer from '../../footer/footer';
 import FilmList from '../../film-list/film-list';
 import {State} from '../../../types/state';
 import {ThunkAppDispatch} from '../../../types/action';
-import {isCheckedAuth} from '../../../utils';
-import {fetchFavoriteFilmsAction, checkAuthAction} from '../../../store/api-actions';
+import {fetchFavoriteFilmsAction} from '../../../store/api-actions'; //, checkAuthAction
 import {store} from '../../../index';
 import {connect, ConnectedProps} from 'react-redux';
 import {useEffect} from 'react';
 import LoadingScreen from '../loading-screen/loading-screen';
+import {AuthorizationStatus} from '../../../const';
 
 const mapStateToProps = ({favoriteFilms, isFavoriteLoaded, authorizationStatus}: State) => ({
   favoriteFilms,
@@ -20,7 +20,6 @@ const mapStateToProps = ({favoriteFilms, isFavoriteLoaded, authorizationStatus}:
 const mapDispatchToProps = () => ({
   onLoadFavorites() {
     //  TODO нужно ли проверять авторизован ли пользователь
-    checkAuthAction();
     (store.dispatch as ThunkAppDispatch)(fetchFavoriteFilmsAction());
   },
 });
@@ -30,11 +29,8 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function MyListScreen ({favoriteFilms, isFavoriteLoaded, authorizationStatus, onLoadFavorites}: PropsFromRedux): JSX.Element {
-  // eslint-disable-next-line
-  console.log(isFavoriteLoaded);
-
   useEffect(() => {
-    if (!isCheckedAuth(authorizationStatus)) {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
       return;
     }
 
