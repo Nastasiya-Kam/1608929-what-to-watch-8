@@ -1,4 +1,4 @@
-import {loadFilms, redirectToRoute, loadPromo, loadFavorite, loadSimilar, loadComments, requireAuthorization, requireLogout} from './action'; //, sendComment
+import {loadFilms, loadFilm, redirectToRoute, loadPromo, loadFavorite, loadSimilar, loadComments, requireAuthorization, requireLogout} from './action';
 import {saveToken, dropToken, Token} from '../services/token';
 import {APIRoute, AuthorizationStatus, AppRoute, AppRouteChangeElement} from '../const';
 import {adaptToClient, adaptCommentsToClient, getIdRoute} from '../utils';
@@ -10,6 +10,7 @@ import browserHistory from '../browser-history';
 import {toast} from 'react-toastify';
 
 const AUTH_FAIL_MESSAGE = 'Не забудьте авторизоваться';
+const LOAD_FAVORITE_FAIL_MESSAGE = 'Фильмы из избранного доступны только зарегестрированным пользователям';
 
 const fetchFilmsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -17,6 +18,13 @@ const fetchFilmsAction = (): ThunkActionResult =>
     const adaptedData = data.map((film) => adaptToClient(film));
 
     dispatch(loadFilms(adaptedData));
+  };
+
+const fetchFilmAction = (id: FilmId): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<FilmServer>(APIRoute.Film.replace(AppRouteChangeElement.ID, String(id)));
+
+    dispatch(loadFilm(adaptToClient(data)));
   };
 
 const fetchPromoFilmAction = (): ThunkActionResult =>
@@ -96,6 +104,7 @@ const logoutAction = (): ThunkActionResult =>
 
 export {
   fetchFilmsAction,
+  fetchFilmAction,
   fetchPromoFilmAction,
   fetchFavoriteFilmsAction,
   postFavoriteFilmStatusAction,

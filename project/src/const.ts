@@ -61,6 +61,7 @@ const Grade = {
 
 enum APIRoute {
   Films = '/films',
+  Film = '/films/:id',
   Favorite = '/favorite',
   FavoriteStatus = '/favorite/:film_id/:status',
   Similar = '/films/:id/similar',

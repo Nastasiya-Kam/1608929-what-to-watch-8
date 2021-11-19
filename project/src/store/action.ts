@@ -23,6 +23,11 @@ const loadFilms = (films: Films) => ({
   payload: films,
 } as const);
 
+const loadFilm = (film: Film) => ({
+  type: ActionType.LoadFilm,
+  payload: film,
+} as const);
+
 const loadPromo = (film: Film) => ({
   type: ActionType.LoadPromo,
   payload: film,
@@ -62,6 +67,7 @@ export {
   getGenreFilms,
   setCurrentFilm,
   loadFilms,
+  loadFilm,
   loadPromo,
   loadFavorite,
   loadSimilar,

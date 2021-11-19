@@ -5,11 +5,12 @@ import {State} from '../types/state';
 const initialState = {
   currentGenre: DEFAULT_GENRE,
   films: [],
+  isDataLoaded: false,
+  currentFilm: null,
+  isCurrentFilmLoaded: false,
   comments: [],
   promoFilm: null,
-  currentFilm: null,
   authorizationStatus: AuthorizationStatus.Unknown,
-  isDataLoaded: false,
   userMail: '',
   favoriteFilms: [],
   isFavoriteLoaded: false,
@@ -30,6 +31,14 @@ const reducer = (state: State = initialState, action: Actions): State => {
         ...state,
         films,
         isDataLoaded: true,
+      };
+    }
+    case ActionType.LoadFilm: {
+      const film = action.payload;
+      return {
+        ...state,
+        currentFilm: film,
+        isCurrentFilmLoaded: true,
       };
     }
     case ActionType.LoadPromo: {

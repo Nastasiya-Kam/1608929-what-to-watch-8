@@ -6,6 +6,7 @@ import {changeGenre,
   getGenreFilms,
   setCurrentFilm,
   loadFilms,
+  loadFilm,
   loadPromo,
   loadFavorite,
   loadSimilar,
@@ -19,6 +20,7 @@ enum ActionType {
   GetGenreFilms = 'getGenreFilms',
   SetCurrentFilm = 'setCurrentFilm',
   LoadFilms = 'data/loadFilms',
+  LoadFilm = 'data/loadFilm',
   LoadPromo = 'data/loadPromo',
   LoadFavorite = 'data/loadFavorite',
   LoadSimilar = 'data/loadSimilar',
@@ -33,6 +35,7 @@ type Actions =
   | ReturnType<typeof getGenreFilms>
   | ReturnType<typeof setCurrentFilm>
   | ReturnType<typeof loadFilms>
+  | ReturnType<typeof loadFilm>
   | ReturnType<typeof loadPromo>
   | ReturnType<typeof loadFavorite>
   | ReturnType<typeof loadSimilar>
