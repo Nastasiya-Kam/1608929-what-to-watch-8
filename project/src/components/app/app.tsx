@@ -24,13 +24,14 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function App(props: PropsFromRedux): JSX.Element {
-  const {authorizationStatus} = props;
+  const {authorizationStatus, isDataLoaded} = props;
 
-  // if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
-  //   return (
-  //     <LoadingScreen />
-  //   );
-  // }
+  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>

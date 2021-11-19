@@ -67,10 +67,16 @@ const fetchCommentsAction = (id: FilmId): ThunkActionResult =>
     dispatch(loadComments(adaptedData));
   };
 
-const postCommentAction = (id: FilmId, {rating, text: comment}: CommentPost): ThunkActionResult =>
+const postCommentAction = (id: FilmId, {rating, text: comment}: CommentPost, setIsLoading: (a: boolean) => void): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    await api.post<CommentPost>(getIdRoute(APIRoute.Comment, id), {rating, comment});
-    browserHistory.push(AppRoute.Film.replace(AppRouteChangeElement.ID, String(id)));
+    try {
+      setIsLoading(true);
+      await api.post<CommentPost>(getIdRoute(APIRoute.Comments, id), {rating, comment});
+      browserHistory.push(AppRoute.Film.replace(AppRouteChangeElement.ID, String(id)));
+    } catch {
+      toast.info(FailMessage.PostComment);
+    }
+    setIsLoading(false);
   };
 
 const checkAuthAction = (): ThunkActionResult =>

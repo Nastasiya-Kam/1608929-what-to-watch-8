@@ -1,4 +1,5 @@
 import {connect, ConnectedProps} from 'react-redux';
+import {useState} from 'react';
 import AddReviewForm from '../../add-review-form/add-review-form';
 import Logo from '../../logo/logo';
 import SignOut from '../../sign-out/sign-out';
@@ -14,8 +15,8 @@ const mapStateToProps = ({currentFilm}: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(id: FilmId, review: CommentPost) {
-    dispatch(postCommentAction(id, review));
+  onSubmit(id: FilmId, review: CommentPost, onSubmit: (a: boolean) => void) {
+    dispatch(postCommentAction(id, review, onSubmit));
   },
 });
 
@@ -24,6 +25,8 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function AddReviewScreen ({currentFilm, onSubmit}: PropsFromRedux): JSX.Element {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   if (currentFilm === null) {
     return (
       <LoadingScreen />
@@ -69,7 +72,9 @@ function AddReviewScreen ({currentFilm, onSubmit}: PropsFromRedux): JSX.Element 
       <div className="add-review">
         <AddReviewForm
           filmId = {id}
-          onReviewSubmit = {(currentId, review) => onSubmit(currentId, review)}
+          onReviewSubmit = {(currentId, review, onFormSubmit) => onSubmit(currentId, review, onFormSubmit)}
+          setIsLoading = {setIsLoading}
+          isLoading = {isLoading}
         />
       </div>
 

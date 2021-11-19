@@ -67,7 +67,6 @@ const enum APIRoute {
   Similar = '/films/:id/similar',
   Promo = '/promo',
   Comments = '/comments/:film_id',
-  Comment = '/comments/:film_id',
   Login = '/login',
   Logout = '/logout',
 }
@@ -80,6 +79,7 @@ const playerTogglerStyle = {
 const enum FailMessage {
   Auth = 'Не забудьте авторизоваться',
   LoadFavorites = 'Фильмы из избранного доступны только зарегестрированным пользователям',
+  PostComment = 'Что-то пошло не так. Комментарий не отправлен',
 }
 
 export {
