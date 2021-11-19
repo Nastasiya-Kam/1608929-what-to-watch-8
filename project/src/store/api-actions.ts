@@ -1,6 +1,6 @@
 import {loadFilms, loadFilm, redirectToRoute, loadPromo, loadFavorite, loadSimilar, loadComments, requireAuthorization, requireLogout} from './action';
 import {saveToken, dropToken, Token} from '../services/token';
-import {APIRoute, AuthorizationStatus, AppRoute, AppRouteChangeElement} from '../const';
+import {APIRoute, AuthorizationStatus, AppRoute, AppRouteChangeElement, FailMessage} from '../const';
 import {adaptToClient, adaptCommentsToClient, getIdRoute} from '../utils';
 import {ThunkActionResult} from '../types/action';
 import {Film, FilmId, FilmServer, FilmsServer} from '../types/films';
@@ -8,9 +8,6 @@ import {CommentPost, CommentsServer} from '../types/comment';
 import {AuthData} from '../types/auth-data';
 import browserHistory from '../browser-history';
 import {toast} from 'react-toastify';
-
-const AUTH_FAIL_MESSAGE = 'Не забудьте авторизоваться';
-const LOAD_FAVORITE_FAIL_MESSAGE = 'Фильмы из избранного доступны только зарегестрированным пользователям';
 
 const fetchFilmsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -23,7 +20,6 @@ const fetchFilmsAction = (): ThunkActionResult =>
 const fetchFilmAction = (id: FilmId): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<FilmServer>(APIRoute.Film.replace(AppRouteChangeElement.ID, String(id)));
-
     dispatch(loadFilm(adaptToClient(data)));
   };
 
@@ -43,7 +39,7 @@ const fetchFavoriteFilmsAction = (): ThunkActionResult =>
       const adaptedData = data.map((film) => adaptToClient(film));
       dispatch(loadFavorite(adaptedData));
     } catch {
-      toast.info(LOAD_FAVORITE_FAIL_MESSAGE);
+      toast.info(FailMessage.LoadFavorites);
     }
   };
 
@@ -83,7 +79,7 @@ const checkAuthAction = (): ThunkActionResult =>
       await api.get(APIRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
     } catch {
-      toast.info(AUTH_FAIL_MESSAGE);
+      toast.info(FailMessage.Auth);
     }
   };
 

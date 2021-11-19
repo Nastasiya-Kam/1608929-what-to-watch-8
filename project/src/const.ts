@@ -59,7 +59,7 @@ const Grade = {
   },
 };
 
-enum APIRoute {
+const enum APIRoute {
   Films = '/films',
   Film = '/films/:id',
   Favorite = '/favorite',
@@ -72,9 +72,15 @@ enum APIRoute {
   Logout = '/logout',
 }
 
+// TODO Д12. Переместить в папку с компонентом
 const playerTogglerStyle = {
   left: '30%',
 };
+
+const enum FailMessage {
+  Auth = 'Не забудьте авторизоваться',
+  LoadFavorites = 'Фильмы из избранного доступны только зарегестрированным пользователям',
+}
 
 export {
   MIN_COMMENT_LENGTH,
@@ -92,5 +98,6 @@ export {
   ScreenType,
   Grade,
   APIRoute,
-  playerTogglerStyle
+  playerTogglerStyle,
+  FailMessage
 };
