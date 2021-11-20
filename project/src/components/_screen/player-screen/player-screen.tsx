@@ -23,8 +23,8 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function PlayerScreen({currentFilm}: PropsFromRedux): JSX.Element {
-  const [isPlaying, setIsPlaying] = useState(true);
-  // const [timer, setTimer] = useState(0);
+  const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  // const [timer, setTimer] = useState<number>(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {

@@ -47,7 +47,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function MainScreen(props: PropsFromRedux): JSX.Element {
   const {promoFilm, films, genres, currentGenre, authorizationStatus, onGenreChange, isDataLoaded, onStatusFavoriteChange} = props;
-  const [renderedFilmCount, setRenderedFilmCount] = useState(GENRE_FILMS_COUNT);
+  const [renderedFilmCount, setRenderedFilmCount] = useState<number>(GENRE_FILMS_COUNT);
 
   if (!isDataLoaded || !promoFilm) {
     return <LoadingScreen />;

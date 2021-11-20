@@ -12,10 +12,10 @@ type Props = {
 }
 
 function AddReviewForm({filmId, onReviewSubmit, setIsLoading, isLoading}: Props): JSX.Element {
-  const [comment, setComment] = useState('');
-  const [rating, setRating] = useState(0);
-  const [isValidText, setValidText] = useState(false);
-  const [isValidRating, setValidRating] = useState(false);
+  const [comment, setComment] = useState<string>('');
+  const [rating, setRating] = useState<number>(0);
+  const [isValidText, setValidText] = useState<boolean>(false);
+  const [isValidRating, setValidRating] = useState<boolean>(false);
 
   return (
     <form
