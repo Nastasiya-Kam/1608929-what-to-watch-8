@@ -20,8 +20,12 @@ const fetchFilmsAction = (): ThunkActionResult =>
 const fetchFilmAction = (id: FilmId): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     dispatch(isLoading(true));
-    const {data} = await api.get<FilmServer>(APIRoute.Film.replace(AppRouteChangeElement.ID, String(id)));
-    dispatch(loadFilm(adaptToClient(data)));
+    try {
+      const {data} = await api.get<FilmServer>(APIRoute.Film.replace(AppRouteChangeElement.ID, String(id)));
+      dispatch(loadFilm(adaptToClient(data)));
+    } catch {
+      toast.info(FailMessage.NotFoundFilm);
+    }
     dispatch(isLoading(false));
   };
 
@@ -52,6 +56,12 @@ const postFavoriteFilmStatusAction = (id: FilmId, status: number): ThunkActionRe
       const {data} = await api.post<FilmServer>(getIdRoute(APIRoute.FavoriteStatus, id).replace(AppRouteChangeElement.STATUS, String(status)), {status});
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
       dispatch(loadFilm(adaptToClient(data)));
+
+      const promoFilmId = _getState().promoFilm?.id;
+
+      if (promoFilmId === id) {
+        dispatch(loadPromo(adaptToClient(data)));
+      }
     } catch {
       toast.info(FailMessage.AddToFavorite);
     }

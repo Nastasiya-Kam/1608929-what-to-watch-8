@@ -7,7 +7,7 @@ const initialState = {
   films: [],
   isDataLoaded: false,
   currentFilm: null,
-  isLoading: false,
+  isLoading: true,
   comments: [],
   promoFilm: null,
   authorizationStatus: AuthorizationStatus.Unknown,

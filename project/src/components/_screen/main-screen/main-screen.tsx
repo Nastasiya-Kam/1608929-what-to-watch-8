@@ -50,9 +50,7 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
   const [renderedFilmCount, setRenderedFilmCount] = useState(GENRE_FILMS_COUNT);
 
   if (!isDataLoaded || !promoFilm) {
-    return (
-      <LoadingScreen />
-    );
+    return <LoadingScreen />;
   }
 
   const {id, title, genre, release, backgroundImage, posterImage, isFavorite} = promoFilm;
