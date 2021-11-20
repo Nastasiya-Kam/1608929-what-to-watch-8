@@ -28,6 +28,11 @@ const loadFilm = (film: Film) => ({
   payload: film,
 } as const);
 
+const isLoading = (flag: boolean) => ({
+  type: ActionType.IsLoading,
+  payload: flag,
+} as const);
+
 const loadPromo = (film: Film) => ({
   type: ActionType.LoadPromo,
   payload: film,
@@ -68,6 +73,7 @@ export {
   setCurrentFilm,
   loadFilms,
   loadFilm,
+  isLoading,
   loadPromo,
   loadFavorite,
   loadSimilar,

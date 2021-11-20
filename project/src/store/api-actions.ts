@@ -1,9 +1,9 @@
-import {loadFilms, loadFilm, redirectToRoute, loadPromo, loadFavorite, loadSimilar, loadComments, requireAuthorization, requireLogout} from './action';
+import {loadFilms, loadFilm, redirectToRoute, loadPromo, loadFavorite, loadSimilar, loadComments, requireAuthorization, requireLogout, isLoading} from './action';
 import {saveToken, dropToken, Token} from '../services/token';
 import {APIRoute, AuthorizationStatus, AppRoute, AppRouteChangeElement, FailMessage} from '../const';
 import {adaptToClient, adaptCommentsToClient, getIdRoute} from '../utils';
 import {ThunkActionResult} from '../types/action';
-import {Film, FilmId, FilmServer, FilmsServer} from '../types/films';
+import {FilmId, FilmServer, FilmsServer} from '../types/films';
 import {CommentPost, CommentsServer} from '../types/comment';
 import {AuthData} from '../types/auth-data';
 import browserHistory from '../browser-history';
@@ -19,8 +19,10 @@ const fetchFilmsAction = (): ThunkActionResult =>
 
 const fetchFilmAction = (id: FilmId): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
+    dispatch(isLoading(true));
     const {data} = await api.get<FilmServer>(APIRoute.Film.replace(AppRouteChangeElement.ID, String(id)));
     dispatch(loadFilm(adaptToClient(data)));
+    dispatch(isLoading(false));
   };
 
 const fetchPromoFilmAction = (): ThunkActionResult =>
@@ -47,8 +49,9 @@ const postFavoriteFilmStatusAction = (id: FilmId, status: number): ThunkActionRe
   async (dispatch, _getState, api): Promise<void> => {
     try {
       await api.get(APIRoute.Login);
-      api.post<Film>(getIdRoute(APIRoute.FavoriteStatus, id).replace(AppRouteChangeElement.STATUS, String(status)), {status});
+      const {data} = await api.post<FilmServer>(getIdRoute(APIRoute.FavoriteStatus, id).replace(AppRouteChangeElement.STATUS, String(status)), {status});
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(loadFilm(adaptToClient(data)));
     } catch {
       toast.info(FailMessage.AddToFavorite);
     }

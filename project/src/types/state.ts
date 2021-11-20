@@ -7,7 +7,7 @@ type State = {
   films: Films,
   isDataLoaded: boolean,
   currentFilm: Film | null,
-  isCurrentFilmLoaded: boolean,
+  isLoading: boolean,
   comments: Comments,
   promoFilm: Film | null,
   authorizationStatus: AuthorizationStatus,

@@ -7,6 +7,7 @@ import {changeGenre,
   setCurrentFilm,
   loadFilms,
   loadFilm,
+  isLoading,
   loadPromo,
   loadFavorite,
   loadSimilar,
@@ -16,18 +17,19 @@ import {changeGenre,
   redirectToRoute} from '../store/action';
 
 enum ActionType {
-  ChangeGenre = 'changeGenre',
-  GetGenreFilms = 'getGenreFilms',
-  SetCurrentFilm = 'setCurrentFilm',
+  ChangeGenre = 'genre/changeGenre',
+  GetGenreFilms = 'genre/getGenreFilms',
+  SetCurrentFilm = 'data/setCurrentFilm',
   LoadFilms = 'data/loadFilms',
   LoadFilm = 'data/loadFilm',
+  IsLoading ='data/isLoading',
   LoadPromo = 'data/loadPromo',
   LoadFavorite = 'data/loadFavorite',
   LoadSimilar = 'data/loadSimilar',
   LoadComments = 'data/loadComments',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
-  RedirectToRoute = 'redirectToRoute'
+  RedirectToRoute = 'root/redirectToRoute'
 }
 
 type Actions =
@@ -36,6 +38,7 @@ type Actions =
   | ReturnType<typeof setCurrentFilm>
   | ReturnType<typeof loadFilms>
   | ReturnType<typeof loadFilm>
+  | ReturnType<typeof isLoading>
   | ReturnType<typeof loadPromo>
   | ReturnType<typeof loadFavorite>
   | ReturnType<typeof loadSimilar>

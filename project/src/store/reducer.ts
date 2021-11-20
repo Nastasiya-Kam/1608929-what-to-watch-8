@@ -7,7 +7,7 @@ const initialState = {
   films: [],
   isDataLoaded: false,
   currentFilm: null,
-  isCurrentFilmLoaded: false,
+  isLoading: false,
   comments: [],
   promoFilm: null,
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -38,7 +38,13 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {
         ...state,
         currentFilm: film,
-        isCurrentFilmLoaded: true,
+      };
+    }
+    case ActionType.IsLoading: {
+      const isLoading = action.payload;
+      return {
+        ...state,
+        isLoading: isLoading,
       };
     }
     case ActionType.LoadPromo: {

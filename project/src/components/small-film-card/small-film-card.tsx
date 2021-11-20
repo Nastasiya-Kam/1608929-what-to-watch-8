@@ -35,10 +35,10 @@ function SmallFilmCard({film, setActiveCardId, isActive, onCurrentFilmChange}: C
 
   return (
     <article className="small-film-card catalog__films-card"
-      onMouseEnter = {() => {
+      onMouseEnter={() => {
         setActiveCardId(id);
       }}
-      onMouseLeave = {() => {
+      onMouseLeave={() => {
         setActiveCardId(null);
       }}
     >
