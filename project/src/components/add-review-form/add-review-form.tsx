@@ -14,8 +14,8 @@ type Props = {
 function AddReviewForm({filmId, onReviewSubmit, setIsLoading, isLoading}: Props): JSX.Element {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
-  const [validText, setValidText] = useState(false);
-  const [validRating, setValidRating] = useState(false);
+  const [isValidText, setValidText] = useState(false);
+  const [isValidRating, setValidRating] = useState(false);
 
   return (
     <form
@@ -70,7 +70,7 @@ function AddReviewForm({filmId, onReviewSubmit, setIsLoading, isLoading}: Props)
           <button
             className="add-review__btn"
             type="submit"
-            disabled={!checkValidForm(validText, validRating) ?? {isLoading}}
+            disabled={!checkValidForm(isValidText, isValidRating) ?? {isLoading}}
           >
             Post
           </button>

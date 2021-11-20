@@ -8,20 +8,19 @@ import GenreList from '../../genre-list/genre-list';
 import LoadingScreen from '../loading-screen/loading-screen';
 import FavoriteButton from '../../favorite-button/favorite-button';
 import PlayButton from '../../play-button/play-button';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../../types/state';
 import {ThunkAppDispatch} from '../../../types/action';
 import {FilmId} from '../../../types/films';
 import {changeGenre} from '../../../store/action';
 import {postFavoriteFilmStatusAction} from '../../../store/api-actions';
-import {getGenres, getCurrentGenreFilms, checkFavoriteStatus} from '../../../utils';
+import {getGenres, getCurrentGenreFilms} from '../../../utils';
 import {AuthorizationStatus, GENRE_FILMS_COUNT} from '../../../const';
 
 const mapStateToProps = ({films, promoFilm, currentGenre, authorizationStatus, isDataLoaded, favoriteFilms}: State) => {
   const filmsByGenre = getCurrentGenreFilms(films, currentGenre);
   const genres = getGenres(films);
-  const currentStatus: boolean = promoFilm ? checkFavoriteStatus(promoFilm.id, favoriteFilms) : false;
 
   return {
     films: filmsByGenre,
@@ -30,7 +29,6 @@ const mapStateToProps = ({films, promoFilm, currentGenre, authorizationStatus, i
     currentGenre,
     authorizationStatus,
     isDataLoaded,
-    currentStatus,
   };
 };
 
@@ -48,19 +46,8 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function MainScreen(props: PropsFromRedux): JSX.Element {
-  const {promoFilm, films, genres, currentGenre, authorizationStatus, onGenreChange, isDataLoaded, currentStatus, onStatusFavoriteChange} = props;
+  const {promoFilm, films, genres, currentGenre, authorizationStatus, onGenreChange, isDataLoaded, onStatusFavoriteChange} = props;
   const [renderedFilmCount, setRenderedFilmCount] = useState(GENRE_FILMS_COUNT);
-  const [favoriteStatus, setFavoriteStatus] = useState(currentStatus);
-
-  useEffect(() => {
-    if (!promoFilm) {
-      return;
-    }
-
-    const status = Number(favoriteStatus);
-
-    onStatusFavoriteChange(promoFilm.id, status);
-  }, [favoriteStatus, promoFilm, onStatusFavoriteChange]);
 
   if (!isDataLoaded || !promoFilm) {
     return (
@@ -68,7 +55,7 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
     );
   }
 
-  const {title, genre, release, backgroundImage, posterImage} = promoFilm;
+  const {id, title, genre, release, backgroundImage, posterImage, isFavorite} = promoFilm;
 
   return (
     <>
@@ -101,7 +88,7 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
 
               <div className="film-card__buttons">
                 <PlayButton id = {promoFilm.id} />
-                <FavoriteButton isFavorite = {favoriteStatus} onClick = {setFavoriteStatus} />
+                <FavoriteButton filmId = {id} isFavorite = {isFavorite} onClick = {onStatusFavoriteChange} />
               </div>
             </div>
           </div>

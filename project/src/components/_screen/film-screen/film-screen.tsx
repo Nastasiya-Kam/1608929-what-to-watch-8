@@ -59,19 +59,12 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function FilmScreen ({currentId, currentFilm, isCurrentFilmLoaded, similarFilms, authorizationStatus, currentFavoriteStatus, onLoadFilm, onLoadComments, onLoadSimilar, onStatusFavoriteChange}: PropsFromRedux): JSX.Element {
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
-  const [favoriteStatus, setFavoriteStatus] = useState<boolean>(currentFavoriteStatus);
 
   useEffect(() => {
     onLoadFilm(currentId);
     onLoadComments(currentId);
     onLoadSimilar(currentId);
   }, [onLoadComments, onLoadSimilar, currentId, onLoadFilm]);
-
-  useEffect(() => {
-    const status = Number(favoriteStatus);
-
-    onStatusFavoriteChange(currentId, status);
-  }, [favoriteStatus]);
 
   if (!currentFilm) {
     return <NotFoundScreen />;
@@ -81,7 +74,7 @@ function FilmScreen ({currentId, currentFilm, isCurrentFilmLoaded, similarFilms,
     return <LoadingScreen />;
   }
 
-  const {id, title, genre, release, posterImage, backgroundImage, backgroundColor} = currentFilm;
+  const {id, title, genre, release, posterImage, backgroundImage, backgroundColor, isFavorite} = currentFilm;
 
   return (
     <>
@@ -112,7 +105,7 @@ function FilmScreen ({currentId, currentFilm, isCurrentFilmLoaded, similarFilms,
               </p>
               <div className="film-card__buttons">
                 <PlayButton id = {currentId} />
-                <FavoriteButton isFavorite = {favoriteStatus} onClick = {setFavoriteStatus} />
+                <FavoriteButton filmId = {id} isFavorite = {isFavorite} onClick = {onStatusFavoriteChange} />
                 {(authorizationStatus === AuthorizationStatus.Auth) && <Link to={AppRoute.AddReview.replace(AppRouteChangeElement.ID, String(id))} className="btn film-card__button">Add review</Link>}
               </div>
             </div>
