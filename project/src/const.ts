@@ -71,11 +71,6 @@ const enum APIRoute {
   Logout = '/logout',
 }
 
-// TODO Д12. Переместить в папку с компонентом
-const playerTogglerStyle = {
-  left: '30%',
-};
-
 const enum FailMessage {
   Auth = 'Не забудьте авторизоваться',
   LoadFavorites = 'Фильмы из избранного доступны только зарегестрированным пользователям',
@@ -100,6 +95,5 @@ export {
   ScreenType,
   Grade,
   APIRoute,
-  playerTogglerStyle,
   FailMessage
 };

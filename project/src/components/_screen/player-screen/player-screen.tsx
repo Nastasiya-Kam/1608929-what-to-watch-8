@@ -2,25 +2,33 @@ import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../../types/state';
 import {FilmId} from '../../../types/films';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
-import {playerTogglerStyle} from '../../../const';
 import {useEffect, useRef, useState} from 'react';
 import { useHistory } from 'react-router';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+// import LoadingScreen from '../loading-screen/loading-screen';
+dayjs.extend(duration);
 
 const SECONDS_IN_MINUTES = 60;
 
-const minutesToTime = (duration: number) => {
-  const hours = Math.floor(duration / (SECONDS_IN_MINUTES * SECONDS_IN_MINUTES));
-  const divisorForMinutes = duration % (SECONDS_IN_MINUTES * SECONDS_IN_MINUTES);
-  const minutes = Math.floor(divisorForMinutes / SECONDS_IN_MINUTES);
-  const divisorForSeconds = divisorForMinutes % SECONDS_IN_MINUTES;
-  const seconds = Math.ceil(divisorForSeconds);
-
-  return {
-    'h': hours,
-    'm': minutes,
-    's': seconds,
-  };
+const getTimeFormat = (currentTime: number) => {
+  const timeFormat = currentTime >= (SECONDS_IN_MINUTES * SECONDS_IN_MINUTES) ? '-HH:mm:ss' : '-mm:ss';
+  return dayjs.duration(currentTime, 'seconds').format(timeFormat);
 };
+
+// const minutesToTime = (duration: number) => {
+//   const hours = Math.floor(duration / (SECONDS_IN_MINUTES * SECONDS_IN_MINUTES));
+//   const divisorForMinutes = duration % (SECONDS_IN_MINUTES * SECONDS_IN_MINUTES);
+//   const minutes = Math.floor(divisorForMinutes / SECONDS_IN_MINUTES);
+//   const divisorForSeconds = divisorForMinutes % SECONDS_IN_MINUTES;
+//   const seconds = Math.ceil(divisorForSeconds);
+
+//   return {
+//     'h': hours,
+//     'm': minutes,
+//     's': seconds,
+//   };
+// };
 
 type Props = {
   currentId: FilmId,
@@ -43,14 +51,21 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function PlayerScreen({currentFilm, currentRunTime}: PropsFromRedux): JSX.Element {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
-  const [currentTime, setCurrentTime] = useState<number>(0);
+  const [leftTime, setLeftTime] = useState<number>(0);
+  // const [playerTogglerStyle, setPlayerTogglerStyle] = useState<number>(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
+  // TODO Получаем длину фильма video.duration
+  // todo используем счётчик в useEffect, чтобы шли секунды (убывание на 1)
+  // todo когда фильм на паузе, счётчик должен перестать идти
+
   useEffect(() => {
-    if (currentRunTime !== undefined) {
-      setCurrentTime(currentRunTime * 60);
+    if (videoRef.current === null) {
+      return;
     }
-  }, [currentRunTime]);
+
+    setLeftTime(videoRef.current?.duration);
+  }, [videoRef]);
 
   useEffect(() => {
     const video: HTMLVideoElement | null = videoRef.current;
@@ -60,29 +75,13 @@ function PlayerScreen({currentFilm, currentRunTime}: PropsFromRedux): JSX.Elemen
   }, [videoRef, currentFilm]);
 
   useEffect(() => {
-    if (currentTime === undefined) {
-      return;
-    }
-
-    const timerID = setInterval(
-      () => setCurrentTime((prevTimer) => prevTimer - 1),
-      1000,
-    );
-
-    return (() => {
-      clearInterval(timerID);
-    });
-  }, [currentTime]);
-
-  useEffect(() => {
-    const video: HTMLVideoElement | null = videoRef.current;
+    const video = videoRef.current;
     if (!video) {
       return;
     }
 
     const onPlay = () => {
       setIsPlaying(true);
-      setCurrentTime(video.currentTime);
     };
 
     const onPause = () => {
@@ -97,6 +96,23 @@ function PlayerScreen({currentFilm, currentRunTime}: PropsFromRedux): JSX.Elemen
       video.removeEventListener('pause', onPause);
     };
   }, [videoRef]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) {
+      return;
+    }
+
+    const timerId = setInterval(
+      () => setLeftTime((prevLeftTime) => prevLeftTime - 1),
+      1000,
+    );
+
+    return  () => {
+      clearTimeout(timerId);
+    };
+  }, [videoRef]);
+
 
   const onPlay = () => {
     const video: HTMLVideoElement | null = videoRef.current;
@@ -118,10 +134,16 @@ function PlayerScreen({currentFilm, currentRunTime}: PropsFromRedux): JSX.Elemen
     return <NotFoundScreen />;
   }
 
-  const {videoLink, runTime} = currentFilm;
-  // eslint-disable-next-line
-  console.log('runTime', currentTime);
-  const timing = minutesToTime(currentTime);
+  const {videoLink} = currentFilm;
+
+  // const durationTime = videoRef?.current?.duration;
+
+  // const playerTogglerStyle = {
+  //   left: `${leftTime / durationTime}%`,
+  // };
+
+  // eslint-disable-next-line no-console
+  console.log(getTimeFormat(leftTime));
 
   return (
     <div className="player">
@@ -145,16 +167,16 @@ function PlayerScreen({currentFilm, currentRunTime}: PropsFromRedux): JSX.Elemen
         <div className="player__controls-row">
           <div className="player__time">
             <progress className="player__progress" value="30" max="100"></progress>
-            <div className="player__toggler" style={playerTogglerStyle}>Toggler</div>
+            {/* <div className="player__toggler" style={playerTogglerStyle}>Toggler</div> */}
           </div>
           {/* //TODO Если продолжительность фильма
               более часа то -01:45:45
               менее часа, то -53:00 */}
-          <div className="player__time-value">
+          <div className="player__time-value">{getTimeFormat(leftTime)}
             {/* //TODO магические числа! 60 и 10. Вынести в формулу весь? */}
-            {(runTime >= 60)
+            {/* {(currentTime >= 60)
               ? `-${(timing.h < 10) ? '0' : ''}${timing.h}:${(timing.m < 10) ? '0' : ''}${timing.m}:${(timing.s < 10) ? '0' : ''}${timing.s}`
-              : `-${(timing.m < 10) ? '0' : ''}${timing.m}:${(timing.s < 10) ? '0' : ''}${timing.s}`}
+              : `-${(timing.m < 10) ? '0' : ''}${timing.m}:${(timing.s < 10) ? '0' : ''}${timing.s}`} */}
           </div>
         </div>
 
