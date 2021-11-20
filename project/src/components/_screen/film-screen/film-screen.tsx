@@ -11,25 +11,27 @@ import {FilmId} from '../../../types/films';
 import {State} from '../../../types/state';
 import {ThunkAppDispatch} from '../../../types/action';
 import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT, AuthorizationStatus, AppRouteChangeElement} from '../../../const';
-import {getFilmsWithoutId, checkFavoriteStatus} from '../../../utils';
+import {getFilmsWithoutId} from '../../../utils';
 import {store} from '../../../index';
 import {fetchFilmAction, fetchCommentsAction, fetchSimilarFilmsAction, postFavoriteFilmStatusAction} from '../../../store/api-actions';
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 type Props = {
   currentId: FilmId,
 }
 
-const mapStateToProps = ({currentFilm, similarFilms, authorizationStatus, favoriteFilms}: State, ownProps: Props) => {
+const mapStateToProps = ({currentFilm, isCurrentFilmLoaded, similarFilms, authorizationStatus}: State, ownProps: Props) => {
   const {currentId} = ownProps;
   const currentSimilarFilms = currentFilm ? getFilmsWithoutId(similarFilms, currentFilm.id) : [];
-  const currentFavoriteStatus: boolean = currentFilm ? checkFavoriteStatus(currentFilm.id, favoriteFilms) : false;
+  const currentFavoriteStatus = currentFilm ? currentFilm.isFavorite : false;
 
   return ({
     currentId,
     currentFilm,
+    isCurrentFilmLoaded,
     similarFilms: currentSimilarFilms,
     authorizationStatus,
     currentFavoriteStatus,
@@ -55,9 +57,9 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus, currentFavoriteStatus, onLoadFilm, onLoadComments, onLoadSimilar, onStatusFavoriteChange}: PropsFromRedux): JSX.Element {
+function FilmScreen ({currentId, currentFilm, isCurrentFilmLoaded, similarFilms, authorizationStatus, currentFavoriteStatus, onLoadFilm, onLoadComments, onLoadSimilar, onStatusFavoriteChange}: PropsFromRedux): JSX.Element {
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
-  const [favoriteStatus, setFavoriteStatus] = useState(currentFavoriteStatus);
+  const [favoriteStatus, setFavoriteStatus] = useState<boolean>(currentFavoriteStatus);
 
   useEffect(() => {
     onLoadFilm(currentId);
@@ -69,10 +71,14 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
     const status = Number(favoriteStatus);
 
     onStatusFavoriteChange(currentId, status);
-  }, [favoriteStatus, onStatusFavoriteChange, currentId]);
+  }, [favoriteStatus]);
 
   if (!currentFilm) {
     return <NotFoundScreen />;
+  }
+
+  if (!isCurrentFilmLoaded) {
+    return <LoadingScreen />;
   }
 
   const {id, title, genre, release, posterImage, backgroundImage, backgroundColor} = currentFilm;

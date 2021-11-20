@@ -4,7 +4,7 @@ import Footer from '../../footer/footer';
 import FilmList from '../../film-list/film-list';
 import {State} from '../../../types/state';
 import {ThunkAppDispatch} from '../../../types/action';
-import {fetchFavoriteFilmsAction} from '../../../store/api-actions'; //, checkAuthAction
+import {fetchFavoriteFilmsAction} from '../../../store/api-actions';
 import {store} from '../../../index';
 import {connect, ConnectedProps} from 'react-redux';
 import {useEffect} from 'react';
@@ -19,7 +19,6 @@ const mapStateToProps = ({favoriteFilms, isFavoriteLoaded, authorizationStatus}:
 
 const mapDispatchToProps = () => ({
   onLoadFavorites() {
-    //  TODO нужно ли проверять авторизован ли пользователь
     (store.dispatch as ThunkAppDispatch)(fetchFavoriteFilmsAction());
   },
 });
@@ -37,7 +36,7 @@ function MyListScreen ({favoriteFilms, isFavoriteLoaded, authorizationStatus, on
     onLoadFavorites();
   }, [authorizationStatus]);
 
-  if (!favoriteFilms) {
+  if (!isFavoriteLoaded) {
     return <LoadingScreen />;
   }
 
