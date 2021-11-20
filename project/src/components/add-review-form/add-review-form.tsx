@@ -34,7 +34,7 @@ function AddReviewForm({filmId, onReviewSubmit, setIsLoading, isLoading}: Props)
       <div className="rating">
         <div className="rating__stars">
           {STARS.map((star) => (
-            <Fragment key = {star}>
+            <Fragment key={star}>
               <input
                 disabled={isLoading}
                 className="rating__input"

@@ -16,10 +16,10 @@ function FilmList({films}: Props): JSX.Element {
 
         return (
           <SmallFilmCard
-            key = {id}
-            film = {film}
-            setActiveCardId = {setActiveFilmId}
-            isActive = {activeFilmId === film.id}
+            key={id}
+            film={film}
+            setActiveCardId={setActiveFilmId}
+            isActive={activeFilmId === film.id}
           />);
       })}
     </div>

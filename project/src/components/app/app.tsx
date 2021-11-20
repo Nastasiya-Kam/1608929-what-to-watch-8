@@ -35,13 +35,13 @@ function App(props: PropsFromRedux): JSX.Element {
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
-        <Route exact path = {AppRoute.Root}>
+        <Route exact path={AppRoute.Root}>
           <MainScreen />
         </Route>
         <Route
           exact
-          path = {AppRoute.Login}
-          render = {() => {
+          path={AppRoute.Login}
+          render={() => {
             if (authorizationStatus !== AuthorizationStatus.Auth) {
               return <SignInScreen />;
             }
@@ -52,31 +52,31 @@ function App(props: PropsFromRedux): JSX.Element {
         </Route>
         <PrivateRoute
           exact
-          path = {AppRoute.MyList}
-          render = {() => <MyListScreen />}
+          path={AppRoute.MyList}
+          render={() => <MyListScreen />}
         >
         </PrivateRoute>
         <Route
           exact
-          path = {AppRoute.Film}
-          render = {(routerProps) => {
+          path={AppRoute.Film}
+          render={(routerProps) => {
             const id = parseInt(routerProps?.match?.params?.id as string, 10);
-            return <FilmScreen currentId = {id} />;
+            return <FilmScreen currentId={id} />;
           }}
         >
         </Route>
         <PrivateRoute
           exact
-          path = {AppRoute.AddReview}
-          render = {() => <AddReviewScreen />}
+          path={AppRoute.AddReview}
+          render={() => <AddReviewScreen />}
         >
         </PrivateRoute>
         <Route
           exact
-          path = {AppRoute.Player}
-          render = {(routerProps) => {
+          path={AppRoute.Player}
+          render={(routerProps) => {
             const id = parseInt(routerProps?.match?.params?.id as string, 10);
-            return <PlayerScreen currentId = {id} />;
+            return <PlayerScreen currentId={id} />;
           }}
         >
         </Route>

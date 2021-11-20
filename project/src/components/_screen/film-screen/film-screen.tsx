@@ -101,8 +101,8 @@ function FilmScreen ({currentId, currentFilm, isLoading, similarFilms, authoriza
                 <span className="film-card__year">{release}</span>
               </p>
               <div className="film-card__buttons">
-                <PlayButton id = {currentId} />
-                <FavoriteButton filmId = {id} isFavorite = {isFavorite} onClick = {onStatusFavoriteChange} />
+                <PlayButton id={currentId} />
+                <FavoriteButton filmId={id} isFavorite={isFavorite} onClick={onStatusFavoriteChange} />
                 {(authorizationStatus === AuthorizationStatus.Auth) && <Link to={AppRoute.AddReview.replace(AppRouteChangeElement.ID, String(id))} className="btn film-card__button">Add review</Link>}
               </div>
             </div>
@@ -142,7 +142,7 @@ function FilmScreen ({currentId, currentFilm, isLoading, similarFilms, authoriza
                 </ul>
               </nav>
 
-              <Tabs currentScreen = {currentScreen} currentFilm = {currentFilm} />
+              <Tabs currentScreen={currentScreen} currentFilm={currentFilm} />
 
             </div>
           </div>
@@ -152,7 +152,7 @@ function FilmScreen ({currentId, currentFilm, isLoading, similarFilms, authoriza
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmList films = {similarFilms.slice(0, SIMILAR_FILMS_COUNT)} />
+          <FilmList films={similarFilms.slice(0, SIMILAR_FILMS_COUNT)} />
         </section>
 
         <Footer />

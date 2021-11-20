@@ -71,10 +71,10 @@ function AddReviewScreen ({currentFilm, onSubmit}: PropsFromRedux): JSX.Element 
 
       <div className="add-review">
         <AddReviewForm
-          filmId = {id}
-          onReviewSubmit = {(currentId, review, onFormSubmit) => onSubmit(currentId, review, onFormSubmit)}
-          setIsLoading = {setIsLoading}
-          isLoading = {isLoading}
+          filmId={id}
+          onReviewSubmit={(currentId, review, onFormSubmit) => onSubmit(currentId, review, onFormSubmit)}
+          setIsLoading={setIsLoading}
+          isLoading={isLoading}
         />
       </div>
 

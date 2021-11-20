@@ -26,12 +26,12 @@ function VideoPlayer({poster, videoLink}: Props): JSX.Element {
 
   return (
     <video
-      ref = {videoRef}
-      poster = {poster}
-      src = {videoLink}
-      width = "280"
-      height = "175"
-      preload = "none"
+      ref={videoRef}
+      poster={poster}
+      src={videoLink}
+      width="280"
+      height="175"
+      preload="none"
       muted
     >
     </video>

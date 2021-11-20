@@ -31,7 +31,7 @@ const store = createStore(
 (store.dispatch as ThunkAppDispatch)(fetchPromoFilmAction());
 
 ReactDOM.render(
-  <Provider store = {store}>
+  <Provider store={store}>
     <ToastContainer />
     <App />
   </Provider>,

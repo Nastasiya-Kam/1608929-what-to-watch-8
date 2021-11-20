@@ -85,8 +85,8 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <PlayButton id = {promoFilm.id} />
-                <FavoriteButton filmId = {id} isFavorite = {isFavorite} onClick = {onStatusFavoriteChange} />
+                <PlayButton id={promoFilm.id} />
+                <FavoriteButton filmId={id} isFavorite={isFavorite} onClick={onStatusFavoriteChange} />
               </div>
             </div>
           </div>
@@ -96,8 +96,8 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <GenreList genres = {genres} currentGenre = {currentGenre} onGenreChange = {onGenreChange} setRenderedFilmCount = {setRenderedFilmCount} />
-          <FilmList films = {films.slice(0, renderedFilmCount)} />
+          <GenreList genres={genres} currentGenre={currentGenre} onGenreChange={onGenreChange} setRenderedFilmCount={setRenderedFilmCount} />
+          <FilmList films={films.slice(0, renderedFilmCount)} />
           {(films.length > renderedFilmCount) && <ShowMore renderedFilmCount={renderedFilmCount} onClick={setRenderedFilmCount} />}
         </section>
 
