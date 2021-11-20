@@ -4,7 +4,7 @@ import {FilmId, Film} from '../../types/films';
 import {State} from '../../types/state';
 import {Actions} from '../../types/action';
 import VideoPlayer from '../video-player/video-player';
-import {setCurrentFilm} from '../../store/action';
+import {loadFilm} from '../../store/action';
 import {Dispatch} from 'redux';
 import {connect, ConnectedProps} from 'react-redux';
 import browserHistory from '../../browser-history';
@@ -21,7 +21,7 @@ const mapStateToProps = ({currentFilm}: State) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onCurrentFilmChange(currentFilm: Film) {
-    dispatch(setCurrentFilm(currentFilm));
+    dispatch(loadFilm(currentFilm));
   },
 });
 

@@ -4,7 +4,6 @@ import {State} from '../types/state';
 
 import {changeGenre,
   getGenreFilms,
-  setCurrentFilm,
   loadFilms,
   loadFilm,
   isLoading,
@@ -19,7 +18,6 @@ import {changeGenre,
 enum ActionType {
   ChangeGenre = 'genre/changeGenre',
   GetGenreFilms = 'genre/getGenreFilms',
-  SetCurrentFilm = 'data/setCurrentFilm',
   LoadFilms = 'data/loadFilms',
   LoadFilm = 'data/loadFilm',
   IsLoading ='data/isLoading',
@@ -35,7 +33,6 @@ enum ActionType {
 type Actions =
   | ReturnType<typeof changeGenre>
   | ReturnType<typeof getGenreFilms>
-  | ReturnType<typeof setCurrentFilm>
   | ReturnType<typeof loadFilms>
   | ReturnType<typeof loadFilm>
   | ReturnType<typeof isLoading>

@@ -4,6 +4,23 @@ import {FilmId} from '../../../types/films';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {playerTogglerStyle} from '../../../const';
 import {useEffect, useRef, useState} from 'react';
+import { useHistory } from 'react-router';
+
+const SECONDS_IN_MINUTES = 60;
+
+const minutesToTime = (duration: number) => {
+  const hours = Math.floor(duration / (SECONDS_IN_MINUTES * SECONDS_IN_MINUTES));
+  const divisorForMinutes = duration % (SECONDS_IN_MINUTES * SECONDS_IN_MINUTES);
+  const minutes = Math.floor(divisorForMinutes / SECONDS_IN_MINUTES);
+  const divisorForSeconds = divisorForMinutes % SECONDS_IN_MINUTES;
+  const seconds = Math.ceil(divisorForSeconds);
+
+  return {
+    'h': hours,
+    'm': minutes,
+    's': seconds,
+  };
+};
 
 type Props = {
   currentId: FilmId,
@@ -12,9 +29,11 @@ type Props = {
 const mapStateToProps = ({films}: State, ownProps: Props) => {
   const {currentId} = ownProps;
   const currentFilm = films.find((item) => item.id === currentId);
+  const currentRunTime = currentFilm?.runTime;
 
   return ({
     currentFilm,
+    currentRunTime,
   });
 };
 
@@ -22,49 +41,87 @@ const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function PlayerScreen({currentFilm}: PropsFromRedux): JSX.Element {
+function PlayerScreen({currentFilm, currentRunTime}: PropsFromRedux): JSX.Element {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
-  // const [timer, setTimer] = useState<number>(0);
+  const [currentTime, setCurrentTime] = useState<number>(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
-    if (videoRef.current === null) {
+    if (currentRunTime !== undefined) {
+      setCurrentTime(currentRunTime * 60);
+    }
+  }, [currentRunTime]);
+
+  useEffect(() => {
+    const video: HTMLVideoElement | null = videoRef.current;
+    if (video !== null) {
+      setIsPlaying(!video.paused);
+    }
+  }, [videoRef, currentFilm]);
+
+  useEffect(() => {
+    if (currentTime === undefined) {
       return;
     }
 
-    if (isPlaying) {
-      videoRef.current.play();
+    const timerID = setInterval(
+      () => setCurrentTime((prevTimer) => prevTimer - 1),
+      1000,
+    );
+
+    return (() => {
+      clearInterval(timerID);
+    });
+  }, [currentTime]);
+
+  useEffect(() => {
+    const video: HTMLVideoElement | null = videoRef.current;
+    if (!video) {
       return;
     }
 
-    videoRef.current.pause();
-  }, [isPlaying, videoRef, currentFilm]);
+    const onPlay = () => {
+      setIsPlaying(true);
+      setCurrentTime(video.currentTime);
+    };
 
-  // useEffect(() => {
-  //   if (!currentFilm && timer === undefined) {
-  //     return;
-  //   }
+    const onPause = () => {
+      setIsPlaying(false);
+    };
 
-  //   if (timer > 60) {
-  //     setTimeout(() => setTimer(timer - 1), 1000);
-  //   } else {
-  //     setTimer(100500);
-  //   }
+    video.addEventListener('play', onPlay);
+    video.addEventListener('pause', onPause);
 
+    return () => {
+      video.removeEventListener('play', onPlay);
+      video.removeEventListener('pause', onPause);
+    };
+  }, [videoRef]);
 
-  //   // eslint-disable-next-line
-  //   console.log(timer);
+  const onPlay = () => {
+    const video: HTMLVideoElement | null = videoRef.current;
 
-  //   return (() => {
-  //     setTimer(0);
-  //   });
-  // });
+    if (!video) {
+      return;
+    }
+
+    if (video.paused) {
+      video.play();
+    } else {
+      video.pause();
+    }
+  };
+
+  const history = useHistory();
 
   if (!currentFilm) {
     return <NotFoundScreen />;
   }
 
-  const {videoLink} = currentFilm;
+  const {videoLink, runTime} = currentFilm;
+  // eslint-disable-next-line
+  console.log('runTime', currentTime);
+  const timing = minutesToTime(currentTime);
 
   return (
     <div className="player">
@@ -79,7 +136,7 @@ function PlayerScreen({currentFilm}: PropsFromRedux): JSX.Element {
       <button
         type="button"
         className="player__exit"
-        onClick={() => 'Остановка просмотра. Плеер скрывается.'}
+        onClick={() => history.goBack()}
       >
         Exit
       </button>
@@ -93,14 +150,19 @@ function PlayerScreen({currentFilm}: PropsFromRedux): JSX.Element {
           {/* //TODO Если продолжительность фильма
               более часа то -01:45:45
               менее часа, то -53:00 */}
-          <div className="player__time-value">1:30:29</div>
+          <div className="player__time-value">
+            {/* //TODO магические числа! 60 и 10. Вынести в формулу весь? */}
+            {(runTime >= 60)
+              ? `-${(timing.h < 10) ? '0' : ''}${timing.h}:${(timing.m < 10) ? '0' : ''}${timing.m}:${(timing.s < 10) ? '0' : ''}${timing.s}`
+              : `-${(timing.m < 10) ? '0' : ''}${timing.m}:${(timing.s < 10) ? '0' : ''}${timing.s}`}
+          </div>
         </div>
 
         <div className="player__controls-row">
           <button
             type="button"
             className="player__play"
-            onClick={() => setIsPlaying(!isPlaying)}
+            onClick={() => onPlay()}
           >
             {(isPlaying)
               ? <><svg viewBox="0 0 14 21" width="14" height="21"><use xlinkHref="#pause"></use></svg><span>Play</span></>

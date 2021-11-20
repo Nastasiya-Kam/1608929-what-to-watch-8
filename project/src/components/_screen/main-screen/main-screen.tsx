@@ -18,7 +18,7 @@ import {postFavoriteFilmStatusAction} from '../../../store/api-actions';
 import {getGenres, getCurrentGenreFilms} from '../../../utils';
 import {AuthorizationStatus, GENRE_FILMS_COUNT} from '../../../const';
 
-const mapStateToProps = ({films, promoFilm, currentGenre, authorizationStatus, isDataLoaded, favoriteFilms}: State) => {
+const mapStateToProps = ({films, promoFilm, currentGenre, authorizationStatus, isDataLoaded}: State) => {
   const filmsByGenre = getCurrentGenreFilms(films, currentGenre);
   const genres = getGenres(films);
 

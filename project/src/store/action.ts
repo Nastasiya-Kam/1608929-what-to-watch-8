@@ -13,11 +13,6 @@ const getGenreFilms = (films: Films) => ({
   payload: films,
 } as const);
 
-const setCurrentFilm = (film: Film) => ({
-  type: ActionType.SetCurrentFilm,
-  payload: film,
-} as const);
-
 const loadFilms = (films: Films) => ({
   type: ActionType.LoadFilms,
   payload: films,
@@ -70,7 +65,6 @@ const redirectToRoute = (url: AppRoute) => ({
 export {
   changeGenre,
   getGenreFilms,
-  setCurrentFilm,
   loadFilms,
   loadFilm,
   isLoading,

@@ -3,13 +3,12 @@ import SignOut from '../../sign-out/sign-out';
 import Footer from '../../footer/footer';
 import FilmList from '../../film-list/film-list';
 import {State} from '../../../types/state';
-import {ThunkAppDispatch} from '../../../types/action';
 import {fetchFavoriteFilmsAction} from '../../../store/api-actions';
-import {store} from '../../../index';
 import {connect, ConnectedProps} from 'react-redux';
 import {useEffect} from 'react';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {AuthorizationStatus} from '../../../const';
+import {ThunkAppDispatch} from '../../../types/action';
 
 const mapStateToProps = ({favoriteFilms, isFavoriteLoaded, authorizationStatus}: State) => ({
   favoriteFilms,
@@ -17,9 +16,9 @@ const mapStateToProps = ({favoriteFilms, isFavoriteLoaded, authorizationStatus}:
   authorizationStatus,
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onLoadFavorites() {
-    (store.dispatch as ThunkAppDispatch)(fetchFavoriteFilmsAction());
+    dispatch(fetchFavoriteFilmsAction());
   },
 });
 
