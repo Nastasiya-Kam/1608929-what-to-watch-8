@@ -1,6 +1,7 @@
+import {createReducer} from '@reduxjs/toolkit';
 import {DEFAULT_GENRE} from '../../const';
-import {ActionType, Actions} from '../../types/action';
 import {FilmsData} from '../../types/state';
+import {changeGenre, getGenreFilms, loadFilms, loadPromo} from '../action';
 
 const initialState: FilmsData = {
   currentGenre: DEFAULT_GENRE,
@@ -9,27 +10,21 @@ const initialState: FilmsData = {
   isDataLoaded: false,
 };
 
-const filmsData = (state = initialState, action: Actions): FilmsData => {
-  switch (action.type) {
-    case ActionType.ChangeGenre:
-      return {...state, currentGenre: action.payload};
-    case ActionType.GetGenreFilms:
-      return {...state, films: action.payload};
-    case ActionType.LoadFilms: {
-      const films = action.payload;
-      return {
-        ...state,
-        films,
-        isDataLoaded: true,
-      };
-    }
-    case ActionType.LoadPromo: {
-      const promoFilm = action.payload;
-      return {...state, promoFilm};
-    }
-    default:
-      return state;
-  }
-};
+const filmsData = createReducer(initialState, (builder) => {
+  builder
+    .addCase(changeGenre, (state, action) => {
+      state.currentGenre = action.payload;
+    })
+    .addCase(getGenreFilms, (state, action) => {
+      state.films = action.payload;
+    })
+    .addCase(loadFilms, (state, action) => {
+      state.films = action.payload;
+      state.isDataLoaded = true;
+    })
+    .addCase(loadPromo, (state, action) => {
+      state.promoFilm = action.payload;
+    });
+});
 
 export {filmsData};

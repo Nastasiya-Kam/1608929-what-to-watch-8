@@ -1,5 +1,6 @@
+import {createReducer} from '@reduxjs/toolkit';
 import {FilmData} from '../../types/state';
-import {ActionType, Actions} from '../../types/action';
+import {isLoading, loadComments, loadFavorite, loadFilm, loadSimilar} from '../action';
 
 const initialState: FilmData = {
   currentFilm: null,
@@ -10,31 +11,29 @@ const initialState: FilmData = {
   isFavoriteLoaded: false,
 };
 
-const filmData = (state = initialState, action: Actions): FilmData => {
-  switch (action.type) {
-    case ActionType.LoadFilm: {
+const filmData = createReducer(initialState, (builder) => {
+  builder
+    .addCase(loadFilm, (state, action) => {
       const film = action.payload;
-      return {...state, currentFilm: film};
-    }
-    case ActionType.IsLoading: {
-      const isLoading = action.payload;
-      return {...state, isLoading: isLoading};
-    }
-    case ActionType.LoadSimilar: {
+      state.currentFilm = film;
+    })
+    .addCase(isLoading, (state, action) => {
+      const isLoadingFilm = action.payload;
+      state.isLoading = isLoadingFilm;
+    })
+    .addCase(loadSimilar, (state, action) => {
       const similarFilms = action.payload;
-      return {...state, similarFilms};
-    }
-    case ActionType.LoadComments: {
+      state.similarFilms = similarFilms;
+    })
+    .addCase(loadComments, (state, action) => {
       const comments = action.payload;
-      return {...state, comments};
-    }
-    case ActionType.LoadFavorite: {
+      state.comments = comments;
+    })
+    .addCase(loadFavorite, (state, action) => {
       const favoriteFilms = action.payload;
-      return {...state, favoriteFilms, isFavoriteLoaded: true};
-    }
-    default:
-      return state;
-  }
-};
+      state.favoriteFilms = favoriteFilms;
+      state.isFavoriteLoaded = true;
+    });
+});
 
 export {filmData};
