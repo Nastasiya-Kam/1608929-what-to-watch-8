@@ -151,6 +151,7 @@ function PlayerScreen({currentFilm, currentRunTime}: PropsFromRedux): JSX.Elemen
         ref={videoRef}
         src={videoLink}
         className="player__video"
+        poster="img/loading-buffering.gif"
         autoPlay
       >
       </video>
