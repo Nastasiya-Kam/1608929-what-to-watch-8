@@ -8,7 +8,6 @@ import {requireAuthorization} from './store/action';
 import {createAPI} from './services/api';
 import App from './components/app/app';
 import {AuthorizationStatus} from './const';
-import {ThunkAppDispatch} from './types/action';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -26,9 +25,9 @@ const store = configureStore({
     }).concat(redirect),
 });
 
-(store.dispatch as ThunkAppDispatch)(checkAuthAction());
-(store.dispatch as ThunkAppDispatch)(fetchFilmsAction());
-(store.dispatch as ThunkAppDispatch)(fetchPromoFilmAction());
+store.dispatch(checkAuthAction());
+store.dispatch(fetchFilmsAction());
+store.dispatch(fetchPromoFilmAction());
 
 ReactDOM.render(
   <Provider store={store}>

@@ -2,7 +2,6 @@ import {AppRoute, AppRouteChangeElement} from '../../const';
 import {Link} from 'react-router-dom';
 import {FilmId, Film} from '../../types/films';
 import {State} from '../../types/state';
-import {Actions} from '../../types/action';
 import VideoPlayer from '../video-player/video-player';
 import {loadFilm} from '../../store/action';
 import {Dispatch} from 'redux';
@@ -20,7 +19,7 @@ const mapStateToProps = (state: State) => ({
   currentFilm: getCurrentFilm(state),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   onCurrentFilmChange(currentFilm: Film) {
     dispatch(loadFilm(currentFilm));
   },
