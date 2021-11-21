@@ -1,9 +1,6 @@
 import {APIRoute, AuthorizationStatus, DEFAULT_GENRE, Grade, MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH, AppRouteChangeElement} from './const';
 import {Film, FilmId, Films, FilmServer} from './types/films';
 import {Comment, CommentServer} from './types/comment';
-import dayjs from 'dayjs';
-
-const getDataCommentFormat = (data: string): string => dayjs(data).format('MMMM D, YYYY');
 
 const getGrade = (rating: number): string | undefined => {
   if (rating < Grade.BAD.value) {
@@ -90,6 +87,5 @@ export {
   checkValidRating,
   checkValidForm,
   checkFavoriteStatus,
-  getIdRoute,
-  getDataCommentFormat
+  getIdRoute
 };
