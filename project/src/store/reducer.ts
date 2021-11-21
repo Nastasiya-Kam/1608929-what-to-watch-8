@@ -4,17 +4,16 @@ import {State} from '../types/state';
 
 const initialState = {
   currentGenre: DEFAULT_GENRE,
+  promoFilm: null,
   films: [],
   isDataLoaded: false,
   currentFilm: null,
   isLoading: true,
+  similarFilms: [],
   comments: [],
-  promoFilm: null,
-  authorizationStatus: AuthorizationStatus.Unknown,
-  userMail: '',
   favoriteFilms: [],
   isFavoriteLoaded: false,
-  similarFilms: [],
+  authorizationStatus: AuthorizationStatus.Unknown,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {

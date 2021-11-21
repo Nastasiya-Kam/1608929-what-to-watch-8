@@ -3,7 +3,7 @@ import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
-import {reducer} from './store/reducer';
+import {rootReducer} from './store/root-reducer';
 import {redirect} from './store/middlewares/redirect';
 import {checkAuthAction, fetchFilmsAction, fetchPromoFilmAction} from './store/api-actions';
 import {requireAuthorization} from './store/action';
@@ -19,7 +19,7 @@ const api = createAPI(
 );
 
 const store = createStore(
-  reducer,
+  rootReducer,
   composeWithDevTools(
     applyMiddleware(thunk.withExtraArgument(api)),
     applyMiddleware(redirect),
