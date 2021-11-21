@@ -5,43 +5,45 @@ import SignIn from '../../sign-in/sign-in';
 import FilmList from '../../film-list/film-list';
 import Tabs from '../../tabs/tabs';
 import FavoriteButton from '../../favorite-button/favorite-button';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
+import PlayButton from '../../play-button/play-button';
 import {FilmId} from '../../../types/films';
 import {State} from '../../../types/state';
-import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {ThunkAppDispatch} from '../../../types/action';
-import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT} from '../../../const';
-import {getSimilarGenreFilms, isCheckedAuth, checkFavoriteStatus} from '../../../utils';
-import {store} from '../../../index';
-import {fetchCommentsAction, fetchSimilarFilmsAction, postFavoriteFilmStatusAction} from '../../../store/api-actions';
+import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT, AuthorizationStatus, AppRouteChangeElement} from '../../../const';
+import {getFilmsWithoutId} from '../../../utils';
+import {fetchFilmAction, fetchCommentsAction, fetchSimilarFilmsAction, postFavoriteFilmStatusAction} from '../../../store/api-actions';
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 type Props = {
   currentId: FilmId,
 }
 
-const mapStateToProps = ({films, similarFilms, authorizationStatus, favoriteFilms}: State, ownProps: Props) => {
+const mapStateToProps = ({currentFilm, isLoading, similarFilms, authorizationStatus}: State, ownProps: Props) => {
   const {currentId} = ownProps;
-  const currentFilm = films.find((item) => item.id === currentId);
-  const currentSimilarFilms = currentFilm ? getSimilarGenreFilms(similarFilms, currentFilm.id) : [];
-  const currentFavoriteStatus: boolean = currentFilm ? checkFavoriteStatus(currentFilm.id, favoriteFilms) : false;
+  const currentSimilarFilms = currentFilm ? getFilmsWithoutId(similarFilms, currentFilm.id) : [];
 
   return ({
     currentId,
     currentFilm,
+    isLoading,
     similarFilms: currentSimilarFilms,
     authorizationStatus,
-    currentFavoriteStatus,
   });
 };
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onLoadFilm(id: FilmId) {
+    dispatch(fetchFilmAction(id));
+  },
   onLoadComments(id: FilmId) {
-    (store.dispatch as ThunkAppDispatch)(fetchCommentsAction(id));
+    dispatch(fetchCommentsAction(id));
   },
   onLoadSimilar(id: FilmId) {
-    (store.dispatch as ThunkAppDispatch)(fetchSimilarFilmsAction(id));
+    dispatch(fetchSimilarFilmsAction(id));
   },
   onStatusFavoriteChange(id: FilmId, status: number) {
     dispatch(postFavoriteFilmStatusAction(id, status));
@@ -52,47 +54,41 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus, currentFavoriteStatus, onLoadComments, onLoadSimilar, onStatusFavoriteChange}: PropsFromRedux): JSX.Element {
+function FilmScreen ({currentId, currentFilm, isLoading, similarFilms, authorizationStatus, onLoadFilm, onLoadComments, onLoadSimilar, onStatusFavoriteChange}: PropsFromRedux): JSX.Element {
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
-  const [favoriteStatus, setFavoriteStatus] = useState(currentFavoriteStatus);
 
   useEffect(() => {
-    if (!currentFilm) {
-      return;
-    }
+    onLoadFilm(currentId);
     onLoadComments(currentId);
     onLoadSimilar(currentId);
-  }, [currentFilm]);
+  }, [onLoadComments, onLoadSimilar, currentId, onLoadFilm]);
 
-  useEffect(() => {
-    if (!currentFilm) {
-      return;
-    }
-
-    const status = favoriteStatus ? 1 : 0;
-
-    onStatusFavoriteChange(currentId, status);
-  }, [favoriteStatus]);
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   if (!currentFilm) {
     return <NotFoundScreen />;
   }
 
-  const {id, title, genre, release, posterImage, previewImage} = currentFilm;
+  const {id, title, genre, release, posterImage, backgroundImage, backgroundColor, isFavorite} = currentFilm;
 
   return (
     <>
-      <section className="film-card film-card--full">
+      <section
+        className="film-card film-card--full"
+        style={{backgroundColor: backgroundColor}}
+      >
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={previewImage} alt={title} />
+            <img src={backgroundImage} alt={title} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
 
           <header className="page-header film-card__head">
             <Logo />
-            {isCheckedAuth(authorizationStatus)
+            {(authorizationStatus === AuthorizationStatus.Auth)
               ? <SignOut />
               : <SignIn />}
           </header>
@@ -104,17 +100,10 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
                 <span className="film-card__genre">{genre}</span>
                 <span className="film-card__year">{release}</span>
               </p>
-
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
-                {/* // TODO  to={AppRoute.AddReview.replace(':id', String(id))} */}
-                <FavoriteButton isFavorite = {favoriteStatus} onClick = {setFavoriteStatus} />
-                {isCheckedAuth(authorizationStatus) && <Link to={AppRoute.AddReview.replace(':id', String(id))} className="btn film-card__button">Add review</Link>}
+                <PlayButton id={currentId} />
+                <FavoriteButton filmId={id} isFavorite={isFavorite} onClick={onStatusFavoriteChange} />
+                {(authorizationStatus === AuthorizationStatus.Auth) && <Link to={AppRoute.AddReview.replace(AppRouteChangeElement.ID, String(id))} className="btn film-card__button">Add review</Link>}
               </div>
             </div>
           </div>
@@ -153,7 +142,7 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
                 </ul>
               </nav>
 
-              <Tabs currentScreen = {currentScreen} />
+              <Tabs currentScreen={currentScreen} currentFilm={currentFilm} />
 
             </div>
           </div>
@@ -163,7 +152,7 @@ function FilmScreen ({currentId, currentFilm, similarFilms, authorizationStatus,
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmList films = {similarFilms.slice(0, SIMILAR_FILMS_COUNT)} />
+          <FilmList films={similarFilms.slice(0, SIMILAR_FILMS_COUNT)} />
         </section>
 
         <Footer />

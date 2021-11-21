@@ -27,9 +27,9 @@ function PrivateRoute(props: ConnectedComponentProps): JSX.Element {
 
   return (
     <Route
-      exact = {exact}
-      path = {path}
-      render = {(routeProps) => (
+      exact={exact}
+      path={path}
+      render={(routeProps) => (
         authorizationStatus === AuthorizationStatus.Auth
           ? render(routeProps)
           : <Redirect to={AppRoute.Login} />

@@ -1,24 +1,37 @@
-import {loadFilms, redirectToRoute, loadPromo, loadFavorite, loadSimilar, loadComments, requireAuthorization, requireLogout} from './action'; //, sendComment
+import {loadFilms, loadFilm, redirectToRoute, loadPromo, loadFavorite, loadSimilar, loadComments, requireAuthorization, requireLogout, isLoading} from './action';
 import {saveToken, dropToken, Token} from '../services/token';
-import {APIRoute, AuthorizationStatus, AppRoute} from '../const';
-import {adaptToClient, adaptCommentsToClient} from '../utils';
+import {APIRoute, AuthorizationStatus, AppRoute, AppRouteChangeElement, FailMessage} from '../const';
+import {adaptToClient, adaptCommentsToClient, getIdRoute} from '../utils';
 import {ThunkActionResult} from '../types/action';
-import {Film, FilmId, Films} from '../types/films';
-import {CommentPost, Comments} from '../types/comment';
+import {FilmId, FilmServer, FilmsServer} from '../types/films';
+import {CommentPost, CommentsServer} from '../types/comment';
 import {AuthData} from '../types/auth-data';
 import browserHistory from '../browser-history';
+import {toast} from 'react-toastify';
 
 const fetchFilmsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Films>(APIRoute.Films);
+    const {data} = await api.get<FilmsServer>(APIRoute.Films);
     const adaptedData = data.map((film) => adaptToClient(film));
 
     dispatch(loadFilms(adaptedData));
   };
 
+const fetchFilmAction = (id: FilmId): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    dispatch(isLoading(true));
+    try {
+      const {data} = await api.get<FilmServer>(APIRoute.Film.replace(AppRouteChangeElement.ID, String(id)));
+      dispatch(loadFilm(adaptToClient(data)));
+    } catch {
+      toast.info(FailMessage.NotFoundFilm);
+    }
+    dispatch(isLoading(false));
+  };
+
 const fetchPromoFilmAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Film>(APIRoute.Promo);
+    const {data} = await api.get<FilmServer>(APIRoute.Promo);
     const adaptedData = adaptToClient(data);
 
     dispatch(loadPromo(adaptedData));
@@ -26,21 +39,37 @@ const fetchPromoFilmAction = (): ThunkActionResult =>
 
 const fetchFavoriteFilmsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Films>(APIRoute.Favorite);
-    const adaptedData = data.map((film) => adaptToClient(film));
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(loadFavorite(adaptedData));
+    try {
+      await api.get(APIRoute.Login);
+      const {data} = await api.get<FilmsServer>(APIRoute.Favorite);
+      const adaptedData = data.map((film) => adaptToClient(film));
+      dispatch(loadFavorite(adaptedData));
+    } catch {
+      toast.info(FailMessage.LoadFavorites);
+    }
   };
 
 const postFavoriteFilmStatusAction = (id: FilmId, status: number): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    await api.post<Film>(APIRoute.FavoriteStatus.replace(':film_id', String(id)).replace(':status', String(status)), {status});
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    try {
+      await api.get(APIRoute.Login);
+      const {data} = await api.post<FilmServer>(getIdRoute(APIRoute.FavoriteStatus, id).replace(AppRouteChangeElement.STATUS, String(status)), {status});
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(loadFilm(adaptToClient(data)));
+
+      const promoFilmId = _getState().promoFilm?.id;
+
+      if (promoFilmId === id) {
+        dispatch(loadPromo(adaptToClient(data)));
+      }
+    } catch {
+      toast.info(FailMessage.AddToFavorite);
+    }
   };
 
 const fetchSimilarFilmsAction = (id: FilmId): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Films>(APIRoute.Similar.replace(':id', String(id)));
+    const {data} = await api.get<FilmsServer>(APIRoute.Similar.replace(AppRouteChangeElement.ID, String(id)));
     const adaptedData = data.map((film) => adaptToClient(film));
 
     dispatch(loadSimilar(adaptedData));
@@ -48,23 +77,31 @@ const fetchSimilarFilmsAction = (id: FilmId): ThunkActionResult =>
 
 const fetchCommentsAction = (id: FilmId): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Comments>(APIRoute.Comments.replace(':film_id', String(id)));
+    const {data} = await api.get<CommentsServer>(getIdRoute(APIRoute.Comments, id));
     const adaptedData = data.map((comment) => adaptCommentsToClient(comment));
     dispatch(loadComments(adaptedData));
   };
 
-const postCommentAction = (id: FilmId, {rating, text: comment}: CommentPost): ThunkActionResult =>
+const postCommentAction = (id: FilmId, {rating, text: comment}: CommentPost, setIsLoading: (a: boolean) => void): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    await api.post<CommentPost>(APIRoute.Comment.replace(':film_id', String(id)), {rating, comment});
-    browserHistory.push(AppRoute.Film.replace(':id', String(id)));
+    try {
+      setIsLoading(true);
+      await api.post<CommentPost>(getIdRoute(APIRoute.Comments, id), {rating, comment});
+      browserHistory.push(AppRoute.Film.replace(AppRouteChangeElement.ID, String(id)));
+    } catch {
+      toast.info(FailMessage.PostComment);
+    }
+    setIsLoading(false);
   };
 
 const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    await api.get(APIRoute.Login)
-      .then(() => {
-        dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      });
+    try {
+      await api.get(APIRoute.Login);
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    } catch {
+      toast.info(FailMessage.Auth);
+    }
   };
 
 const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
@@ -77,13 +114,14 @@ const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
 
 const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    api.delete(APIRoute.Logout);
+    await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(requireLogout(AuthorizationStatus.NoAuth));
+    dispatch(requireLogout());
   };
 
 export {
   fetchFilmsAction,
+  fetchFilmAction,
   fetchPromoFilmAction,
   fetchFavoriteFilmsAction,
   postFavoriteFilmStatusAction,

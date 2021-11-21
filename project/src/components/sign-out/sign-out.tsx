@@ -1,13 +1,12 @@
-import {Actions} from '../../types/action';
 import {connect, ConnectedProps} from 'react-redux';
-import {Dispatch} from 'redux';
-import {requireLogout} from '../../store/action';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute} from '../../const';
 import browserHistory from '../../browser-history';
+import {logoutAction} from '../../store/api-actions';
+import {ThunkAppDispatch} from '../../types/action';
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onLogout(auth: AuthorizationStatus) {
-    dispatch(requireLogout(auth));
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onLogout() {
+    dispatch(logoutAction());
   },
 });
 
@@ -37,7 +36,7 @@ function SignOut({onLogout}: PropsFromRedux): JSX.Element {
           onClick={(evt) => {
             evt.preventDefault();
 
-            onLogout(AuthorizationStatus.NoAuth);
+            onLogout();
           }}
         >
           Sign out

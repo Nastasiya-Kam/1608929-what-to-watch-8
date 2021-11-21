@@ -1,118 +1,54 @@
-import {AppRoute, AuthorizationStatus} from '../const';
-import {Film, Films} from '../types/films';
-import {Comments} from '../types/comment';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {AxiosInstance} from 'axios';
 import {State} from '../types/state';
 
+import {changeGenre,
+  getGenreFilms,
+  loadFilms,
+  loadFilm,
+  isLoading,
+  loadPromo,
+  loadFavorite,
+  loadSimilar,
+  loadComments,
+  requireAuthorization,
+  requireLogout,
+  redirectToRoute} from '../store/action';
+
 enum ActionType {
-  ChangeGenre = 'changeGenre',
-  GetGenreFilms = 'getGenreFilms',
-  SetCurrentFilm = 'setCurrentFilm',
+  ChangeGenre = 'genre/changeGenre',
+  GetGenreFilms = 'genre/getGenreFilms',
   LoadFilms = 'data/loadFilms',
+  LoadFilm = 'data/loadFilm',
+  IsLoading ='data/isLoading',
   LoadPromo = 'data/loadPromo',
   LoadFavorite = 'data/loadFavorite',
   LoadSimilar = 'data/loadSimilar',
   LoadComments = 'data/loadComments',
   RequireAuthorization = 'user/requireAuthorization',
-  SetUserMail = 'user/setUserMail',
   RequireLogout = 'user/requireLogout',
-  RedirectToRoute = 'redirectToRoute'
-}
-
-type ChangeGenreAction = {
-  type: ActionType.ChangeGenre;
-  payload: string;
-};
-
-type GetGenreFilmsAction = {
-  type: ActionType.GetGenreFilms;
-  payload: Films;
-};
-
-type SetCurrentFilmAction = {
-  type: ActionType.SetCurrentFilm;
-  payload: Film;
-}
-
-type LoadFilmsAction = {
-  type: ActionType.LoadFilms;
-  payload: Films;
-}
-
-type LoadPromoAction = {
-  type: ActionType.LoadPromo;
-  payload: Film;
-}
-
-type LoadFavoriteAction = {
-  type: ActionType.LoadFavorite;
-  payload: Films;
-}
-
-type LoadSimilarAction = {
-  type: ActionType.LoadSimilar;
-  payload: Films;
-}
-
-type LoadCommentsAction = {
-  type: ActionType.LoadComments;
-  payload: Comments;
-}
-
-type RequireAuthorizationAction = {
-  type: ActionType.RequireAuthorization;
-  payload: AuthorizationStatus,
-}
-
-type SetUserMailAction = {
-  type: ActionType.SetUserMail;
-  payload: string;
-}
-
-type RequireLogoutAction = {
-  type: ActionType.RequireLogout;
-  payload: AuthorizationStatus;
-}
-
-type RedirectToRouteAction = {
-  type: ActionType.RedirectToRoute;
-  payload: AppRoute;
+  RedirectToRoute = 'root/redirectToRoute'
 }
 
 type Actions =
-  | ChangeGenreAction
-  | GetGenreFilmsAction
-  | SetCurrentFilmAction
-  | LoadFilmsAction
-  | LoadPromoAction
-  | LoadFavoriteAction
-  | LoadSimilarAction
-  | LoadCommentsAction
-  | RequireAuthorizationAction
-  | SetUserMailAction
-  | RequireLogoutAction
-  | RedirectToRouteAction;
-  // | ReturnType<typeof requireAuthorization>
-  // | ReturnType<typeof requireLogout>;
+  | ReturnType<typeof changeGenre>
+  | ReturnType<typeof getGenreFilms>
+  | ReturnType<typeof loadFilms>
+  | ReturnType<typeof loadFilm>
+  | ReturnType<typeof isLoading>
+  | ReturnType<typeof loadPromo>
+  | ReturnType<typeof loadFavorite>
+  | ReturnType<typeof loadSimilar>
+  | ReturnType<typeof loadComments>
+  | ReturnType<typeof requireAuthorization>
+  | ReturnType<typeof requireLogout>
+  | ReturnType<typeof redirectToRoute>;
 
 type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;
 
 export {ActionType};
 export type {
-  ChangeGenreAction,
-  GetGenreFilmsAction,
-  SetCurrentFilmAction,
-  LoadFilmsAction,
-  LoadPromoAction,
-  LoadFavoriteAction,
-  LoadSimilarAction,
-  LoadCommentsAction,
-  RequireAuthorizationAction,
-  SetUserMailAction,
-  RequireLogoutAction,
-  RedirectToRouteAction,
   Actions,
   ThunkActionResult,
   ThunkAppDispatch

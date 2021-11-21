@@ -11,6 +11,8 @@ import {createAPI} from './services/api';
 import App from './components/app/app';
 import {AuthorizationStatus} from './const';
 import {ThunkAppDispatch} from './types/action';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const api = createAPI(
   () => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)),
@@ -29,7 +31,8 @@ const store = createStore(
 (store.dispatch as ThunkAppDispatch)(fetchPromoFilmAction());
 
 ReactDOM.render(
-  <Provider store = {store}>
+  <Provider store={store}>
+    <ToastContainer />
     <App />
   </Provider>,
   document.getElementById('root'));

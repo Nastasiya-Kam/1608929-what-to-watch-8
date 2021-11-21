@@ -27,12 +27,29 @@ type Film = {
   isFavorite: boolean,
 };
 
-type PlayerFilm = {
-  videoLink: string,
-  playerPoster: string,
+type FilmServer = {
+  'id': FilmId,
+  'name': string,
+  'poster_image': string,
+  'preview_image': string,
+  'background_image': string,
+  'background_color': string,
+  'video_link': string,
+  'preview_video_link': string,
+  'description': string,
+  'rating': number,
+  'scores_count': number,
+  'director': string,
+  'starring': string[],
+  'run_time': number,
+  'genre': string,
+  'released': number,
+  'is_favorite': boolean,
 }
+
+type FilmsServer = FilmServer[]
 
 type FilmId = number;
 type Films = Film[];
 
-export type {PromoFilm, Film, PlayerFilm, FilmId, Films};
+export type {PromoFilm, Film, FilmServer, FilmsServer, FilmId, Films};

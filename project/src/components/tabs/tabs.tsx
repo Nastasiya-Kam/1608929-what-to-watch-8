@@ -2,15 +2,16 @@ import {ScreenType, MINUTES_IN_HOURS, COMMENTS_COLUMNS_COUNT} from '../../const'
 import {getGrade} from '../../utils';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../types/state';
+import {Film} from '../../types/films';
 import Comment from '../comment/comment';
 import LoadingScreen from '../_screen/loading-screen/loading-screen';
 
 type Props = {
   currentScreen: string,
+  currentFilm: Film,
 }
 
-const mapStateToProps = ({currentFilm, comments}: State) => ({
-  currentFilm,
+const mapStateToProps = ({comments}: State) => ({
   comments,
 });
 
@@ -78,7 +79,7 @@ function Tabs({currentScreen, currentFilm, comments}: ConnectedComponentProps): 
       return (
         <div className="film-card__reviews film-card__row">
           <div className="film-card__reviews-col">
-            {comments.slice(0, middleCommentsLength).map((comment) => (
+            {comments.slice(0, middleCommentsLength + 1).map((comment) => (
               <Comment
                 key={comment.id}
                 userName={comment.userName}
@@ -89,7 +90,7 @@ function Tabs({currentScreen, currentFilm, comments}: ConnectedComponentProps): 
             ))}
           </div>
           <div className="film-card__reviews-col">
-            {comments.slice(middleCommentsLength, commentsLength).map((comment) => (
+            {comments.slice(middleCommentsLength + 1, commentsLength).map((comment) => (
               <Comment
                 key={comment.id}
                 userName={comment.userName}

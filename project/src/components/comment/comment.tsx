@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import {getDataCommentFormat} from '../../utils';
 
 type Props = {
   userName: string,
@@ -8,8 +8,6 @@ type Props = {
 }
 
 function Comment({userName, rating, text, date}: Props): JSX.Element {
-  const dataComment = dayjs().format('MMMM D, YYYY');
-
   return (
     <div className="review">
       <blockquote className="review__quote">
@@ -17,7 +15,7 @@ function Comment({userName, rating, text, date}: Props): JSX.Element {
 
         <footer className="review__details">
           <cite className="review__author">{userName}</cite>
-          <time className="review__date" dateTime={date}>{dataComment}</time>
+          <time className="review__date" dateTime={date}>{getDataCommentFormat(date)}</time>
         </footer>
       </blockquote>
 

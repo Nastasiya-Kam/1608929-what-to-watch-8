@@ -7,20 +7,20 @@ import ShowMore from '../../show-more/show-more';
 import GenreList from '../../genre-list/genre-list';
 import LoadingScreen from '../loading-screen/loading-screen';
 import FavoriteButton from '../../favorite-button/favorite-button';
-import {useState, useEffect} from 'react';
+import PlayButton from '../../play-button/play-button';
+import {useState} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../../types/state';
 import {ThunkAppDispatch} from '../../../types/action';
 import {FilmId} from '../../../types/films';
 import {changeGenre} from '../../../store/action';
 import {postFavoriteFilmStatusAction} from '../../../store/api-actions';
-import {getGenres, getCurrentGenreFilms, isCheckedAuth, checkFavoriteStatus} from '../../../utils';
-import {GENRE_FILMS_COUNT} from '../../../const';
+import {getGenres, getCurrentGenreFilms} from '../../../utils';
+import {AuthorizationStatus, GENRE_FILMS_COUNT} from '../../../const';
 
-const mapStateToProps = ({films, promoFilm, currentGenre, authorizationStatus, isDataLoaded, favoriteFilms}: State) => {
+const mapStateToProps = ({films, promoFilm, currentGenre, authorizationStatus, isDataLoaded}: State) => {
   const filmsByGenre = getCurrentGenreFilms(films, currentGenre);
   const genres = getGenres(films);
-  const currentStatus: boolean = promoFilm ? checkFavoriteStatus(promoFilm.id, favoriteFilms) : false;
 
   return {
     films: filmsByGenre,
@@ -29,7 +29,6 @@ const mapStateToProps = ({films, promoFilm, currentGenre, authorizationStatus, i
     currentGenre,
     authorizationStatus,
     isDataLoaded,
-    currentStatus,
   };
 };
 
@@ -46,40 +45,28 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function MainScreen({promoFilm, films, genres, currentGenre, authorizationStatus, onGenreChange, isDataLoaded, currentStatus, onStatusFavoriteChange}: PropsFromRedux): JSX.Element { //, onStatusFavoriteChange
-  const [renderedFilmCount, setRenderedFilmCount] = useState(GENRE_FILMS_COUNT);
-  const [favoriteStatus, setFavoriteStatus] = useState(currentStatus);
-
-  useEffect(() => {
-    if (!promoFilm) {
-      return;
-    }
-
-    const status = favoriteStatus ? 1 : 0;
-
-    onStatusFavoriteChange(promoFilm.id, status);
-  }, [favoriteStatus]);
+function MainScreen(props: PropsFromRedux): JSX.Element {
+  const {promoFilm, films, genres, currentGenre, authorizationStatus, onGenreChange, isDataLoaded, onStatusFavoriteChange} = props;
+  const [renderedFilmCount, setRenderedFilmCount] = useState<number>(GENRE_FILMS_COUNT);
 
   if (!isDataLoaded || !promoFilm) {
-    return (
-      <LoadingScreen />
-    );
+    return <LoadingScreen />;
   }
 
-  const {title, genre, release, previewImage, posterImage} = promoFilm;
+  const {id, title, genre, release, backgroundImage, posterImage, isFavorite} = promoFilm;
 
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={previewImage} alt={title} />
+          <img src={backgroundImage} alt={title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
           <Logo />
-          {isCheckedAuth(authorizationStatus)
+          {(authorizationStatus === AuthorizationStatus.Auth)
             ? <SignOut />
             : <SignIn />}
         </header>
@@ -98,13 +85,8 @@ function MainScreen({promoFilm, films, genres, currentGenre, authorizationStatus
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
-                <FavoriteButton isFavorite = {favoriteStatus} onClick = {setFavoriteStatus} />
+                <PlayButton id={promoFilm.id} />
+                <FavoriteButton filmId={id} isFavorite={isFavorite} onClick={onStatusFavoriteChange} />
               </div>
             </div>
           </div>
@@ -114,8 +96,8 @@ function MainScreen({promoFilm, films, genres, currentGenre, authorizationStatus
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <GenreList genres = {genres} currentGenre = {currentGenre} onGenreChange = {onGenreChange} setRenderedFilmCount = {setRenderedFilmCount} />
-          <FilmList films = {films.slice(0, renderedFilmCount)} />
+          <GenreList genres={genres} currentGenre={currentGenre} onGenreChange={onGenreChange} setRenderedFilmCount={setRenderedFilmCount} />
+          <FilmList films={films.slice(0, renderedFilmCount)} />
           {(films.length > renderedFilmCount) && <ShowMore renderedFilmCount={renderedFilmCount} onClick={setRenderedFilmCount} />}
         </section>
 

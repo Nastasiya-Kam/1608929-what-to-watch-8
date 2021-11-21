@@ -1284,6 +1284,7 @@ main {
   width: 200px; }
 
 .small-film-card {
+  cursor: pointer;
   border-radius: 6px;
   overflow: hidden;
   position: relative;
@@ -1307,6 +1308,8 @@ main {
   position: relative;
   z-index: 1;
   height: 175px; }
+  .small-film-card__image:hover {
+    cursor: pointer; }
   .small-film-card__image::after {
     content: '';
     position: absolute;

@@ -14,4 +14,17 @@ type CommentPost = {
   text: string,
 }
 
-export type {Comment, Comments, CommentPost};
+type CommentServer = {
+  'id': number,
+  'user': {
+    'id': number,
+    'name': string,
+  },
+  'rating': number,
+  'comment': string,
+  'date': string,
+}
+
+type CommentsServer = CommentServer[]
+
+export type {Comment, Comments, CommentPost, CommentServer, CommentsServer};

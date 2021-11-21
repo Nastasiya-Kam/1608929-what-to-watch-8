@@ -5,11 +5,12 @@ import {State} from '../types/state';
 const initialState = {
   currentGenre: DEFAULT_GENRE,
   films: [],
+  isDataLoaded: false,
+  currentFilm: null,
+  isLoading: true,
   comments: [],
   promoFilm: null,
-  currentFilm: null,
-  authorizationStatus: AuthorizationStatus.Auth,
-  isDataLoaded: false,
+  authorizationStatus: AuthorizationStatus.Unknown,
   userMail: '',
   favoriteFilms: [],
   isFavoriteLoaded: false,
@@ -22,14 +23,26 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...state, currentGenre: action.payload};
     case ActionType.GetGenreFilms:
       return {...state, films: action.payload};
-    case ActionType.SetCurrentFilm:
-      return {...state, currentFilm: action.payload};
     case ActionType.LoadFilms: {
       const films = action.payload;
       return {
         ...state,
         films,
         isDataLoaded: true,
+      };
+    }
+    case ActionType.LoadFilm: {
+      const film = action.payload;
+      return {
+        ...state,
+        currentFilm: film,
+      };
+    }
+    case ActionType.IsLoading: {
+      const isLoading = action.payload;
+      return {
+        ...state,
+        isLoading: isLoading,
       };
     }
     case ActionType.LoadPromo: {
@@ -60,8 +73,6 @@ const reducer = (state: State = initialState, action: Actions): State => {
     }
     case ActionType.RequireAuthorization:
       return {...state, authorizationStatus: action.payload};
-    case ActionType.SetUserMail:
-      return {...state, userMail: action.payload};
     case ActionType.RequireLogout:
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
     default:
