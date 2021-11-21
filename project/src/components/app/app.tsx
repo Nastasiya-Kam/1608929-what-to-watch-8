@@ -14,9 +14,9 @@ import browserHistory from '../../browser-history';
 import {isCheckedAuth} from '../../utils';
 import LoadingScreen from '../_screen/loading-screen/loading-screen';
 
-const mapStateToProps = ({authorizationStatus, isDataLoaded}: State) => ({
-  authorizationStatus,
-  isDataLoaded,
+const mapStateToProps = ({USER, FILMS}: State) => ({
+  authorizationStatus: USER.authorizationStatus,
+  isDataLoaded: FILMS.isDataLoaded,
 });
 
 const connector = connect(mapStateToProps);

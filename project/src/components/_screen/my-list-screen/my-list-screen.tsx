@@ -10,10 +10,10 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import {AuthorizationStatus} from '../../../const';
 import {ThunkAppDispatch} from '../../../types/action';
 
-const mapStateToProps = ({favoriteFilms, isFavoriteLoaded, authorizationStatus}: State) => ({
-  favoriteFilms,
-  isFavoriteLoaded,
-  authorizationStatus,
+const mapStateToProps = ({FILM, USER}: State) => ({
+  favoriteFilms: FILM.favoriteFilms,
+  isFavoriteLoaded: FILM.isFavoriteLoaded,
+  authorizationStatus: USER.authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

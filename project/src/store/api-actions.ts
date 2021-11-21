@@ -57,7 +57,7 @@ const postFavoriteFilmStatusAction = (id: FilmId, status: number): ThunkActionRe
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
       dispatch(loadFilm(adaptToClient(data)));
 
-      const promoFilmId = _getState().promoFilm?.id;
+      const promoFilmId = _getState().FILMS.promoFilm?.id;
 
       if (promoFilmId === id) {
         dispatch(loadPromo(adaptToClient(data)));

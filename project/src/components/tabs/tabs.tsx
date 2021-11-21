@@ -11,8 +11,8 @@ type Props = {
   currentFilm: Film,
 }
 
-const mapStateToProps = ({comments}: State) => ({
-  comments,
+const mapStateToProps = ({FILM}: State) => ({
+  comments: FILM.comments,
 });
 
 const connector = connect(mapStateToProps);

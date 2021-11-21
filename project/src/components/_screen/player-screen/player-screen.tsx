@@ -3,7 +3,7 @@ import {State} from '../../../types/state';
 import {FilmId} from '../../../types/films';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {useEffect, useRef, useState} from 'react';
-import { useHistory } from 'react-router';
+import {useHistory} from 'react-router';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 // import LoadingScreen from '../loading-screen/loading-screen';
@@ -34,9 +34,9 @@ type Props = {
   currentId: FilmId,
 }
 
-const mapStateToProps = ({films}: State, ownProps: Props) => {
+const mapStateToProps = ({FILMS}: State, ownProps: Props) => {
   const {currentId} = ownProps;
-  const currentFilm = films.find((item) => item.id === currentId);
+  const currentFilm = FILMS.films.find((item) => item.id === currentId);
   const currentRunTime = currentFilm?.runTime;
 
   return ({

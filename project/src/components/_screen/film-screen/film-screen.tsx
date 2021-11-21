@@ -22,16 +22,16 @@ type Props = {
   currentId: FilmId,
 }
 
-const mapStateToProps = ({currentFilm, isLoading, similarFilms, authorizationStatus}: State, ownProps: Props) => {
+const mapStateToProps = ({FILM, USER}: State, ownProps: Props) => {
   const {currentId} = ownProps;
-  const currentSimilarFilms = currentFilm ? getFilmsWithoutId(similarFilms, currentFilm.id) : [];
+  const currentSimilarFilms = FILM.currentFilm ? getFilmsWithoutId(FILM.similarFilms, FILM.currentFilm.id) : [];
 
   return ({
     currentId,
-    currentFilm,
-    isLoading,
+    currentFilm: FILM.currentFilm,
+    isLoading: FILM.isLoading,
     similarFilms: currentSimilarFilms,
-    authorizationStatus,
+    authorizationStatus: USER.authorizationStatus,
   });
 };
 

@@ -15,8 +15,8 @@ type Props = {
   isActive: boolean,
 }
 
-const mapStateToProps = ({currentFilm}: State) => ({
-  currentFilm,
+const mapStateToProps = ({FILM}: State) => ({
+  currentFilm: FILM.currentFilm,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

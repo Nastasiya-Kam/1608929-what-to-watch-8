@@ -18,17 +18,17 @@ import {postFavoriteFilmStatusAction} from '../../../store/api-actions';
 import {getGenres, getCurrentGenreFilms} from '../../../utils';
 import {AuthorizationStatus, GENRE_FILMS_COUNT} from '../../../const';
 
-const mapStateToProps = ({films, promoFilm, currentGenre, authorizationStatus, isDataLoaded}: State) => {
-  const filmsByGenre = getCurrentGenreFilms(films, currentGenre);
-  const genres = getGenres(films);
+const mapStateToProps = ({FILMS, USER}: State) => {
+  const filmsByGenre = getCurrentGenreFilms(FILMS.films, FILMS.currentGenre);
+  const genres = getGenres(FILMS.films);
 
   return {
-    films: filmsByGenre,
-    promoFilm,
     genres,
-    currentGenre,
-    authorizationStatus,
-    isDataLoaded,
+    films: filmsByGenre,
+    promoFilm: FILMS.promoFilm,
+    currentGenre: FILMS.currentGenre,
+    isDataLoaded: FILMS.isDataLoaded,
+    authorizationStatus: USER.authorizationStatus,
   };
 };
 
