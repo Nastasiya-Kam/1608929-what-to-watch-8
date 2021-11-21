@@ -1,13 +1,10 @@
 import {AppRoute, AppRouteChangeElement} from '../../const';
 import {Link} from 'react-router-dom';
 import {FilmId, Film} from '../../types/films';
-import {State} from '../../types/state';
 import VideoPlayer from '../video-player/video-player';
 import {loadFilm} from '../../store/action';
-import {Dispatch} from 'redux';
-import {connect, ConnectedProps} from 'react-redux';
 import browserHistory from '../../browser-history';
-import { getCurrentFilm } from '../../store/film-data/selectors';
+import {useDispatch} from 'react-redux';
 
 type Props = {
   film: Film,
@@ -15,23 +12,10 @@ type Props = {
   isActive: boolean,
 }
 
-const mapStateToProps = (state: State) => ({
-  currentFilm: getCurrentFilm(state),
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  onCurrentFilmChange(currentFilm: Film) {
-    dispatch(loadFilm(currentFilm));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & Props;
-
-function SmallFilmCard({film, setActiveCardId, isActive, onCurrentFilmChange}: ConnectedComponentProps): JSX.Element {
+function SmallFilmCard({film, setActiveCardId, isActive}: Props): JSX.Element {
   const {id, title, previewImage, videoLink} = film;
+  const dispatch = useDispatch();
+
 
   return (
     <article className="small-film-card catalog__films-card"
@@ -57,7 +41,7 @@ function SmallFilmCard({film, setActiveCardId, isActive, onCurrentFilmChange}: C
           className="small-film-card__link"
           to={AppRoute.Film.replace(AppRouteChangeElement.ID, String(id))}
           onClick={() => {
-            onCurrentFilmChange(film);
+            dispatch(loadFilm(film));
           }}
         >
           {title}
@@ -67,5 +51,4 @@ function SmallFilmCard({film, setActiveCardId, isActive, onCurrentFilmChange}: C
   );
 }
 
-export {SmallFilmCard};
-export default connector(SmallFilmCard);
+export default SmallFilmCard;

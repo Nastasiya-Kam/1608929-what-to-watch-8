@@ -8,13 +8,11 @@ import FavoriteButton from '../../favorite-button/favorite-button';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PlayButton from '../../play-button/play-button';
 import {FilmId} from '../../../types/films';
-import {State} from '../../../types/state';
-import {ThunkAppDispatch} from '../../../types/action';
+import {useDispatch, useSelector} from 'react-redux';
 import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT, AuthorizationStatus, AppRouteChangeElement} from '../../../const';
 import {fetchFilmAction, fetchCommentsAction, fetchSimilarFilmsAction, postFavoriteFilmStatusAction} from '../../../store/api-actions';
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
-import {connect, ConnectedProps} from 'react-redux';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {getAuthoritationStatus} from '../../../store/user-process/selectors';
 import {getCurrentFilm, getCurrentSimilarFilms, getLoadingStatus} from '../../../store/film-data/selectors';
@@ -23,45 +21,24 @@ type Props = {
   currentId: FilmId,
 }
 
-const mapStateToProps = (state: State, ownProps: Props) => {
-  const {currentId} = ownProps;
+function FilmScreen({currentId}: Props): JSX.Element {
+  const currentFilm = useSelector(getCurrentFilm);
+  const isLoading = useSelector(getLoadingStatus);
+  const similarFilms = useSelector(getCurrentSimilarFilms);
+  const authorizationStatus = useSelector(getAuthoritationStatus);
+  const dispatch = useDispatch();
 
-  return ({
-    currentId,
-    currentFilm: getCurrentFilm(state),
-    isLoading: getLoadingStatus(state),
-    similarFilms: getCurrentSimilarFilms(state),
-    authorizationStatus: getAuthoritationStatus(state),
-  });
-};
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onLoadFilm(id: FilmId) {
-    dispatch(fetchFilmAction(id));
-  },
-  onLoadComments(id: FilmId) {
-    dispatch(fetchCommentsAction(id));
-  },
-  onLoadSimilar(id: FilmId) {
-    dispatch(fetchSimilarFilmsAction(id));
-  },
-  onStatusFavoriteChange(id: FilmId, status: number) {
-    dispatch(postFavoriteFilmStatusAction(id, status));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function FilmScreen ({currentId, currentFilm, isLoading, similarFilms, authorizationStatus, onLoadFilm, onLoadComments, onLoadSimilar, onStatusFavoriteChange}: PropsFromRedux): JSX.Element {
   const [currentScreen, setCurrentScreen] = useState<string>(ScreenType.Overview);
 
+  const onStatusFavoriteChange = (id: FilmId, status: number) => {
+    dispatch(postFavoriteFilmStatusAction(id, status));
+  };
+
   useEffect(() => {
-    onLoadFilm(currentId);
-    onLoadComments(currentId);
-    onLoadSimilar(currentId);
-  }, [onLoadComments, onLoadSimilar, currentId, onLoadFilm]);
+    dispatch(fetchFilmAction(currentId));
+    dispatch(fetchCommentsAction(currentId));
+    dispatch(fetchSimilarFilmsAction(currentId));
+  }, [currentId, dispatch]);
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -161,5 +138,4 @@ function FilmScreen ({currentId, currentFilm, isLoading, similarFilms, authoriza
   );
 }
 
-export {FilmScreen};
-export default connector(FilmScreen);
+export default FilmScreen;

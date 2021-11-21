@@ -1,7 +1,6 @@
 import {ScreenType, MINUTES_IN_HOURS, COMMENTS_COLUMNS_COUNT} from '../../const';
 import {getGrade} from '../../utils';
-import {connect, ConnectedProps} from 'react-redux';
-import {State} from '../../types/state';
+import {useSelector} from 'react-redux';
 import {Film} from '../../types/films';
 import Comment from '../comment/comment';
 import LoadingScreen from '../_screen/loading-screen/loading-screen';
@@ -12,16 +11,9 @@ type Props = {
   currentFilm: Film,
 }
 
-const mapStateToProps = (state: State) => ({
-  comments: getComments(state),
-});
+function Tabs({currentScreen, currentFilm}: Props): JSX.Element {
+  const comments = useSelector(getComments);
 
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & Props;
-
-function Tabs({currentScreen, currentFilm, comments}: ConnectedComponentProps): JSX.Element {
   if (!currentFilm) {
     return (
       <LoadingScreen />
@@ -126,5 +118,4 @@ function Tabs({currentScreen, currentFilm, comments}: ConnectedComponentProps): 
   }
 }
 
-export {Tabs};
-export default connector(Tabs);
+export default Tabs;

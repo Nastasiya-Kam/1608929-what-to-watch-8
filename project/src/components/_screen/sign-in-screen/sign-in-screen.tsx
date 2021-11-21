@@ -1,10 +1,8 @@
-import {connect, ConnectedProps} from 'react-redux';
 import Footer from '../../footer/footer';
 import Logo from '../../logo/logo';
 import {loginAction} from '../../../store/api-actions';
 import {useRef, FormEvent, useState, useEffect} from 'react';
-import {ThunkAppDispatch} from '../../../types/action';
-import {AuthData} from '../../../types/auth-data';
+import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 import {AppRoute} from '../../../const';
 
@@ -18,18 +16,8 @@ const validateEmail = (email: string): boolean => {
   return patternMail.test(String(email).toLowerCase());
 };
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(authData: AuthData) {
-    dispatch(loginAction(authData));
-  },
-});
-
-const connector = connect(null, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function SignInScreen(props: PropsFromRedux): JSX.Element {
-  const {onSubmit} = props;
+function SignInScreen(): JSX.Element {
+  const dispatch = useDispatch();
 
   // Отображение сообщений об ошибках при валидировании формы взято из видеоролика Ulbi TV
   // https://www.youtube.com/watch?v=WADswtZB-qg
@@ -89,10 +77,10 @@ function SignInScreen(props: PropsFromRedux): JSX.Element {
 
     if (loginRef.current !== null && passwordRef.current !== null) {
       if (!checkPassword(passwordRef.current.value) && validateEmail(loginRef.current.value)) {
-        onSubmit({
+        dispatch(loginAction({
           login: loginRef.current.value,
           password: passwordRef.current.value,
-        });
+        }));
 
         history.push(AppRoute.Root);
       }
@@ -159,5 +147,4 @@ function SignInScreen(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export {SignInScreen};
-export default connector(SignInScreen);
+export default SignInScreen;
