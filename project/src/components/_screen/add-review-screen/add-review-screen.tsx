@@ -9,9 +9,10 @@ import {ThunkAppDispatch} from '../../../types/action';
 import {CommentPost} from '../../../types/comment';
 import {FilmId} from '../../../types/films';
 import {postCommentAction} from '../../../store/api-actions';
+import {getCurrentFilm} from '../../../store/film-data/selectors';
 
-const mapStateToProps = ({FILM}: State) => ({
-  currentFilm: FILM.currentFilm,
+const mapStateToProps = (state: State) => ({
+  currentFilm: getCurrentFilm(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

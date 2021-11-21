@@ -15,22 +15,18 @@ import {ThunkAppDispatch} from '../../../types/action';
 import {FilmId} from '../../../types/films';
 import {changeGenre} from '../../../store/action';
 import {postFavoriteFilmStatusAction} from '../../../store/api-actions';
-import {getGenres, getCurrentGenreFilms} from '../../../utils';
 import {AuthorizationStatus, GENRE_FILMS_COUNT} from '../../../const';
+import {getCurrentGenre, getFilmsByGenre, getGenresFilms, getLoadedDataStatus, getPromoFilm} from '../../../store/films-data/selectors';
+import {getAuthoritationStatus} from '../../../store/user-process/selectors';
 
-const mapStateToProps = ({FILMS, USER}: State) => {
-  const filmsByGenre = getCurrentGenreFilms(FILMS.films, FILMS.currentGenre);
-  const genres = getGenres(FILMS.films);
-
-  return {
-    genres,
-    films: filmsByGenre,
-    promoFilm: FILMS.promoFilm,
-    currentGenre: FILMS.currentGenre,
-    isDataLoaded: FILMS.isDataLoaded,
-    authorizationStatus: USER.authorizationStatus,
-  };
-};
+const mapStateToProps = (state: State) => ({
+  genres: getGenresFilms(state),
+  films: getFilmsByGenre(state),
+  currentGenre: getCurrentGenre(state),
+  promoFilm: getPromoFilm(state),
+  isDataLoaded: getLoadedDataStatus(state),
+  authorizationStatus: getAuthoritationStatus(state),
+});
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onGenreChange(element: string) {

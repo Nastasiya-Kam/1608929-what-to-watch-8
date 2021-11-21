@@ -5,14 +5,15 @@ import {State} from '../../types/state';
 import {Film} from '../../types/films';
 import Comment from '../comment/comment';
 import LoadingScreen from '../_screen/loading-screen/loading-screen';
+import {getComments} from '../../store/film-data/selectors';
 
 type Props = {
   currentScreen: string,
   currentFilm: Film,
 }
 
-const mapStateToProps = ({FILM}: State) => ({
-  comments: FILM.comments,
+const mapStateToProps = (state: State) => ({
+  comments: getComments(state),
 });
 
 const connector = connect(mapStateToProps);

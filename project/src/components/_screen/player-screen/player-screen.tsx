@@ -6,6 +6,7 @@ import {useEffect, useRef, useState} from 'react';
 import {useHistory} from 'react-router';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
+import {getCurrentFilmById} from '../../../store/film-data/selectors';
 // import LoadingScreen from '../loading-screen/loading-screen';
 dayjs.extend(duration);
 
@@ -34,14 +35,11 @@ type Props = {
   currentId: FilmId,
 }
 
-const mapStateToProps = ({FILMS}: State, ownProps: Props) => {
+const mapStateToProps = (state: State, ownProps: Props) => {
   const {currentId} = ownProps;
-  const currentFilm = FILMS.films.find((item) => item.id === currentId);
-  const currentRunTime = currentFilm?.runTime;
 
   return ({
-    currentFilm,
-    currentRunTime,
+    currentFilm: getCurrentFilmById(state, currentId),
   });
 };
 
@@ -49,7 +47,7 @@ const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function PlayerScreen({currentFilm, currentRunTime}: PropsFromRedux): JSX.Element {
+function PlayerScreen({currentFilm}: PropsFromRedux): JSX.Element {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [leftTime, setLeftTime] = useState<number>(0);
   // const [playerTogglerStyle, setPlayerTogglerStyle] = useState<number>(0);

@@ -9,11 +9,13 @@ import {useEffect} from 'react';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {AuthorizationStatus} from '../../../const';
 import {ThunkAppDispatch} from '../../../types/action';
+import {getFavoriteFilms, getFavoriteLoadedStatus} from '../../../store/film-data/selectors';
+import {getAuthoritationStatus} from '../../../store/user-process/selectors';
 
-const mapStateToProps = ({FILM, USER}: State) => ({
-  favoriteFilms: FILM.favoriteFilms,
-  isFavoriteLoaded: FILM.isFavoriteLoaded,
-  authorizationStatus: USER.authorizationStatus,
+const mapStateToProps = (state: State) => ({
+  favoriteFilms: getFavoriteFilms(state),
+  isFavoriteLoaded: getFavoriteLoadedStatus(state),
+  authorizationStatus: getAuthoritationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

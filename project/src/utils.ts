@@ -35,8 +35,7 @@ const getCurrentGenreFilms = (films: Film[], currentGenre: string): Film[] => {
   return films;
 };
 
-const getFilmsWithoutId = (films: Film[], currentId: number): Film[] => films.filter((element) => (currentId !== element.id));
-
+const getFilmsWithoutId = (films: Film[], currentFilm: Film | null): Film[] => currentFilm ? films.filter((element) => (currentFilm.id !== element.id)) : [];
 const getFavoriteFilms = (films: Film[]): Film[] => films.filter((film) => film.isFavorite);
 
 const adaptToClient = (film: FilmServer): Film => ({

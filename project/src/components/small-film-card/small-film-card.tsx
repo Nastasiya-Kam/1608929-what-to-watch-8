@@ -8,6 +8,7 @@ import {loadFilm} from '../../store/action';
 import {Dispatch} from 'redux';
 import {connect, ConnectedProps} from 'react-redux';
 import browserHistory from '../../browser-history';
+import { getCurrentFilm } from '../../store/film-data/selectors';
 
 type Props = {
   film: Film,
@@ -15,8 +16,8 @@ type Props = {
   isActive: boolean,
 }
 
-const mapStateToProps = ({FILM}: State) => ({
-  currentFilm: FILM.currentFilm,
+const mapStateToProps = (state: State) => ({
+  currentFilm: getCurrentFilm(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

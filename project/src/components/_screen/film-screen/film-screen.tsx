@@ -11,27 +11,27 @@ import {FilmId} from '../../../types/films';
 import {State} from '../../../types/state';
 import {ThunkAppDispatch} from '../../../types/action';
 import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT, AuthorizationStatus, AppRouteChangeElement} from '../../../const';
-import {getFilmsWithoutId} from '../../../utils';
 import {fetchFilmAction, fetchCommentsAction, fetchSimilarFilmsAction, postFavoriteFilmStatusAction} from '../../../store/api-actions';
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
 import LoadingScreen from '../loading-screen/loading-screen';
+import {getAuthoritationStatus} from '../../../store/user-process/selectors';
+import {getCurrentFilm, getCurrentSimilarFilms, getLoadingStatus} from '../../../store/film-data/selectors';
 
 type Props = {
   currentId: FilmId,
 }
 
-const mapStateToProps = ({FILM, USER}: State, ownProps: Props) => {
+const mapStateToProps = (state: State, ownProps: Props) => {
   const {currentId} = ownProps;
-  const currentSimilarFilms = FILM.currentFilm ? getFilmsWithoutId(FILM.similarFilms, FILM.currentFilm.id) : [];
 
   return ({
     currentId,
-    currentFilm: FILM.currentFilm,
-    isLoading: FILM.isLoading,
-    similarFilms: currentSimilarFilms,
-    authorizationStatus: USER.authorizationStatus,
+    currentFilm: getCurrentFilm(state),
+    isLoading: getLoadingStatus(state),
+    similarFilms: getCurrentSimilarFilms(state),
+    authorizationStatus: getAuthoritationStatus(state),
   });
 };
 
