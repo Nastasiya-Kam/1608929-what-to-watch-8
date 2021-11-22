@@ -1,6 +1,6 @@
 import {useState, FormEvent, ChangeEvent, Fragment} from 'react';
 import {FilmId} from '../../types/films';
-import {checkValidText, checkValidRating, checkValidForm} from '../../utils';
+import {checkValidText, checkValidRating, checkValidForm} from '../../utils/validation';
 import {CommentPost} from '../../types/comment';
 import {STARS} from '../../const';
 

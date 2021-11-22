@@ -10,7 +10,7 @@ import AddReviewScreen from '../_screen/add-review-screen/add-review-screen';
 import PlayerScreen from '../_screen/player-screen/player-screen';
 import NotFoundScreen from '../_screen/not-found-screen/not-found-screen';
 import browserHistory from '../../browser-history';
-import {isCheckedAuth} from '../../utils';
+import {isCheckedAuth} from '../../utils/utils';
 import LoadingScreen from '../_screen/loading-screen/loading-screen';
 import {getAuthoritationStatus} from '../../store/user-process/selectors';
 import {getLoadedDataStatus} from '../../store/films-data/selectors';

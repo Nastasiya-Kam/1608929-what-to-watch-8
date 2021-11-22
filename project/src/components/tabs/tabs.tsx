@@ -1,5 +1,5 @@
 import {ScreenType, MINUTES_IN_HOURS, COMMENTS_COLUMNS_COUNT} from '../../const';
-import {getGrade} from '../../utils';
+import {getGrade} from '../../utils/utils';
 import {useSelector} from 'react-redux';
 import {Film} from '../../types/films';
 import Comment from '../comment/comment';

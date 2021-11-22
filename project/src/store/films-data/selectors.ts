@@ -1,7 +1,7 @@
 import {NameSpace} from '../root-reducer';
 import {State} from '../../types/state';
 import {Film, Films} from '../../types/films';
-import {getCurrentGenreFilms, getGenres} from '../../utils';
+import {getCurrentGenreFilms, getGenres} from '../../utils/utils';
 
 const getGenresFilms = (state: State): string[] => getGenres(state[NameSpace.films].films);
 const getFilmsByGenre = (state: State): Films => getCurrentGenreFilms(state[NameSpace.films].films, state[NameSpace.films].currentGenre);

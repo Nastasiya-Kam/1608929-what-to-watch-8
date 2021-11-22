@@ -9,4 +9,6 @@ const getTimeFormat = (currentTime: number): string => {
   return dayjs.duration(currentTime, 'seconds').format(timeFormat);
 };
 
-export {getTimeFormat};
+const getDataCommentFormat = (data: string): string => dayjs(data).format('MMMM D, YYYY');
+
+export {getDataCommentFormat, getTimeFormat};
