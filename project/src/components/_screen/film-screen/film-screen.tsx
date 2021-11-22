@@ -9,7 +9,7 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PlayButton from '../../play-button/play-button';
 import {FilmId} from '../../../types/films';
 import {useDispatch, useSelector} from 'react-redux';
-import {AppRoute, screenTypes, ScreenType, SIMILAR_FILMS_COUNT, AuthorizationStatus, AppRouteChangeElement} from '../../../const';
+import {AppRoute, screenTypes, ScreenType, Count, AuthorizationStatus, AppRouteChangeElement} from '../../../const';
 import {fetchFilmAction, fetchCommentsAction, fetchSimilarFilmsAction, postFavoriteFilmStatusAction} from '../../../store/api-actions';
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
@@ -129,7 +129,7 @@ function FilmScreen({currentId}: Props): JSX.Element {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmList films={similarFilms.slice(0, SIMILAR_FILMS_COUNT)} />
+          <FilmList films={similarFilms.slice(0, Count.SimilarFilms)} />
         </section>
 
         <Footer />

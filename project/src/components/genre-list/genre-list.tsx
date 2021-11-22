@@ -1,4 +1,4 @@
-import {GENRE_FILMS_COUNT} from '../../const';
+import {Count} from '../../const';
 
 type Props = {
   genres: string[],
@@ -23,7 +23,7 @@ function GenreList({genres, currentGenre, onGenreChange, onRenderedFilm}: Props)
               onClick={(evt) => {
                 evt.preventDefault();
                 onGenreChange(element);
-                onRenderedFilm(GENRE_FILMS_COUNT);
+                onRenderedFilm(Count.GenreFilms);
               }}
             >
               {element}
