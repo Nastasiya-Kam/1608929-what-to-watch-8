@@ -9,7 +9,7 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PlayButton from '../../play-button/play-button';
 import {FilmId} from '../../../types/films';
 import {useDispatch, useSelector} from 'react-redux';
-import {AppRoute, ScreenTypes, ScreenType, SIMILAR_FILMS_COUNT, AuthorizationStatus, AppRouteChangeElement} from '../../../const';
+import {AppRoute, screenTypes, ScreenType, SIMILAR_FILMS_COUNT, AuthorizationStatus, AppRouteChangeElement} from '../../../const';
 import {fetchFilmAction, fetchCommentsAction, fetchSimilarFilmsAction, postFavoriteFilmStatusAction} from '../../../store/api-actions';
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
@@ -95,7 +95,7 @@ function FilmScreen({currentId}: Props): JSX.Element {
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
                 <ul className="film-nav__list">
-                  {ScreenTypes.map((type, index) => {
+                  {screenTypes.map((type, index) => {
                     const keyType = `type-${index}`;
 
                     return (

@@ -28,7 +28,7 @@ const enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-const ScreenTypes = ['Overview', 'Details', 'Reviews'];
+const screenTypes = ['Overview', 'Details', 'Reviews'];
 
 enum ScreenType {
   Details = 'Details',
@@ -91,7 +91,7 @@ export {
   AppRouteChangeElement,
   AppRoute,
   AuthorizationStatus,
-  ScreenTypes,
+  screenTypes,
   ScreenType,
   Grade,
   APIRoute,
