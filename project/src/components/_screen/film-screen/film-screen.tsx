@@ -80,7 +80,7 @@ function FilmScreen({currentId}: Props): JSX.Element {
               <div className="film-card__buttons">
                 <PlayButton id={currentId} />
                 <FavoriteButton filmId={id} isFavorite={isFavorite} onClick={onStatusFavoriteChange} />
-                {(authorizationStatus === AuthorizationStatus.Auth) && <Link to={AppRoute.AddReview.replace(AppRouteChangeElement.ID, String(id))} className="btn film-card__button">Add review</Link>}
+                {(authorizationStatus === AuthorizationStatus.Auth) && <Link to={AppRoute.AddReview.replace(AppRouteChangeElement.Id, String(id))} className="btn film-card__button">Add review</Link>}
               </div>
             </div>
           </div>

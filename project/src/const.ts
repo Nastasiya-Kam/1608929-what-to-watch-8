@@ -5,12 +5,12 @@ const SIMILAR_FILMS_COUNT = 4;
 const GENRE_FILMS_COUNT = 8;
 const COMMENTS_COLUMNS_COUNT = 2;
 const DEFAULT_GENRE = 'All genres';
-const STARS = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+const stars = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
 const enum AppRouteChangeElement {
-  FILM_ID = ':film_id',
-  STATUS = ':status',
-  ID = ':id',
+  FilmId = ':film_id',
+  Status = ':status',
+  Id = ':id',
 }
 
 const enum AppRoute {
@@ -30,7 +30,7 @@ const enum AuthorizationStatus {
 
 const ScreenTypes = ['Overview', 'Details', 'Reviews'];
 
-const enum ScreenType {
+enum ScreenType {
   Details = 'Details',
   Overview = 'Overview',
   Reviews = 'Reviews',
@@ -87,7 +87,7 @@ export {
   GENRE_FILMS_COUNT,
   COMMENTS_COLUMNS_COUNT,
   DEFAULT_GENRE,
-  STARS,
+  stars,
   AppRouteChangeElement,
   AppRoute,
   AuthorizationStatus,

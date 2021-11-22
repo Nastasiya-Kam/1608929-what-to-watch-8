@@ -28,7 +28,7 @@ function SmallFilmCard({film, onMouseEvent, isActive}: Props): JSX.Element {
     >
       <div
         className="small-film-card__image"
-        onClick={() => browserHistory.push(AppRoute.Film.replace(AppRouteChangeElement.ID, String(id)))}
+        onClick={() => browserHistory.push(AppRoute.Film.replace(AppRouteChangeElement.Id, String(id)))}
       >
         {
           (isActive)
@@ -39,7 +39,7 @@ function SmallFilmCard({film, onMouseEvent, isActive}: Props): JSX.Element {
       <h3 className="small-film-card__title">
         <Link
           className="small-film-card__link"
-          to={AppRoute.Film.replace(AppRouteChangeElement.ID, String(id))}
+          to={AppRoute.Film.replace(AppRouteChangeElement.Id, String(id))}
           onClick={() => {
             dispatch(loadFilm(film));
           }}

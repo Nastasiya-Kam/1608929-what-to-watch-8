@@ -2,7 +2,7 @@ import {useState, FormEvent, ChangeEvent, Fragment} from 'react';
 import {FilmId} from '../../types/films';
 import {checkValidText, checkValidRating, checkValidForm} from '../../utils/validation';
 import {CommentPost} from '../../types/comment';
-import {STARS} from '../../const';
+import {stars} from '../../const';
 
 type Props = {
   filmId: FilmId,
@@ -33,7 +33,7 @@ function AddReviewForm({filmId, onReviewSubmit, onFormSubmit, isLoading}: Props)
     >
       <div className="rating">
         <div className="rating__stars">
-          {STARS.map((star) => (
+          {stars.map((star) => (
             <Fragment key={star}>
               <input
                 disabled={isLoading}

@@ -2,7 +2,7 @@ import {MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH} from '../const';
 
 const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-enum ErrorMessages {
+enum ErrorMessage {
   EmailEmpty = 'Email can\'t be empty',
   PasswordEmpty = 'Password can\'t be empty',
   EmailValid = 'Please enter a valid email address',
@@ -19,4 +19,4 @@ const checkValidText = (text: string): boolean => (text.length >= MIN_COMMENT_LE
 const checkValidRating = (rating: number): boolean => (rating !==0);
 const checkValidForm = (isValidText: boolean, isValidRating: boolean): boolean => isValidText === true && isValidRating === true;
 
-export {EMAIL_PATTERN, ErrorMessages, User, checkValidText, checkValidRating, checkValidForm};
+export {EMAIL_PATTERN, ErrorMessage, User, checkValidText, checkValidRating, checkValidForm};

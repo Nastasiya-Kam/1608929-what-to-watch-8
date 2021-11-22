@@ -5,7 +5,7 @@ import {useRef, FormEvent, useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 import {AppRoute} from '../../../const';
-import {ErrorMessages, User, EMAIL_PATTERN} from '../../../utils/validation';
+import {ErrorMessage, User, EMAIL_PATTERN} from '../../../utils/validation';
 
 const checkPassword = (password: string): boolean => {
   const patternPassword = /^ *$/;
@@ -27,8 +27,8 @@ function SignInScreen(): JSX.Element {
   const [password, setPassword] = useState<string>('');
   const [emailDirty, setEmailDirty] = useState<boolean>(false);
   const [passwordDirty, setPasswordDirty] = useState<boolean>(false);
-  const [emailError, setEmailError] = useState<string>(ErrorMessages.EmailEmpty);
-  const [passwordError, setPasswordError] = useState<string>(ErrorMessages.PasswordEmpty);
+  const [emailError, setEmailError] = useState<string>(ErrorMessage.EmailEmpty);
+  const [passwordError, setPasswordError] = useState<string>(ErrorMessage.PasswordEmpty);
   const [formValid, setFormValid] = useState<boolean>(false);
 
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -47,18 +47,18 @@ function SignInScreen(): JSX.Element {
   const emailHandler = (evt: FormEvent<HTMLInputElement>) => {
     setEmail(evt.currentTarget.value);
     if (validateEmail(evt.currentTarget.value)) {
-      setEmailError(ErrorMessages.Correct);
+      setEmailError(ErrorMessage.Correct);
     } else {
-      setEmailError(ErrorMessages.EmailValid);
+      setEmailError(ErrorMessage.EmailValid);
     }
   };
 
   const passwordHandler = (evt: FormEvent<HTMLInputElement>) => {
     setPassword(evt.currentTarget.value);
     if (checkPassword(evt.currentTarget.value)) {
-      setPasswordError(ErrorMessages.PasswordEmpty);
+      setPasswordError(ErrorMessage.PasswordEmpty);
     } else {
-      setPasswordError(ErrorMessages.Correct);
+      setPasswordError(ErrorMessage.Correct);
     }
   };
 
