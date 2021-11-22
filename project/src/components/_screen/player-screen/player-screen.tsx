@@ -160,7 +160,7 @@ function PlayerScreen({currentFilm}: PropsFromRedux): JSX.Element {
           <button
             type="button"
             className="player__full-screen"
-            onClick={() => 'выход/вход в полноэкранный режим'}
+            onClick={() => videoRef.current?.requestFullscreen()}
           >
             <svg viewBox="0 0 27 27" width="27" height="27">
               <use xlinkHref="#full-screen"></use>
