@@ -1247,6 +1247,10 @@ main {
   cursor: pointer; }
   .sign-in__btn:hover, .sign-in__btn:focus {
     border: 1px solid rgba(217, 205, 141, 0.7); }
+  .sign-in__btn:disabled {
+    opacity: 0.3;
+    border: 1px solid rgba(217, 205, 141, 0.41);
+    cursor: default; }
 
 .sign-in__reset-password {
   text-align: center; }
