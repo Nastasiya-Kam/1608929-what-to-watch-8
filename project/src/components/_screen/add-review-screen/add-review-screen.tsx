@@ -1,30 +1,21 @@
-import {connect, ConnectedProps} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {useState} from 'react';
 import AddReviewForm from '../../add-review-form/add-review-form';
 import Logo from '../../logo/logo';
 import SignOut from '../../sign-out/sign-out';
 import LoadingScreen from '../loading-screen/loading-screen';
-import {State} from '../../../types/state';
-import {ThunkAppDispatch} from '../../../types/action';
 import {CommentPost} from '../../../types/comment';
 import {FilmId} from '../../../types/films';
 import {postCommentAction} from '../../../store/api-actions';
+import {getCurrentFilm} from '../../../store/film-data/selectors';
 
-const mapStateToProps = ({currentFilm}: State) => ({
-  currentFilm,
-});
+function AddReviewScreen(): JSX.Element {
+  const currentFilm = useSelector(getCurrentFilm);
+  const dispatch = useDispatch();
+  const onSubmit = (id: FilmId, review: CommentPost, onFormSubmit: (a: boolean) => void) => {
+    dispatch(postCommentAction(id, review, onFormSubmit));
+  };
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(id: FilmId, review: CommentPost, onSubmit: (a: boolean) => void) {
-    dispatch(postCommentAction(id, review, onSubmit));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function AddReviewScreen ({currentFilm, onSubmit}: PropsFromRedux): JSX.Element {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   if (currentFilm === null) {
@@ -82,5 +73,4 @@ function AddReviewScreen ({currentFilm, onSubmit}: PropsFromRedux): JSX.Element 
   );
 }
 
-export {AddReviewScreen};
-export default connector(AddReviewScreen);
+export default AddReviewScreen;

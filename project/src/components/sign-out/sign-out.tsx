@@ -1,20 +1,11 @@
-import {connect, ConnectedProps} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {AppRoute} from '../../const';
 import browserHistory from '../../browser-history';
 import {logoutAction} from '../../store/api-actions';
-import {ThunkAppDispatch} from '../../types/action';
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onLogout() {
-    dispatch(logoutAction());
-  },
-});
+function SignOut(): JSX.Element {
+  const dispatch = useDispatch();
 
-const connector = connect(null, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function SignOut({onLogout}: PropsFromRedux): JSX.Element {
   return (
     <ul className="user-block">
       <li className="user-block__item">
@@ -36,7 +27,7 @@ function SignOut({onLogout}: PropsFromRedux): JSX.Element {
           onClick={(evt) => {
             evt.preventDefault();
 
-            onLogout();
+            dispatch(logoutAction());
           }}
         >
           Sign out
@@ -46,6 +37,5 @@ function SignOut({onLogout}: PropsFromRedux): JSX.Element {
   );
 }
 
-export {SignOut};
-export default connector(SignOut);
+export default SignOut;
 

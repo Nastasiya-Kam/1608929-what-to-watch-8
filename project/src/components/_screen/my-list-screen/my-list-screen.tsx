@@ -2,37 +2,27 @@ import Logo from '../../logo/logo';
 import SignOut from '../../sign-out/sign-out';
 import Footer from '../../footer/footer';
 import FilmList from '../../film-list/film-list';
-import {State} from '../../../types/state';
 import {fetchFavoriteFilmsAction} from '../../../store/api-actions';
-import {connect, ConnectedProps} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {useEffect} from 'react';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {AuthorizationStatus} from '../../../const';
-import {ThunkAppDispatch} from '../../../types/action';
+import {getFavoriteFilms, getFavoriteLoadedStatus} from '../../../store/film-data/selectors';
+import {getAuthoritationStatus} from '../../../store/user-process/selectors';
 
-const mapStateToProps = ({favoriteFilms, isFavoriteLoaded, authorizationStatus}: State) => ({
-  favoriteFilms,
-  isFavoriteLoaded,
-  authorizationStatus,
-});
+function MyListScreen(): JSX.Element {
+  const favoriteFilms = useSelector(getFavoriteFilms);
+  const isFavoriteLoaded = useSelector(getFavoriteLoadedStatus);
+  const authorizationStatus = useSelector(getAuthoritationStatus);
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onLoadFavorites() {
-    dispatch(fetchFavoriteFilmsAction());
-  },
-});
+  const dispatch = useDispatch();
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function MyListScreen ({favoriteFilms, isFavoriteLoaded, authorizationStatus, onLoadFavorites}: PropsFromRedux): JSX.Element {
   useEffect(() => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       return;
     }
 
-    onLoadFavorites();
+    dispatch(fetchFavoriteFilmsAction());
   }, [authorizationStatus]);
 
   if (!isFavoriteLoaded) {
@@ -55,5 +45,4 @@ function MyListScreen ({favoriteFilms, isFavoriteLoaded, authorizationStatus, on
   );
 }
 
-export {MyListScreen};
-export default connector(MyListScreen);
+export default MyListScreen;

@@ -1,5 +1,5 @@
 import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
-import {connect, ConnectedProps} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import MainScreen from '../_screen/main-screen/main-screen';
@@ -9,22 +9,15 @@ import FilmScreen from '../_screen/film-screen/film-screen';
 import AddReviewScreen from '../_screen/add-review-screen/add-review-screen';
 import PlayerScreen from '../_screen/player-screen/player-screen';
 import NotFoundScreen from '../_screen/not-found-screen/not-found-screen';
-import {State} from '../../types/state';
 import browserHistory from '../../browser-history';
 import {isCheckedAuth} from '../../utils';
 import LoadingScreen from '../_screen/loading-screen/loading-screen';
+import {getAuthoritationStatus} from '../../store/user-process/selectors';
+import {getLoadedDataStatus} from '../../store/films-data/selectors';
 
-const mapStateToProps = ({authorizationStatus, isDataLoaded}: State) => ({
-  authorizationStatus,
-  isDataLoaded,
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function App(props: PropsFromRedux): JSX.Element {
-  const {authorizationStatus, isDataLoaded} = props;
+function App(): JSX.Element {
+  const isDataLoaded = useSelector(getLoadedDataStatus);
+  const authorizationStatus = useSelector(getAuthoritationStatus);
 
   if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
     return (
@@ -88,5 +81,4 @@ function App(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export {App};
-export default connector(App);
+export default App;

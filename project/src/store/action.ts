@@ -1,66 +1,87 @@
+import {createAction} from '@reduxjs/toolkit';
 import {ActionType} from '../types/action';
 import {Film, Films} from '../types/films';
 import {Comments} from '../types/comment';
 import {AppRoute, AuthorizationStatus} from '../const';
 
-const changeGenre = (genre: string) => ({
-  type: ActionType.ChangeGenre,
-  payload: genre,
-} as const);
+const changeGenre = createAction(
+  ActionType.ChangeGenre,
+  (genre: string) => ({
+    payload: genre,
+  }),
+);
 
-const getGenreFilms = (films: Films) => ({
-  type: ActionType.GetGenreFilms,
-  payload: films,
-} as const);
+const getGenreFilms = createAction(
+  ActionType.GetGenreFilms,
+  (films: Films) => ({
+    payload: films,
+  }),
+);
 
-const loadFilms = (films: Films) => ({
-  type: ActionType.LoadFilms,
-  payload: films,
-} as const);
+const loadFilms = createAction(
+  ActionType.LoadFilms,
+  (films: Films) => ({
+    payload: films,
+  }),
+);
 
-const loadFilm = (film: Film) => ({
-  type: ActionType.LoadFilm,
-  payload: film,
-} as const);
+const loadFilm = createAction(
+  ActionType.LoadFilm,
+  (film: Film) => ({
+    payload: film,
+  }),
+);
 
-const isLoading = (flag: boolean) => ({
-  type: ActionType.IsLoading,
-  payload: flag,
-} as const);
+const isLoading = createAction(
+  ActionType.IsLoading,
+  (flag: boolean) => ({
+    payload: flag,
+  }),
+);
 
-const loadPromo = (film: Film) => ({
-  type: ActionType.LoadPromo,
-  payload: film,
-} as const);
+const loadPromo = createAction(
+  ActionType.LoadPromo,
+  (film: Film) => ({
+    payload: film,
+  }),
+);
 
-const loadFavorite = (films: Films) => ({
-  type: ActionType.LoadFavorite,
-  payload: films,
-} as const);
+const loadFavorite = createAction(
+  ActionType.LoadFavorite,
+  (films: Films) => ({
+    payload: films,
+  }),
+);
 
-const loadSimilar = (films: Films) => ({
-  type: ActionType.LoadSimilar,
-  payload: films,
-} as const);
+const loadSimilar = createAction(
+  ActionType.LoadSimilar,
+  (films: Films) => ({
+    payload: films,
+  }),
+);
 
-const loadComments = (comments: Comments) => ({
-  type: ActionType.LoadComments,
-  payload: comments,
-} as const);
+const loadComments = createAction(
+  ActionType.LoadComments,
+  (comments: Comments) => ({
+    payload: comments,
+  }),
+);
 
-const requireAuthorization = (authStatus: AuthorizationStatus) => ({
-  type: ActionType.RequireAuthorization,
-  payload: authStatus,
-} as const);
+const requireAuthorization = createAction(
+  ActionType.RequireAuthorization,
+  (authStatus: AuthorizationStatus) => ({
+    payload: authStatus,
+  }),
+);
 
-const requireLogout = () => ({
-  type: ActionType.RequireLogout,
-} as const);
+const requireLogout = createAction(ActionType.RequireLogout);
 
-const redirectToRoute = (url: AppRoute) => ({
-  type: ActionType.RedirectToRoute,
-  payload: url,
-} as const);
+const redirectToRoute = createAction(
+  ActionType.RedirectToRoute,
+  (url: AppRoute) => ({
+    payload: url,
+  }),
+);
 
 export {
   changeGenre,

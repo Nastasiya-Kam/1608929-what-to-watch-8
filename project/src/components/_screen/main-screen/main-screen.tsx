@@ -9,44 +9,30 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import FavoriteButton from '../../favorite-button/favorite-button';
 import PlayButton from '../../play-button/play-button';
 import {useState} from 'react';
-import {connect, ConnectedProps} from 'react-redux';
-import {State} from '../../../types/state';
-import {ThunkAppDispatch} from '../../../types/action';
+import {useSelector, useDispatch} from 'react-redux';
 import {FilmId} from '../../../types/films';
 import {changeGenre} from '../../../store/action';
 import {postFavoriteFilmStatusAction} from '../../../store/api-actions';
-import {getGenres, getCurrentGenreFilms} from '../../../utils';
 import {AuthorizationStatus, GENRE_FILMS_COUNT} from '../../../const';
+import {getCurrentGenre, getFilmsByGenre, getGenresFilms, getLoadedDataStatus, getPromoFilm} from '../../../store/films-data/selectors';
+import {getAuthoritationStatus} from '../../../store/user-process/selectors';
 
-const mapStateToProps = ({films, promoFilm, currentGenre, authorizationStatus, isDataLoaded}: State) => {
-  const filmsByGenre = getCurrentGenreFilms(films, currentGenre);
-  const genres = getGenres(films);
+function MainScreen(): JSX.Element {
+  const genres = useSelector(getGenresFilms);
+  const films = useSelector(getFilmsByGenre);
+  const currentGenre = useSelector(getCurrentGenre);
+  const promoFilm = useSelector(getPromoFilm);
+  const isDataLoaded = useSelector(getLoadedDataStatus);
+  const authorizationStatus = useSelector(getAuthoritationStatus);
 
-  return {
-    films: filmsByGenre,
-    promoFilm,
-    genres,
-    currentGenre,
-    authorizationStatus,
-    isDataLoaded,
-  };
-};
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onGenreChange(element: string) {
+  const dispatch = useDispatch();
+  const onGenreChange = (element: string) => {
     dispatch(changeGenre(element));
-  },
-  onStatusFavoriteChange(id: FilmId, status: number) {
+  };
+  const onStatusFavoriteChange = (id: FilmId, status: number) => {
     dispatch(postFavoriteFilmStatusAction(id, status));
-  },
-});
+  };
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function MainScreen(props: PropsFromRedux): JSX.Element {
-  const {promoFilm, films, genres, currentGenre, authorizationStatus, onGenreChange, isDataLoaded, onStatusFavoriteChange} = props;
   const [renderedFilmCount, setRenderedFilmCount] = useState<number>(GENRE_FILMS_COUNT);
 
   if (!isDataLoaded || !promoFilm) {
@@ -107,5 +93,4 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export {MainScreen};
-export default connector(MainScreen);
+export default MainScreen;
