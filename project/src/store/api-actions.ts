@@ -1,7 +1,8 @@
 import {loadFilms, loadFilm, redirectToRoute, loadPromo, loadFavorite, loadSimilar, loadComments, requireAuthorization, requireLogout, isLoading} from './action';
 import {saveToken, dropToken, Token} from '../services/token';
 import {APIRoute, AuthorizationStatus, AppRoute, AppRouteChangeElement, FailMessage} from '../const';
-import {adaptToClient, adaptCommentsToClient, getIdRoute} from '../utils';
+import {adaptToClient, adaptCommentsToClient} from '../utils/adapter';
+import {getIdRoute} from '../utils/utils';
 import {ThunkActionResult} from '../types/action';
 import {FilmId, FilmServer, FilmsServer} from '../types/films';
 import {CommentPost, CommentsServer} from '../types/comment';

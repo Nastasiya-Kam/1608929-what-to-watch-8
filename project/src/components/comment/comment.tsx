@@ -1,4 +1,4 @@
-import {getDataCommentFormat} from './comment-style';
+import {getDataCommentFormat} from '../../utils/date-time';
 
 type Props = {
   userName: string,

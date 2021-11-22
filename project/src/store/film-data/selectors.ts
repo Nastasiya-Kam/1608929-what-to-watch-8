@@ -1,7 +1,7 @@
 import {NameSpace} from '../root-reducer';
 import {State} from '../../types/state';
 import {Film, Films} from '../../types/films';
-import {getFilmsWithoutId} from '../../utils';
+import {getFilmsWithoutId} from '../../utils/utils';
 import {Comments} from '../../types/comment';
 
 const getCurrentFilm = (state: State): Film | null => (state[NameSpace.film].currentFilm);
