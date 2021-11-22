@@ -35,7 +35,7 @@ const getFilmsWithoutId = (films: Film[], currentFilm: Film | null): Film[] => c
 const getFavoriteFilms = (films: Film[]): Film[] => films.filter((film) => film.isFavorite);
 const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean => authorizationStatus === AuthorizationStatus.Unknown;
 const checkFavoriteStatus = (id: FilmId, favoriteFilms: Films): boolean => favoriteFilms.some((film) => film.id === id);
-const getIdRoute = (apiRoute: APIRoute, id: number): string => apiRoute.replace(AppRouteChangeElement.FILM_ID, String(id));
+const getIdRoute = (apiRoute: APIRoute, id: number): string => apiRoute.replace(AppRouteChangeElement.FilmId, String(id));
 
 export {
   getGrade,

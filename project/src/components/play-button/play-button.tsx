@@ -11,7 +11,7 @@ function PlayButton({id}: Props): JSX.Element {
     <button
       className="btn btn--play film-card__button"
       type="button"
-      onClick={() => browserHistory.push(AppRoute.Player.replace(AppRouteChangeElement.ID, String(id)))}
+      onClick={() => browserHistory.push(AppRoute.Player.replace(AppRouteChangeElement.Id, String(id)))}
     >
       <svg viewBox="0 0 19 19" width="19" height="19">
         <use xlinkHref="#play-s"></use>

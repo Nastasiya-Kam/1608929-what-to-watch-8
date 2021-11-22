@@ -1,4 +1,4 @@
-import {GENRE_FILMS_COUNT} from '../../const';
+import {Count} from '../../const';
 
 type Props = {
   renderedFilmCount: number,
@@ -11,7 +11,7 @@ function ShowMore({renderedFilmCount, onClick}: Props): JSX.Element {
       <button
         className="catalog__button"
         type="button"
-        onClick={() => onClick(renderedFilmCount + GENRE_FILMS_COUNT)}
+        onClick={() => onClick(renderedFilmCount + Count.GenreFilms)}
       >
         Show more
       </button>

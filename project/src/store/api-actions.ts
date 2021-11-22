@@ -22,7 +22,7 @@ const fetchFilmAction = (id: FilmId): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     dispatch(isLoading(true));
     try {
-      const {data} = await api.get<FilmServer>(APIRoute.Film.replace(AppRouteChangeElement.ID, String(id)));
+      const {data} = await api.get<FilmServer>(APIRoute.Film.replace(AppRouteChangeElement.Id, String(id)));
       dispatch(loadFilm(adaptToClient(data)));
     } catch {
       toast.info(FailMessage.NotFoundFilm);
@@ -54,7 +54,7 @@ const postFavoriteFilmStatusAction = (id: FilmId, status: number): ThunkActionRe
   async (dispatch, _getState, api): Promise<void> => {
     try {
       await api.get(APIRoute.Login);
-      const {data} = await api.post<FilmServer>(getIdRoute(APIRoute.FavoriteStatus, id).replace(AppRouteChangeElement.STATUS, String(status)), {status});
+      const {data} = await api.post<FilmServer>(getIdRoute(APIRoute.FavoriteStatus, id).replace(AppRouteChangeElement.Status, String(status)), {status});
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
       dispatch(loadFilm(adaptToClient(data)));
 
@@ -70,7 +70,7 @@ const postFavoriteFilmStatusAction = (id: FilmId, status: number): ThunkActionRe
 
 const fetchSimilarFilmsAction = (id: FilmId): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<FilmsServer>(APIRoute.Similar.replace(AppRouteChangeElement.ID, String(id)));
+    const {data} = await api.get<FilmsServer>(APIRoute.Similar.replace(AppRouteChangeElement.Id, String(id)));
     const adaptedData = data.map((film) => adaptToClient(film));
 
     dispatch(loadSimilar(adaptedData));
@@ -88,7 +88,7 @@ const postCommentAction = (id: FilmId, {rating, text: comment}: CommentPost, set
     try {
       setIsLoading(true);
       await api.post<CommentPost>(getIdRoute(APIRoute.Comments, id), {rating, comment});
-      browserHistory.push(AppRoute.Film.replace(AppRouteChangeElement.ID, String(id)));
+      browserHistory.push(AppRoute.Film.replace(AppRouteChangeElement.Id, String(id)));
     } catch {
       toast.info(FailMessage.PostComment);
     }

@@ -1,19 +1,26 @@
-const MIN_COMMENT_LENGTH = 50;
-const MAX_COMMENT_LENGTH = 400;
 const MINUTES_IN_HOURS = 60;
-const SIMILAR_FILMS_COUNT = 4;
-const GENRE_FILMS_COUNT = 8;
-const COMMENTS_COLUMNS_COUNT = 2;
 const DEFAULT_GENRE = 'All genres';
-const STARS = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+const stars = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+const screenTypes = ['Overview', 'Details', 'Reviews'];
 
-const enum AppRouteChangeElement {
-  FILM_ID = ':film_id',
-  STATUS = ':status',
-  ID = ':id',
+enum CommentLength {
+  Min = 50,
+  Max = 400,
 }
 
-const enum AppRoute {
+enum Count {
+  SimilarFilms = 4,
+  GenreFilms = 8,
+  CommentsColumns = 2,
+}
+
+enum AppRouteChangeElement {
+  FilmId = ':film_id',
+  Status = ':status',
+  Id = ':id',
+}
+
+enum AppRoute {
   Root = '/',
   Login = '/login',
   MyList = '/mylist',
@@ -22,15 +29,13 @@ const enum AppRoute {
   Player = '/player/:id',
 }
 
-const enum AuthorizationStatus {
+enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
 
-const ScreenTypes = ['Overview', 'Details', 'Reviews'];
-
-const enum ScreenType {
+enum ScreenType {
   Details = 'Details',
   Overview = 'Overview',
   Reviews = 'Reviews',
@@ -59,7 +64,7 @@ const Grade = {
   },
 };
 
-const enum APIRoute {
+enum APIRoute {
   Films = '/films',
   Film = '/films/:id',
   Favorite = '/favorite',
@@ -71,7 +76,7 @@ const enum APIRoute {
   Logout = '/logout',
 }
 
-const enum FailMessage {
+enum FailMessage {
   Auth = 'Не забудьте авторизоваться',
   LoadFavorites = 'Фильмы из избранного доступны только зарегестрированным пользователям',
   PostComment = 'Что-то пошло не так. Комментарий не отправлен',
@@ -80,18 +85,15 @@ const enum FailMessage {
 }
 
 export {
-  MIN_COMMENT_LENGTH,
-  MAX_COMMENT_LENGTH,
   MINUTES_IN_HOURS,
-  SIMILAR_FILMS_COUNT,
-  GENRE_FILMS_COUNT,
-  COMMENTS_COLUMNS_COUNT,
   DEFAULT_GENRE,
-  STARS,
+  stars,
+  screenTypes,
+  CommentLength,
+  Count,
   AppRouteChangeElement,
   AppRoute,
   AuthorizationStatus,
-  ScreenTypes,
   ScreenType,
   Grade,
   APIRoute,

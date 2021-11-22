@@ -13,7 +13,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {FilmId} from '../../../types/films';
 import {changeGenre} from '../../../store/action';
 import {postFavoriteFilmStatusAction} from '../../../store/api-actions';
-import {AuthorizationStatus, GENRE_FILMS_COUNT} from '../../../const';
+import {AuthorizationStatus, Count} from '../../../const';
 import {getCurrentGenre, getFilmsByGenre, getGenresFilms, getLoadedDataStatus, getPromoFilm} from '../../../store/films-data/selectors';
 import {getAuthoritationStatus} from '../../../store/user-process/selectors';
 
@@ -33,7 +33,7 @@ function MainScreen(): JSX.Element {
     dispatch(postFavoriteFilmStatusAction(id, status));
   };
 
-  const [renderedFilmCount, setRenderedFilmCount] = useState<number>(GENRE_FILMS_COUNT);
+  const [renderedFilmCount, setRenderedFilmCount] = useState<number>(Count.GenreFilms);
 
   if (!isDataLoaded || !promoFilm) {
     return <LoadingScreen />;
@@ -82,7 +82,7 @@ function MainScreen(): JSX.Element {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <GenreList genres={genres} currentGenre={currentGenre} onGenreChange={onGenreChange} setRenderedFilmCount={setRenderedFilmCount} />
+          <GenreList genres={genres} currentGenre={currentGenre} onGenreChange={onGenreChange} onRenderedFilm={setRenderedFilmCount} />
           <FilmList films={films.slice(0, renderedFilmCount)} />
           {(films.length > renderedFilmCount) && <ShowMore renderedFilmCount={renderedFilmCount} onClick={setRenderedFilmCount} />}
         </section>

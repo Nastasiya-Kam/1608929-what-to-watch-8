@@ -5,6 +5,7 @@ import {useRef, FormEvent, useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 import {AppRoute} from '../../../const';
+import {ErrorMessage, User, EMAIL_PATTERN} from '../../../utils/validation';
 
 const checkPassword = (password: string): boolean => {
   const patternPassword = /^ *$/;
@@ -12,7 +13,7 @@ const checkPassword = (password: string): boolean => {
 };
 
 const validateEmail = (email: string): boolean => {
-  const patternMail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const patternMail = EMAIL_PATTERN;
   return patternMail.test(String(email).toLowerCase());
 };
 
@@ -26,8 +27,8 @@ function SignInScreen(): JSX.Element {
   const [password, setPassword] = useState<string>('');
   const [emailDirty, setEmailDirty] = useState<boolean>(false);
   const [passwordDirty, setPasswordDirty] = useState<boolean>(false);
-  const [emailError, setEmailError] = useState<string>('Email can\'t be empty');
-  const [passwordError, setPasswordError] = useState<string>('Password can\'t be empty');
+  const [emailError, setEmailError] = useState<string>(ErrorMessage.EmailEmpty);
+  const [passwordError, setPasswordError] = useState<string>(ErrorMessage.PasswordEmpty);
   const [formValid, setFormValid] = useState<boolean>(false);
 
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -46,27 +47,27 @@ function SignInScreen(): JSX.Element {
   const emailHandler = (evt: FormEvent<HTMLInputElement>) => {
     setEmail(evt.currentTarget.value);
     if (validateEmail(evt.currentTarget.value)) {
-      setEmailError('');
+      setEmailError(ErrorMessage.Correct);
     } else {
-      setEmailError('Please enter a valid email address');
+      setEmailError(ErrorMessage.EmailValid);
     }
   };
 
   const passwordHandler = (evt: FormEvent<HTMLInputElement>) => {
     setPassword(evt.currentTarget.value);
     if (checkPassword(evt.currentTarget.value)) {
-      setPasswordError('Password can\'t include only spaces');
+      setPasswordError(ErrorMessage.PasswordEmpty);
     } else {
-      setPasswordError('');
+      setPasswordError(ErrorMessage.Correct);
     }
   };
 
   const blurHandler = (evt: FormEvent<HTMLInputElement>) => {
     switch (evt.currentTarget.name) {
-      case 'user-email':
+      case User.Email:
         setEmailDirty(true);
         break;
-      case 'user-password':
+      case User.Password:
         setPasswordDirty(true);
         break;
     }

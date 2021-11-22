@@ -2,16 +2,16 @@ import {useState, FormEvent, ChangeEvent, Fragment} from 'react';
 import {FilmId} from '../../types/films';
 import {checkValidText, checkValidRating, checkValidForm} from '../../utils/validation';
 import {CommentPost} from '../../types/comment';
-import {STARS} from '../../const';
+import {stars} from '../../const';
 
 type Props = {
   filmId: FilmId,
   onReviewSubmit: (filmId: number, userReview: CommentPost, onFormSubmit: (a: boolean) => void) => void,
-  setIsLoading: (a: boolean) => void,
+  onFormSubmit: (a: boolean) => void,
   isLoading: boolean,
 }
 
-function AddReviewForm({filmId, onReviewSubmit, setIsLoading, isLoading}: Props): JSX.Element {
+function AddReviewForm({filmId, onReviewSubmit, onFormSubmit, isLoading}: Props): JSX.Element {
   const [comment, setComment] = useState<string>('');
   const [rating, setRating] = useState<number>(0);
   const [isValidText, setValidText] = useState<boolean>(false);
@@ -28,12 +28,12 @@ function AddReviewForm({filmId, onReviewSubmit, setIsLoading, isLoading}: Props)
           text: comment,
         };
 
-        onReviewSubmit(filmId, review, setIsLoading);
+        onReviewSubmit(filmId, review, onFormSubmit);
       }}
     >
       <div className="rating">
         <div className="rating__stars">
-          {STARS.map((star) => (
+          {stars.map((star) => (
             <Fragment key={star}>
               <input
                 disabled={isLoading}

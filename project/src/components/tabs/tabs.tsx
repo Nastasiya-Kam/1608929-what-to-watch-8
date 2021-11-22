@@ -1,4 +1,4 @@
-import {ScreenType, MINUTES_IN_HOURS, COMMENTS_COLUMNS_COUNT} from '../../const';
+import {ScreenType, MINUTES_IN_HOURS, Count} from '../../const';
 import {getGrade} from '../../utils/utils';
 import {useSelector} from 'react-redux';
 import {Film} from '../../types/films';
@@ -23,7 +23,7 @@ function Tabs({currentScreen, currentFilm}: Props): JSX.Element {
   const {genre, release, description, rating, scoresCount, director, starring, runTime} = currentFilm;
 
   const commentsLength = comments.length;
-  const middleCommentsLength = commentsLength / COMMENTS_COLUMNS_COUNT;
+  const middleCommentsLength = commentsLength / Count.CommentsColumns;
 
   switch (currentScreen) {
     case ScreenType.Details:
