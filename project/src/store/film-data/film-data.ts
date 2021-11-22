@@ -30,8 +30,7 @@ const filmData = createReducer(initialState, (builder) => {
       state.comments = comments;
     })
     .addCase(loadFavorite, (state, action) => {
-      const favoriteFilms = action.payload;
-      state.favoriteFilms = favoriteFilms;
+      state.favoriteFilms = action.payload;
       state.isFavoriteLoaded = true;
     });
 });
