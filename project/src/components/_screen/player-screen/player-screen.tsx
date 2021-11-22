@@ -1,36 +1,18 @@
-import {connect, ConnectedProps} from 'react-redux';
-import {State} from '../../../types/state';
+import {useSelector} from 'react-redux';
 import {FilmId} from '../../../types/films';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {useEffect, useRef, useState} from 'react';
 import {useHistory} from 'react-router';
 import {getCurrentFilmById} from '../../../store/film-data/selectors';
-import {getTimeFormat} from './player-screen-style';
+import {calculateProgress} from '../../../utils/player';
+import {getTimeFormat} from '../../../utils/date-time';
 
 type Props = {
   currentId: FilmId,
 }
 
-const mapStateToProps = (state: State, ownProps: Props) => {
-  const {currentId} = ownProps;
-
-  return ({
-    currentFilm: getCurrentFilmById(state, currentId),
-  });
-};
-
-const connector = connect(mapStateToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-const calculateProgress = (totalTime: number, currentTime: number) => {
-  if (!totalTime || !currentTime) {
-    return 0;
-  }
-
-  return currentTime / totalTime * 100;
-};
-
-function PlayerScreen({currentFilm}: PropsFromRedux): JSX.Element {
+function PlayerScreen({currentId}: Props): JSX.Element {
+  const currentFilm = useSelector(getCurrentFilmById(currentId));
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [leftTime, setLeftTime] = useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
@@ -173,5 +155,4 @@ function PlayerScreen({currentFilm}: PropsFromRedux): JSX.Element {
   );
 }
 
-export {PlayerScreen};
-export default connector(PlayerScreen);
+export default PlayerScreen;
