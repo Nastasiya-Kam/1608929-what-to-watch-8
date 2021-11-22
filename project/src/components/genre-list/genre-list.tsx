@@ -4,10 +4,10 @@ type Props = {
   genres: string[],
   currentGenre: string,
   onGenreChange: (a: string) => void,
-  setRenderedFilmCount: (a: number) => void,
+  onRenderedFilm: (a: number) => void,
 }
 
-function GenreList({genres, currentGenre, onGenreChange, setRenderedFilmCount}: Props): JSX.Element {
+function GenreList({genres, currentGenre, onGenreChange, onRenderedFilm}: Props): JSX.Element {
   return (
     <ul className="catalog__genres-list">
       {genres.map((element, index) => {
@@ -23,7 +23,7 @@ function GenreList({genres, currentGenre, onGenreChange, setRenderedFilmCount}: 
               onClick={(evt) => {
                 evt.preventDefault();
                 onGenreChange(element);
-                setRenderedFilmCount(GENRE_FILMS_COUNT);
+                onRenderedFilm(GENRE_FILMS_COUNT);
               }}
             >
               {element}

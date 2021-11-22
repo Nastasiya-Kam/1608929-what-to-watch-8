@@ -1,18 +1,18 @@
-import {AppRoute, AppRouteChangeElement} from '../../const';
 import {Link} from 'react-router-dom';
-import {FilmId, Film} from '../../types/films';
-import VideoPlayer from '../video-player/video-player';
-import {loadFilm} from '../../store/action';
-import browserHistory from '../../browser-history';
 import {useDispatch} from 'react-redux';
+import browserHistory from '../../browser-history';
+import VideoPlayer from '../video-player/video-player';
+import {AppRoute, AppRouteChangeElement} from '../../const';
+import {FilmId, Film} from '../../types/films';
+import {loadFilm} from '../../store/action';
 
 type Props = {
   film: Film,
-  setActiveCardId: (a: FilmId | null) => void;
+  onMouseEvent: (a: FilmId | null) => void;
   isActive: boolean,
 }
 
-function SmallFilmCard({film, setActiveCardId, isActive}: Props): JSX.Element {
+function SmallFilmCard({film, onMouseEvent, isActive}: Props): JSX.Element {
   const {id, title, previewImage, videoLink} = film;
   const dispatch = useDispatch();
 
@@ -20,10 +20,10 @@ function SmallFilmCard({film, setActiveCardId, isActive}: Props): JSX.Element {
   return (
     <article className="small-film-card catalog__films-card"
       onMouseEnter={() => {
-        setActiveCardId(id);
+        onMouseEvent(id);
       }}
       onMouseLeave={() => {
-        setActiveCardId(null);
+        onMouseEvent(null);
       }}
     >
       <div

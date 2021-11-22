@@ -64,7 +64,7 @@ function AddReviewScreen(): JSX.Element {
         <AddReviewForm
           filmId={id}
           onReviewSubmit={(currentId, review, onFormSubmit) => onSubmit(currentId, review, onFormSubmit)}
-          setIsLoading={setIsLoading}
+          onFormSubmit={setIsLoading}
           isLoading={isLoading}
         />
       </div>

@@ -82,7 +82,7 @@ function MainScreen(): JSX.Element {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <GenreList genres={genres} currentGenre={currentGenre} onGenreChange={onGenreChange} setRenderedFilmCount={setRenderedFilmCount} />
+          <GenreList genres={genres} currentGenre={currentGenre} onGenreChange={onGenreChange} onRenderedFilm={setRenderedFilmCount} />
           <FilmList films={films.slice(0, renderedFilmCount)} />
           {(films.length > renderedFilmCount) && <ShowMore renderedFilmCount={renderedFilmCount} onClick={setRenderedFilmCount} />}
         </section>
