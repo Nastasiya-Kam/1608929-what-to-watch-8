@@ -1,6 +1,7 @@
+import {useSelector} from 'react-redux';
+import React from 'react';
 import {ScreenType, MINUTES_IN_HOURS, Count} from '../../const';
 import {getGrade} from '../../utils/utils';
-import {useSelector} from 'react-redux';
 import {Film} from '../../types/films';
 import Comment from '../comment/comment';
 import LoadingScreen from '../_screen/loading-screen/loading-screen';
@@ -42,10 +43,12 @@ function Tabs({currentScreen, currentFilm}: Props): JSX.Element {
                     return (element);
                   }
 
+                  const key = `index-${element}`;
+
                   return (
-                    <>
+                    <React.Fragment key={key} >
                       {element}, <br/>
-                    </>
+                    </React.Fragment>
                   );
                 })}
               </span>
