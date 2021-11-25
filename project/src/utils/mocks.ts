@@ -31,4 +31,6 @@ const makeFakeComment = (): Comment => ({
   date: date.recent().toString(),
 } as Comment);
 
-export {makeFakeFilm, makeFakeComment};
+const makeFakeGenre = (): string => music.genre();
+
+export {makeFakeFilm, makeFakeComment, makeFakeGenre};
