@@ -1,15 +1,12 @@
-import {makeFakeFilm, makeFakeGenre} from '../../utils/mocks';
+import {makeFakeFilm, makeFakeFilms, makeFakeGenre} from '../../utils/mocks';
 import {changeGenre, getGenreFilms, loadFilms, loadPromo} from '../action';
 import {filmsData} from './films-data';
 import {DEFAULT_GENRE} from '../../const';
+import {adaptToClient} from '../../utils/adapter';
 
-const mockFilm = makeFakeFilm();
+const mockFilm = adaptToClient(makeFakeFilm());
 const mockGenre = makeFakeGenre();
-
-enum Count {
-  Films = 10,
-  Comments = 10,
-}
+const mockFilms = makeFakeFilms().map((film) => adaptToClient(film));
 
 describe('Reducer: films-data', () => {
   const state = {
@@ -25,15 +22,13 @@ describe('Reducer: films-data', () => {
   });
 
   it('should loaded similar to genre films', () => {
-    const genreFilms = new Array(Count.Films).fill(undefined).map(() => mockFilm);
-    expect(filmsData(state, getGenreFilms(genreFilms)))
-      .toEqual({...state, films: genreFilms});
+    expect(filmsData(state, getGenreFilms(mockFilms)))
+      .toEqual({...state, films: mockFilms});
   });
 
   it('should loaded films', () => {
-    const films = new Array(Count.Films).fill(undefined).map(() => mockFilm);
-    expect(filmsData(state, loadFilms(films)))
-      .toEqual({...state, films: films, isDataLoaded: true});
+    expect(filmsData(state, loadFilms(mockFilms)))
+      .toEqual({...state, films: mockFilms, isDataLoaded: true});
   });
 
   it('should loaded promo film', () => {

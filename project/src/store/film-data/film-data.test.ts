@@ -1,14 +1,11 @@
-import {makeFakeFilm, makeFakeComment} from '../../utils/mocks';
+import {adaptCommentsToClient, adaptToClient} from '../../utils/adapter';
+import {makeFakeFilm, makeFakeFilms, makeFakeComments} from '../../utils/mocks';
 import {loadComments, loadFavorite, loadFilm, loadSimilar} from '../action';
 import {filmData} from './film-data';
 
-const mockFilm = makeFakeFilm();
-const mockComment = makeFakeComment();
-
-enum Count {
-  Films = 10,
-  Comments = 10,
-}
+const mockFilm = adaptToClient(makeFakeFilm());
+const mockComments = makeFakeComments().map((comment) => adaptCommentsToClient(comment));
+const mockFilms = makeFakeFilms().map((film) => adaptToClient(film));
 
 describe('Reducer: film-data', () => {
   const state = {
@@ -26,20 +23,17 @@ describe('Reducer: film-data', () => {
   });
 
   it('should loaded similar films', () => {
-    const similarFilms = new Array(Count.Films).fill(undefined).map(() => mockFilm);
-    expect(filmData(state, loadSimilar(similarFilms)))
-      .toEqual({...state, similarFilms: similarFilms});
+    expect(filmData(state, loadSimilar(mockFilms)))
+      .toEqual({...state, similarFilms: mockFilms});
   });
 
   it('should loaded comments', () => {
-    const mockComments = new Array(Count.Comments).fill(undefined).map(() => mockComment);
     expect(filmData(state, loadComments(mockComments)))
       .toEqual({...state, comments: mockComments});
   });
 
   it('should loaded favorite films', () => {
-    const favoriteFilms = new Array(Count.Films).fill(undefined).map(() => mockFilm);
-    expect(filmData(state, loadFavorite(favoriteFilms)))
-      .toEqual({...state, favoriteFilms: favoriteFilms, isFavoriteLoaded: true});
+    expect(filmData(state, loadFavorite(mockFilms)))
+      .toEqual({...state, favoriteFilms: mockFilms, isFavoriteLoaded: true});
   });
 });

@@ -1,36 +1,53 @@
 import {image, music, datatype, name, date} from 'faker';
-import {Comment} from '../types/comment';
-import {Film} from '../types/films';
+import {CommentServer} from '../types/comment';
+import {FilmServer} from '../types/films';
 
-const makeFakeFilm = (): Film => ({
-  id: 1,
-  title: name.title(),
-  genre: music.genre(),
-  release: 2021,
-  posterImage: image.image(),
-  previewImage: image.image(),
-  backgroundImage: image.image(),
-  backgroundColor: 'string',
-  videoLink: 'string',
-  previewVideoLink: 'string',
-  description: 'string',
-  rating: 100,
-  scoresCount: 12354,
-  director: name.firstName(),
-  starring: ['string', 'string', 'string'],
-  runTime: 998,
-  isFavorite: datatype.boolean(),
-} as Film);
+enum Count {
+  FilmsTest = 10,
+  CommentsTest = 10,
+}
 
-const makeFakeComment = (): Comment => ({
-  id: 1,
-  userId: 5,
-  userName: name.firstName(),
-  rating: 135,
-  text: name.title(),
-  date: date.recent().toString(),
-} as Comment);
+enum HttpCode {
+  Ok = 200,
+  NoContent = 204,
+  NoAuth = 401,
+}
+
+const makeFakeFilm = (): FilmServer => ({
+  'id': 1,
+  'name': name.title(),
+  'genre': music.genre(),
+  'released': 2021,
+  'poster_image': image.image(),
+  'preview_image': image.image(),
+  'background_image': image.image(),
+  'background_color': '#ffffff',
+  'video_link': 'https://some-link',
+  'preview_video_link': 'https://some-link',
+  'description': 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave\'s friend and protege.',
+  'rating': 8.9,
+  'scores_count': 240,
+  'director': name.firstName(),
+  'starring': [name.firstName(), name.firstName(), name.firstName()],
+  'run_time': 998,
+  'is_favorite': datatype.boolean(),
+} as FilmServer);
+
+const makeFakeFilms = (): FilmServer[] => new Array(Count.FilmsTest).fill(undefined).map(() => makeFakeFilm());
+
+const makeFakeComment = (): CommentServer => ({
+  'id': 1,
+  'user': {
+    'id': 4,
+    'name': name.firstName(),
+  },
+  'rating': 8.9,
+  'comment': name.title(),
+  'date': date.recent().toString(),
+} as CommentServer);
+
+const makeFakeComments = (): CommentServer[] => new Array(Count.CommentsTest).fill(undefined).map(() => makeFakeComment());
 
 const makeFakeGenre = (): string => music.genre();
 
-export {makeFakeFilm, makeFakeComment, makeFakeGenre};
+export {HttpCode, makeFakeFilm, makeFakeFilms, makeFakeComment, makeFakeComments, makeFakeGenre};
