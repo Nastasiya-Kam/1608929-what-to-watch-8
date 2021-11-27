@@ -14,6 +14,7 @@ import {adaptCommentsToClient, adaptToClient} from '../utils/adapter';
 import {getIdRoute} from '../utils/utils';
 
 const CALLED_TIMES_COUNT = 1;
+const ID = 1;
 
 describe('Async actions', () => {
   const onFakeUnauthorized = jest.fn();
@@ -63,11 +64,11 @@ describe('Async actions', () => {
     const adaptedData = mockFilms.map((film) => adaptToClient(film));
 
     mockAPI
-      .onGet(APIRoute.Similar.replace(AppRouteChangeElement.Id, String(1)))
+      .onGet(APIRoute.Similar.replace(AppRouteChangeElement.Id, String(ID)))
       .reply(HttpCode.Ok, mockFilms);
 
     const store = mockStore();
-    await store.dispatch(fetchSimilarFilmsAction(1));
+    await store.dispatch(fetchSimilarFilmsAction(ID));
 
     expect(store.getActions()).toEqual([
       loadSimilar(adaptedData),
@@ -79,11 +80,11 @@ describe('Async actions', () => {
     const adaptedData = mockComments.map((comment) => adaptCommentsToClient(comment));
 
     mockAPI
-      .onGet(getIdRoute(APIRoute.Comments, 1))
+      .onGet(getIdRoute(APIRoute.Comments, ID))
       .reply(HttpCode.Ok, mockComments);
 
     const store = mockStore();
-    await store.dispatch(fetchCommentsAction(1));
+    await store.dispatch(fetchCommentsAction(ID));
 
     expect(store.getActions()).toEqual([
       loadComments(adaptedData),
@@ -94,7 +95,7 @@ describe('Async actions', () => {
     const store = mockStore();
 
     mockAPI
-      .onPost(APIRoute.Comments.replace(AppRouteChangeElement.FilmId, String(1)))
+      .onPost(APIRoute.Comments.replace(AppRouteChangeElement.FilmId, String(ID)))
       .reply(HttpCode.Ok, []);
 
     expect(store.getActions()).toEqual([]);
